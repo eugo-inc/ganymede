@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for ncurses: form; calls newterm(), new_field(), set_field_buffer(), field_buffer().
  */

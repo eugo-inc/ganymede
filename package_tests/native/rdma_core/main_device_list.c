@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for rdma_core: device list; calls ibv_get_sysfs_path(), ibv_get_device_list(), ibv_get_device_name(), ibv_free_device_list().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_sdkutils: partitions; calls aws_default_allocator(), aws_sdkutils_library_init(), aws_partitions_get_supported_version(), aws_byte_cursor_from_array().
  */

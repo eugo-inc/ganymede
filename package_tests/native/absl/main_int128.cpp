@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for absl: int128; calls absl::MakeUint128(), absl::Uint128High64(), absl::Uint128Low64(), absl::StrCat().
  */

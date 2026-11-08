@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for jbigkit: jbig85; calls jbg85_enc_init(), jbg85_enc_lineout(), jbg85_dec_init(), jbg85_dec_in().
  *

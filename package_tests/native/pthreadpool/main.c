@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pthreadpool: core API; calls pthreadpool_create(), pthreadpool_get_threads_count(),
  * pthreadpool_parallelize_1d(), pthreadpool_destroy().

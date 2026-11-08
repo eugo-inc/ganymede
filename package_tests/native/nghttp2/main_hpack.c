@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nghttp2: hpack; calls nghttp2_hd_deflate_new(), nghttp2_hd_inflate_new(), nghttp2_hd_deflate_bound(), nghttp2_hd_deflate_hd().
  */

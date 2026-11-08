@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nghttp2: core API; calls nghttp2_version(), nghttp2_session_callbacks_new(), nghttp2_session_callbacks_del().
  */

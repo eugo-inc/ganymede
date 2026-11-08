@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for harfbuzz: unicode; calls hb_unicode_funcs_get_default(), hb_unicode_general_category(), hb_unicode_script(), hb_unicode_mirroring().
  */

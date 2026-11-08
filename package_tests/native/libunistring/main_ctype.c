@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libunistring: ctype; calls uc_is_alpha(), uc_is_digit(), uc_is_property(), uc_tolower().
  */

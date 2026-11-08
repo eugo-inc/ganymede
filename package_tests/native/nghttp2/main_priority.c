@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nghttp2: priority; calls nghttp2_priority_spec_init(), nghttp2_priority_spec_check_default(), nghttp2_priority_spec_default_init().
  */

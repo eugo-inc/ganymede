@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pixman: composite; calls pixman_image_create_bits(), pixman_image_composite32(), pixman_image_unref().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nettle: sexp; calls sexp_iterator_first(), sexp_iterator_enter_list(), sexp_iterator_next(), sexp_iterator_check_type().
  */

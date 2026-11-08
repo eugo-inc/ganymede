@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pthreadpool: 2d; calls pthreadpool_create(), pthreadpool_parallelize_2d().
  */

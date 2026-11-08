@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for protobuf: coded stream; calls CodedOutputStream::WriteVarint32/64(), WriteTag(),
  * WriteLittleEndian32/64(), CodedInputStream::ReadVarint32/64(), ReadTag(), ReadLittleEndian32/64().

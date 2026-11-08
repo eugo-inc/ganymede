@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libgit2: buf; calls git_libgit2_init(), git_buf_set(), git_buf_dispose(), git_libgit2_shutdown().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for icu: collation; calls u_init(), ucol_open(), u_strFromUTF8(), ucol_strcoll().
  */

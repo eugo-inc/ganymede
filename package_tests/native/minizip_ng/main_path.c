@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for minizip_ng: path; calls mz_path_get_filename(), mz_path_remove_extension(), mz_path_remove_filename(), mz_path_has_slash().
  */

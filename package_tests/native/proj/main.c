@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for proj: core API; calls proj_context_create(), proj_create_crs_to_crs(), proj_coord(), proj_trans().
  */

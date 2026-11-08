@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_common: uuid; calls aws_default_allocator(), aws_common_library_init(), aws_uuid_init(), aws_byte_buf_from_empty_array().
  */

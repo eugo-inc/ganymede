@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for mpg123: core API and decoding; calls mpg123_libversion(), mpg123_decoders(), mpg123_new(), mpg123_decode() on every supported decoder.
  */

@@ -62,6 +62,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Please report security issues privately 
 
 ## License
 
-Original content is licensed under the [BSD 3-Clause License](LICENSE), Copyright (c) 2026, Eugo.
+Original content is licensed under the [BSD 3-Clause License](LICENSE), Copyright (c) 2026, Eugo, Inc.
 Some examples are adapted from third-party projects and remain under their own licenses; see
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

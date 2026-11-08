@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nettle: hmac; calls hmac_sha256_set_key(), hmac_sha256_update(), hmac_sha256_digest().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for cairo: recording; calls cairo_recording_surface_create(), cairo_surface_status(), cairo_surface_get_type(), cairo_create().
  */

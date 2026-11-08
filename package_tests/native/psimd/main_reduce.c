@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for psimd: reduce; calls psimd_load_f32(), psimd_reduce_sum_f32(), psimd_reduce_max_f32(), psimd_reduce_min_f32().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for lzo: core API; calls lzo_init(), lzo1x_1_compress(), lzo1x_decompress(), lzo_version_string().
  */

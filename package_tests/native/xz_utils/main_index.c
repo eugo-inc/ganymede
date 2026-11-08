@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for xz_utils: index; calls lzma_index_init(), lzma_index_append(), lzma_index_block_count(), lzma_index_stream_count().
  */

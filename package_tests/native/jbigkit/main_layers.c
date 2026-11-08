@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for jbigkit: layers; calls jbg_ceil_half(), jbg_enc_init(), jbg_enc_layers(), jbg_enc_lrange().
  */

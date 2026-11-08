@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for mariadb_connector_c: core API; calls mysql_library_init(), mysql_init(), mysql_get_client_info(), mysql_get_client_version().
  */

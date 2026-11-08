@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for ffmpeg: sample data for main_av1_software.c (demo_av1_8bit_ivf, demo_av1_8bit_hashes,
  * demo_av1_10bit_ivf, demo_av1_10bit_hashes, demo_av1_samples).

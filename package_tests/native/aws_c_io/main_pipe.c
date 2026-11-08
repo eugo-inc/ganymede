@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_io: pipe; calls aws_pipe_clean_up_write_end(), aws_mutex_lock(), aws_condition_variable_notify_all(), aws_mutex_unlock().
  */

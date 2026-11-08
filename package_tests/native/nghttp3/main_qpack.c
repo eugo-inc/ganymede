@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nghttp3: qpack; calls nghttp3_mem_default(), nghttp3_qpack_encoder_new(), nghttp3_qpack_encoder_get_num_blocked_streams(), nghttp3_qpack_encoder_del().
  */

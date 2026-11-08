@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for msgpack_cxx: packer and zone; builds a map with msgpack::packer and unpacks it into a msgpack::zone.
  */

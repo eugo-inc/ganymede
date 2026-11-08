@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for proj: operations; calls proj_context_create(), proj_create_from_database(), proj_create_operation_factory_context(), proj_create_operations().
  */

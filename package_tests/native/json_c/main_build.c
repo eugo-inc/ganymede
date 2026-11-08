@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for json_c: build; calls json_object_new_object(), json_object_object_add(), json_object_new_string(), json_object_new_int().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for xnnpack: subgraph; calls xnn_initialize(), xnn_create_subgraph(), xnn_define_tensor_value(), xnn_delete_subgraph().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for boost: iostreams; calls io::gzip_compressor(), io::back_inserter(), io::copy(), io::gzip_decompressor().
  */

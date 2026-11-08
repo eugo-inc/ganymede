@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for json_c: parse; calls json_tokener_parse(), json_object_is_type(), json_object_object_get_ex(), json_object_get_string().
  */

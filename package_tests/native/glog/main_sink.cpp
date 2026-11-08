@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for glog: sink; calls google::InitGoogleLogging(), google::AddLogSink(), google::RemoveLogSink() with a custom google::LogSink.
  */

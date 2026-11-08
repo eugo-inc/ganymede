@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for msgpack_cxx: streaming unpacker; feeds packed objects to msgpack::unpacker in 4-byte chunks (reserve_buffer, buffer_consumed, next).
  */

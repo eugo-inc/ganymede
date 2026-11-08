@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for jbigkit: core API; calls jbg_enc_init(), jbg_enc_out(), jbg_enc_free(), jbg_dec_init().
  */

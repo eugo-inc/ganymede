@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for psimd: int; calls psimd_splat_s32(), psimd_add_s32(), psimd_sub_s32(), psimd_mul_s32().
  */

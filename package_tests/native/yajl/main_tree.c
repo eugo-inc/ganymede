@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for yajl: tree; calls yajl_version(), yajl_tree_parse(), yajl_tree_get(), yajl_tree_free().
  */

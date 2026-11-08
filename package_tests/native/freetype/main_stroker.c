@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for freetype: stroker; calls FT_Init_FreeType(), FT_Stroker_New(), FT_Stroker_Set(), FT_Stroker_Rewind().
  */

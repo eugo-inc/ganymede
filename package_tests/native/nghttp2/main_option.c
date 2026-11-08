@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nghttp2: option; calls nghttp2_option_new(), nghttp2_option_set_no_auto_window_update(), nghttp2_option_set_peer_max_concurrent_streams(), nghttp2_option_set_no_recv_client_magic().
  */

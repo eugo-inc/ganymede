@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for openexr: compression; calls exr_compression_lines_per_chunk(), exr_get_default_zip_compression_level(), exr_set_default_zip_compression_level().
  */

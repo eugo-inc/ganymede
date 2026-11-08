@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for blosc2: core API; calls blosc2_init(), blosc2_compress(), blosc2_decompress(), blosc2_destroy().
  */

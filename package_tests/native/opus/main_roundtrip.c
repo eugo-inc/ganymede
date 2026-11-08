@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for opus: roundtrip; calls opus_get_version_string(), opus_encoder_create(), opus_strerror(), opus_decoder_create().
  */

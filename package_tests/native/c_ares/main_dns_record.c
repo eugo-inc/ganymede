@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for c_ares: dns record; calls ares_library_init(), ares_dns_record_create(), ares_dns_record_query_add(), ares_dns_record_query_cnt().
  */

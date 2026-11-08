@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pango: tab array; calls pango_tab_array_new(), pango_tab_array_get_size(), pango_tab_array_get_positions_in_pixels(), pango_tab_array_set_tab().
  */

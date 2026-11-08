@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libyaml: core API; calls yaml_get_version_string(), yaml_get_version(), yaml_parser_initialize(), yaml_parser_set_input_string().
  */

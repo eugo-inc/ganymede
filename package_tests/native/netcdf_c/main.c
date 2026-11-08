@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for netcdf_c: core API; calls nc_inq_libvers(), mkstemps(), nc_create(), nc_def_dim().
  */

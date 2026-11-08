@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_auth: signing config; calls aws_default_allocator(), aws_auth_library_init(), aws_byte_cursor_from_c_str(), aws_credentials_new().
  */

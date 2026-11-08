@@ -130,6 +130,6 @@ python3 -m unittest test_run_native_checks
 
 ## License
 
-BSD-3-Clause, Copyright (c) 2026, Eugo (<https://eugo.io>). See the `LICENSE` file at
+BSD-3-Clause, Copyright (c) 2026, Eugo, Inc. (<https://eugo.io>). See the `LICENSE` file at
 the root of this repository. Third-party material elsewhere in the repository is listed in
 [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md).

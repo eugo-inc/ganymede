@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for rapidyaml: core API; calls ryml::parse_in_arena(), ryml::to_csubstr(), ryml::emitrs_yaml().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libsndfile: core API; calls sf_open(), sf_strerror(), sf_writef_float(), sf_close().
  */

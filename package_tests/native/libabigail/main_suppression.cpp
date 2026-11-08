@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libabigail: suppression; calls abigail::suppr::read_suppressions(), abigail::suppr::is_function_suppression().
  */

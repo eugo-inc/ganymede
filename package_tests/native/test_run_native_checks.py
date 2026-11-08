@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2026, Eugo
+# Copyright (c) 2026, Eugo, Inc.
 """Self-test for run_native_checks.py against a throwaway prefix built with the local C compiler.
 
 Run from the repository root with:  python3 -m unittest package_tests/native/test_run_native_checks.py

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libattr: get set remove; calls attr_set(), attr_get(), attr_remove().
  * Works on a scratch file in the current directory. Where the file system has no user

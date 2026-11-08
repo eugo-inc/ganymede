@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for sqlite: bind; calls sqlite3_open(), sqlite3_exec(), sqlite3_prepare_v2(), sqlite3_bind_int().
  */

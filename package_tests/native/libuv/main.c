@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libuv: core API; calls uv_timer_stop(), uv_close(), uv_default_loop(), uv_timer_init().
  */

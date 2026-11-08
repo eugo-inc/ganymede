@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for xnnpack: build id; calls xnn_experimental_get_build_identifier_data(), xnn_experimental_get_build_identifier_size(), xnn_experimental_check_build_identifier().
  */

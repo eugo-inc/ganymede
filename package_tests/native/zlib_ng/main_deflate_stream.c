@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for zlib_ng: deflate stream; calls zng_deflateInit2(), zng_deflate(), zng_deflateEnd(), zng_inflateInit2(), zng_inflate(), zng_inflateEnd().
  */

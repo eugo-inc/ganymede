@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for curl: multi; calls curl_global_init(), curl_multi_init(), curl_multi_setopt(), curl_easy_init().
  */

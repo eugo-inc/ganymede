@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for z3_solver: quantifier; calls Z3_mk_config(), Z3_mk_context(), Z3_del_config(), Z3_mk_int_sort().
  */

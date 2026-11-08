@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_io: input stream; calls aws_default_allocator(), aws_io_library_init(), aws_input_stream_new_from_cursor(), aws_input_stream_get_length().
  */

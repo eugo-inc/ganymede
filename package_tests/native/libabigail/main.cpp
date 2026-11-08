@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libabigail: core API; calls abigail::tools_utils::initialize(), abigail::tools_utils::get_library_version_string(), abigail::tools_utils::get_abixml_version_string().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for utf8proc: category; calls utf8proc_category(), utf8proc_get_property(), utf8proc_category_string().
  */

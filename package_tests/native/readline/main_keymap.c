@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for readline: keymap; calls rl_initialize(), rl_get_keymap(), rl_make_bare_keymap(), rl_set_keymap().
  */

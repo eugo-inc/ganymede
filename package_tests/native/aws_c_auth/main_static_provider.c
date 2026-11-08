@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_auth: static provider; calls aws_credentials_get_access_key_id(), aws_credentials_get_secret_access_key(), aws_byte_buf_init_copy_from_cursor(), aws_default_allocator().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libdeflate: core API; calls libdeflate_alloc_compressor(), libdeflate_gzip_compress_bound(), libdeflate_gzip_compress(), libdeflate_alloc_decompressor().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for glib: regex; calls g_regex_new(), g_regex_match(), g_match_info_fetch(), g_free().
  */

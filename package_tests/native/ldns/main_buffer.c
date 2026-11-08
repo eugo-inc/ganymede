@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for ldns: buffer; calls ldns_buffer_new(), ldns_buffer_status_ok(), ldns_dname_new_frm_str(), ldns_rdf2buffer_wire().
  */

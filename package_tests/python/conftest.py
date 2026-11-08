@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2026, Eugo
+# Copyright (c) 2026, Eugo, Inc.
 """pytest plugin that runs every notebook in this folder as one test.
 
 Each notebook is a smoke test for one Python package: it imports the package and

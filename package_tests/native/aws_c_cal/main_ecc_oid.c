@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_cal: ecc oid; calls aws_ecc_oid_from_curve_name(), aws_ecc_curve_name_from_oid(), aws_default_allocator(), aws_cal_library_init().
  */

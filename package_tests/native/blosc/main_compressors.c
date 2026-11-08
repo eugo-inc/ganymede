@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for blosc: compressors; calls blosc_compress_ctx(), blosc_decompress_ctx(), blosc_list_compressors().
  */

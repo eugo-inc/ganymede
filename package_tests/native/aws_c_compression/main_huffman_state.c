@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_compression: huffman state; calls aws_default_allocator(), aws_compression_library_init(), aws_huffman_encoder_init(), aws_huffman_encoder_reset().
  */

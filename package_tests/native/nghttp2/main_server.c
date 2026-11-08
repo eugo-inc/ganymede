@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nghttp2: server; calls nghttp2_session_callbacks_new(), nghttp2_session_server_new(), nghttp2_session_want_read(), nghttp2_submit_settings().
  */

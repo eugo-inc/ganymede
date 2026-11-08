@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for oniguruma: search; calls onig_initialize(), onig_new(), onig_error_code_to_str(), onig_region_new().
  */

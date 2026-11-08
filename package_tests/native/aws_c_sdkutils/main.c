@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_sdkutils: core API; calls aws_default_allocator(), aws_sdkutils_library_init(), aws_byte_buf_from_array(), aws_profile_collection_new_from_buffer().
  */

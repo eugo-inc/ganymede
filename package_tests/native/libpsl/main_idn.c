@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libpsl: idn; calls psl_builtin(), psl_str_to_utf8lower(), psl_free_string(), psl_is_public_suffix2().
  */

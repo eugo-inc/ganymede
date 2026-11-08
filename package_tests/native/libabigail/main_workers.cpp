@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libabigail: workers; calls abigail::workers::get_number_of_threads(), abigail::workers::queue::schedule_task().
  */

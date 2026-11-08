@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pango: script; calls pango_script_for_unichar(), pango_script_get_sample_language(), pango_language_to_string(), pango_script_iter_new().
  */

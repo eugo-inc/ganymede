@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libuv: fs; calls uv_default_loop(), uv_fs_mkdtemp(), uv_fs_req_cleanup(), uv_fs_open().
  */

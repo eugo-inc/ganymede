@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libevent: pthreads; calls evthread_use_pthreads(), event_base_new(), event_base_loop(), event_base_loopbreak(), event_base_got_break(), event_base_free().
  */

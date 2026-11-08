@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for gdrcopy: core API; calls gdr_runtime_get_version(), gdr_open(), gdr_close().
  */

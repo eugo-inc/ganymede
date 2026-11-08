@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_s2n_tls: cert chain; calls s2n_init(), s2n_cert_chain_and_key_new(), s2n_cert_chain_and_key_load_pem(), s2n_cert_chain_and_key_free().
  */

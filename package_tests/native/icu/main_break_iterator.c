@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for icu: break iterator; calls u_init(), u_strFromUTF8(), ubrk_open(), ubrk_first().
  */

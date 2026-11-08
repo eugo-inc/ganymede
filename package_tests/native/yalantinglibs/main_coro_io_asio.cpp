@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for yalantinglibs: coro io asio; calls coro_io::sleep_for(), coro_io::get_global_executor(), async_simple::coro::syncAwait().
  */

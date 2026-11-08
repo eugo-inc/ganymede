@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libraqm: core API; calls raqm_create(), raqm_set_text_utf8(), raqm_set_par_direction(), raqm_version().
  */

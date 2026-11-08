@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libgit2: signature; calls git_libgit2_init(), git_signature_new(), git_signature_free(), git_signature_now().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for cpuinfo: cache; calls cpuinfo_initialize(), cpuinfo_get_l1d_caches_count(), cpuinfo_get_l1i_caches_count(), cpuinfo_get_l2_caches_count().
  */

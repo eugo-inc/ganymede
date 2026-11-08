@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for blosc2: schunk; calls blosc2_init(), blosc2_schunk_new(), blosc2_schunk_append_buffer(), blosc2_schunk_decompress_chunk().
  */

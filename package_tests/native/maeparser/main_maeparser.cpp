@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for maeparser: reads a two-atom MAE block with schrodinger::mae::Reader, writes it with Writer and reads it back.
  */

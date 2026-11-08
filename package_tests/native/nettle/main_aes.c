@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nettle: aes; calls aes128_set_encrypt_key(), aes128_encrypt(), aes128_set_decrypt_key(), aes128_decrypt().
  */

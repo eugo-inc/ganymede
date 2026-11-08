@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pango: matrix; calls pango_matrix_copy(), pango_matrix_translate(), pango_matrix_scale(), pango_matrix_transform_distance().
  */

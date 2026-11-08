@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for bzip2: core API; calls BZ2_bzBuffToBuffCompress(), BZ2_bzBuffToBuffDecompress(), BZ2_bzlibVersion().
  */

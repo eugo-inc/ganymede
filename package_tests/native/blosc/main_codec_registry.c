@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for blosc: codec registry; calls blosc_compname_to_compcode(), blosc_compcode_to_compname(), blosc_get_complib_info().
  */

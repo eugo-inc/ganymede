@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for glib: variant; calls g_variant_new(), g_variant_is_of_type(), g_variant_get(), g_variant_get_size().
  */

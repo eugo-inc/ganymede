@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libarchive: core API; calls archive_write_new(), archive_write_set_format_pax_restricted(), archive_write_open_memory(), archive_entry_new().
  */

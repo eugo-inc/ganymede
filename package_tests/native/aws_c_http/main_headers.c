@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_http: headers; calls aws_default_allocator(), aws_http_library_init(), aws_http_headers_new(), aws_http_headers_count().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for ffmpeg: soxr resampler; calls av_strerror(), swr_alloc_set_opts2(), av_opt_set_int(), swr_init().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for hwloc: objects; calls hwloc_topology_init(), hwloc_topology_load(), hwloc_obj_type_string(), hwloc_type_sscanf().
  */

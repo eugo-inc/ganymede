@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for dav1d: decode av1; calls dav1d_default_settings(), dav1d_open(), dav1d_data_create(), dav1d_send_data().
  */

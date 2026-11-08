@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for cuda_cccl: versions; compiles against <cub/version.cuh>, <thrust/version.h>, <cuda/std/type_traits>.
  */

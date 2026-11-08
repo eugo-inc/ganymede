@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for harfbuzz: set; calls hb_set_create(), hb_set_allocation_successful(), hb_set_is_empty(), hb_set_get_population().
  */

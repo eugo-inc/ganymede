@@ -1,7 +1,7 @@
 # Third-party notices
 
 Original content in this repository is released under the [BSD 3-Clause License](LICENSE),
-Copyright (c) 2026, Eugo. Some notebooks contain code adapted from the documentation,
+Copyright (c) 2026, Eugo, Inc. Some notebooks contain code adapted from the documentation,
 README, examples or tests of the package they demonstrate or test. That code stays under
 its upstream license. This file lists each upstream project, where its code is used, its
 copyright notice and its license; the full license texts are at the end.

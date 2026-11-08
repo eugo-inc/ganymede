@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2026, Eugo
+# Copyright (c) 2026, Eugo, Inc.
 """Structural checks for every notebook in this repository.
 
 - every .ipynb parses as nbformat 4 JSON;

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for openjpeg: image; calls opj_image_create(), opj_image_data_alloc(), opj_image_data_free(), opj_image_destroy().
  */

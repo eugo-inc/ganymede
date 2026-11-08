@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libogg: roundtrip; calls ogg_stream_init(), ogg_sync_init(), ogg_stream_packetin(), ogg_stream_flush().
  */

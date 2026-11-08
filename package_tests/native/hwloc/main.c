@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for hwloc: core API; calls hwloc_get_api_version(), hwloc_topology_init(), hwloc_topology_load(), hwloc_topology_get_depth().
  */

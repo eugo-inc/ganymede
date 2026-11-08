@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for gflags: define flags; calls DEFINE_int32(), DEFINE_bool(), DEFINE_string(), DEFINE_double().
  */

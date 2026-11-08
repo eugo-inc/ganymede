@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for geos: wkb; calls initGEOS(), GEOSWKTReader_create(), GEOSWKTReader_read(), GEOSWKBWriter_create().
  */

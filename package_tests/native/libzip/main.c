@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libzip: core API; calls zip_libzip_version(), mkstemps(), zip_open(), zip_source_buffer().
  */

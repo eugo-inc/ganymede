@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for blosc: getitem validate; calls blosc_init(), blosc_compress(), blosc_cbuffer_validate(), blosc_getitem().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_event_stream: headers; calls aws_default_allocator(), aws_event_stream_library_init(), aws_event_stream_headers_list_init(), aws_event_stream_add_string_header().
  */

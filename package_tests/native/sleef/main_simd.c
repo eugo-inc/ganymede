@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for sleef: simd; calls Sleef_sind2_u10(), Sleef_cosd2_u10(), vgetq_lane_f64(), Sleef_sinf4_u10().
  */

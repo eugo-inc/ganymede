@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libpsl: metadata; calls psl_builtin(), psl_suffix_count(), psl_suffix_exception_count(), psl_suffix_wildcard_count().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_checksums: ex size t; calls aws_checksums_crc32(), aws_checksums_crc32_ex(), aws_checksums_crc32c(), aws_checksums_crc32c_ex().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pango: color; calls pango_color_parse(), pango_color_parse_with_alpha(), pango_color_to_string(), g_free().
  */

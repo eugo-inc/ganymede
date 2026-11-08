@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for arrow: string to float; calls arrow::internal::StringToFloat(), arrow::Scalar::Parse(), max(), denorm_min().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for rdma_core: providers; dlopens every provider plugin that a .driver file in
  * etc/libibverbs.d names.

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libvpx: encode decode vpx; calls vpx_codec_enc_config_default(), vpx_codec_enc_init(), vpx_codec_error(), vpx_codec_dec_init().
  */

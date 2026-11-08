@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for minizip_ng: zip; calls mz_stream_mem_create(), mz_stream_mem_set_grow_size(), mz_stream_mem_open(), mz_zip_writer_create().
  */

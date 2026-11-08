@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libyaml: scanner; calls yaml_parser_initialize(), yaml_parser_set_input_string(), yaml_parser_scan(), yaml_token_delete().
  */

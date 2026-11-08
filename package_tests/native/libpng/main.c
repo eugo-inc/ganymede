@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libpng: core API; calls png_create_read_struct(), png_create_info_struct(), png_destroy_read_struct(), png_create_write_struct().
  */

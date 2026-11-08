@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pixman: trapezoid; calls pixman_image_create_bits(), pixman_int_to_fixed(), pixman_trapezoid_valid(), pixman_rasterize_trapezoid().
  */

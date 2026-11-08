@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for ffmpeg: opus frame; calls av_strerror(), avcodec_find_encoder_by_name(), avcodec_alloc_context3(), av_channel_layout_copy().
  */

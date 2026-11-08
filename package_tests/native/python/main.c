@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for python: core API; calls Py_InitializeEx(), Py_IsInitialized(), Py_GetVersion(), PyRun_SimpleString().
  *

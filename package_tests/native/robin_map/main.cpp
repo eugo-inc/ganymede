@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for robin_map: core API; compiles against <tsl/robin_map.h>, <tsl/robin_set.h>.
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libacl: iterate; calls acl_from_text(), acl_valid(), acl_get_entry(), acl_get_tag_type().
  */

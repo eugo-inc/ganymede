@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_sdkutils: endpoints; calls aws_default_allocator(), aws_sdkutils_library_init(), aws_endpoints_get_supported_ruleset_version(), aws_byte_cursor_from_array().
  */

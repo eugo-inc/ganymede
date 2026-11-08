@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libsodium: aead; calls sodium_init(), crypto_aead_xchacha20poly1305_ietf_encrypt(), crypto_aead_xchacha20poly1305_ietf_decrypt().
  */

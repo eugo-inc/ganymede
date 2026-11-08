@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for fp16: alt; calls fp16_alt_to_fp32_bits(), fp16_alt_to_fp32_value(), fp16_alt_from_fp32_value().
  */

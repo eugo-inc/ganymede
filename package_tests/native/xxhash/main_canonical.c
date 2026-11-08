@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for xxhash: canonical; calls XXH64_canonicalFromHash(), XXH64_hashFromCanonical(), XXH128_canonicalFromHash(), XXH128_hashFromCanonical().
  */

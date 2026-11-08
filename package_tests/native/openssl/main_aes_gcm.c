@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for openssl: aes gcm; calls EVP_CIPHER_CTX_new(), EVP_EncryptInit_ex(), EVP_aes_256_gcm(), EVP_CIPHER_CTX_ctrl().
  */

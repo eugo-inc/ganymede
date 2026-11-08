@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libgcrypt: core API; calls gcry_check_version(), gcry_control(), gcry_md_get_algo_dlen(), gcry_md_hash_buffer().
  */

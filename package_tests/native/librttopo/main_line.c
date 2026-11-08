@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for librttopo: line; calls rtgeom_init(), ptarray_construct_empty(), ptarray_append_point(), rtline_construct().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for freetype: core API; calls FT_Init_FreeType(), FT_Library_Version(), FT_Done_FreeType().
  */

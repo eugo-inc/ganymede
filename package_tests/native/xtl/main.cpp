@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for xtl: core API; compiles against <xtl/xbasic_fixed_string.hpp>, <xtl/xtl_config.hpp>.
  */

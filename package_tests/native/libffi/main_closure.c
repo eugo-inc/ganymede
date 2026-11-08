@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libffi: closure; calls ffi_closure_alloc(), ffi_prep_cif(), ffi_prep_closure_loc(), ffi_closure_free().
  */

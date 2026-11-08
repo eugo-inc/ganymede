@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libidn2: strerror; calls idn2_check_version(), idn2_strerror(), idn2_strerror_name().
  */

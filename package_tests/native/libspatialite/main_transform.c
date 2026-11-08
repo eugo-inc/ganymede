@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libspatialite: transform; calls spatialite_initialize(), sqlite3_open(), spatialite_alloc_connection(), spatialite_init_ex().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for ffmpeg: av1 software; calls avcodec_receive_frame(), av_err2str(), av_get_pix_fmt_name(), av_frame_unref().
  */

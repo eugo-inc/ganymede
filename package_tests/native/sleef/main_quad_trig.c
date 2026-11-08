@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for sleef: quad trig; calls Sleef_cast_from_doubleq1(), Sleef_sinq1_u10(), Sleef_cast_to_doubleq1(), Sleef_logq1_u10().
  */

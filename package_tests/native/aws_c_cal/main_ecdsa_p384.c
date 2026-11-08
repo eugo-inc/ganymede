@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_cal: ecdsa p384; calls aws_default_allocator(), aws_cal_library_init(), aws_ecc_key_coordinate_byte_size_from_curve_name(), aws_ecc_key_pair_new_generate_random().
  */

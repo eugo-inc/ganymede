@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for utf8proc: casefold; calls utf8proc_tolower(), utf8proc_toupper(), utf8proc_map().
  */

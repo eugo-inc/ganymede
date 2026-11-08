@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for grpc: gpr; calls grpc_slice_from_copied_buffer(), grpc_slice_unref(), gpr_time_from_seconds(), gpr_time_cmp().
  */

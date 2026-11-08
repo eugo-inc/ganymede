@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for openjpeg: threads; calls opj_has_thread_support(), opj_get_num_cpus(), opj_create_decompress(), opj_codec_set_threads().
  */

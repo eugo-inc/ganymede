@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for freexl: format open; calls freexl_open_xlsx(), freexl_open_ods(), freexl_open_info().
  */

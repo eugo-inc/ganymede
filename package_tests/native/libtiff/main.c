@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libtiff: core API; calls mkstemps(), TIFFOpen(), TIFFSetField(), TIFFWriteEncodedStrip().
  */

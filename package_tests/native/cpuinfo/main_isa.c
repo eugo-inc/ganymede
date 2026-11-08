@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for cpuinfo: isa; calls cpuinfo_initialize(), cpuinfo_has_x86_sse2(), cpuinfo_has_x86_sse3(), cpuinfo_has_x86_ssse3().
  */

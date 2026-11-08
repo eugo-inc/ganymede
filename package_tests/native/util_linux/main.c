@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for util_linux: core API; calls uuid_generate(), uuid_is_null(), uuid_unparse(), uuid_parse().
  */

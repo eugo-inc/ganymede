@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for openssl: bignum; calls BN_CTX_new(), BN_dec2bn(), BN_new(), BN_mod_exp().
  */

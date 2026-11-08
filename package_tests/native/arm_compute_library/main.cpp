@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for arm_compute_library: core API; compiles against <arm_compute/core/TensorShape.h>, <arm_compute/core/TensorInfo.h>, <arm_compute/core/Types.h>.
  */

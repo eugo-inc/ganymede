@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for openjpeg: stream; calls opj_stream_default_create(), opj_stream_set_read_function(), opj_stream_set_skip_function(), opj_stream_set_seek_function().
  */

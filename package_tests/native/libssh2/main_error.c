@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libssh2: error; calls libssh2_init(), libssh2_session_init(), libssh2_session_get_blocking(), libssh2_session_set_blocking().
  */

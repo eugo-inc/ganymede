@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pixman: region; calls pixman_region32_init_rect(), pixman_region32_init(), pixman_region32_union(), pixman_region32_extents().
  */

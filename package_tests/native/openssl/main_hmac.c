@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for openssl: hmac; calls EVP_MAC_fetch(), EVP_MAC_CTX_new(), OSSL_PARAM_construct_utf8_string(), OSSL_PARAM_construct_end().
  */

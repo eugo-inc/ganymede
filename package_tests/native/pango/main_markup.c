@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pango: markup; calls pango_parse_markup(), pango_attr_list_get_iterator(), pango_attr_iterator_get(), pango_attr_iterator_next().
  */

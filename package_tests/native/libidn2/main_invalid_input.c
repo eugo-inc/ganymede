@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libidn2: invalid input; calls idn2_lookup_u8(), idn2_strerror(), idn2_free(), idn2_to_unicode_8z8z().
  */

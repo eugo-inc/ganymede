@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for hdf5: group; calls H5Pcreate(), H5Pset_fapl_core(), H5Fcreate(), H5Gcreate2().
  */

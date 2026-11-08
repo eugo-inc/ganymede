@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for lz4: stream; calls LZ4_createStream(), LZ4_compressBound(), LZ4_compress_fast_continue(), LZ4_freeStream().
  */

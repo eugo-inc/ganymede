@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libnl: core API; calls nl_socket_alloc(), nl_socket_free(), rtnl_link_alloc(), rtnl_link_set_name().
  */

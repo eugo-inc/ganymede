@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for psimd: cvt div; calls psimd_cvt_s32_f32(), psimd_store_f32(), psimd_load_f32(), psimd_div_f32().
  */

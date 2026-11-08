@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for ldns: rr; calls ldns_rr_new_frm_str(), ldns_rr_get_type(), ldns_rr_get_class(), ldns_rr_ttl().
  */

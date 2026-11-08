@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libsodium: box; calls sodium_init(), crypto_box_seed_keypair(), crypto_box_easy(), crypto_box_open_easy().
  */

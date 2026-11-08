@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for librttopo: wkb; calls rtgeom_init(), rtpoint_make2d(), rtpoint_as_rtgeom(), rtgeom_to_hexwkb().
  */

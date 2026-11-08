@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for xxhash: secret; calls XXH3_generateSecret_fromSeed(), XXH3_64bits_withSeed(), XXH3_64bits_withSecret(), XXH3_128bits_withSeed().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libvorbis: encode headers; calls vorbis_version_string(), vorbis_info_init(), vorbis_encode_init_vbr(), vorbis_info_clear().
  */

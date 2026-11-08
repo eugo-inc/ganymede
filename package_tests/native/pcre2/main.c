@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pcre2: core API; calls pcre2_compile(), pcre2_match_data_create_from_pattern(), pcre2_match(), pcre2_get_ovector_pointer().
  */

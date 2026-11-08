@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for hwloc: bitmap; calls hwloc_bitmap_alloc(), hwloc_bitmap_iszero(), hwloc_bitmap_weight(), hwloc_bitmap_set().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libzmq: core API; calls zmq_version(), zmq_ctx_new(), zmq_socket(), zmq_bind().
  */

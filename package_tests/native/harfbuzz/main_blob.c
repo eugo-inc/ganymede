@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for harfbuzz: blob; calls hb_blob_create(), hb_blob_get_empty(), hb_blob_get_length(), hb_blob_get_data().
  */

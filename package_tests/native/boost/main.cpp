@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for boost: core API; calls fs::temp_directory_path(), fs::unique_path(), fs::create_directory(), fs::exists().
  */

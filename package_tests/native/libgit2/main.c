@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libgit2: core API; calls git_libgit2_init(), git_libgit2_version(), git_libgit2_features(), git_libgit2_shutdown().
  */

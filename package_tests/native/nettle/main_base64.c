@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nettle: base64; calls base64_encode_init(), base64_encode_update(), base64_encode_final(), base64_decode_init().
  */

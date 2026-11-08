@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2026, Eugo
+# Copyright (c) 2026, Eugo, Inc.
 """Install checks for native libraries and tools under one prefix.
 
 Each package folder next to this script holds a ``testspec.json`` (see SCHEMA.md) and the

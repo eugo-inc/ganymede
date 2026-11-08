@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_cal: aes; calls aws_default_allocator(), aws_cal_library_init(), aws_byte_cursor_from_array(), aws_aes_ctr_256_new().
  */

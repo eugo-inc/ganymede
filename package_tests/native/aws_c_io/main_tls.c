@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for aws_c_io: tls; calls aws_default_allocator(), aws_io_library_init(), aws_tls_ctx_options_init_default_client(), aws_tls_is_cipher_pref_supported().
  */

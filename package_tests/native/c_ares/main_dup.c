@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for c_ares: dup; calls ares_library_init(), ares_init_options(), ares_set_servers_csv(), ares_dup().
  */

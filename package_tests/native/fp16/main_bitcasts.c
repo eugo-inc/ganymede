@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for fp16: bitcasts; calls fp32_from_bits(), fp32_to_bits(), fp64_from_bits(), fp64_to_bits().
  */

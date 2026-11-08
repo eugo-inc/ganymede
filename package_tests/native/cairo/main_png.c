@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for cairo: png; calls cairo_image_surface_create(), cairo_surface_status(), cairo_create(), cairo_set_source_rgb().
  */

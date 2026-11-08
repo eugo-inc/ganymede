@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for qhull: 3d hull; calls qh_new_qhull(), qh_freeqhull(), qh_memfreeshort().
  */

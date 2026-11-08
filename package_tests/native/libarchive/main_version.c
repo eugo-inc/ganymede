@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libarchive: version; calls archive_version_number(), archive_version_string(), archive_version_details(), archive_zlib_version().
  * The bzip2, lzma, lz4 and zstd back ends are optional build features, so their versions

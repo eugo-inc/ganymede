@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for kleidi: bf16; calls kai_cast_bf16_f32(), kai_cast_f32_bf16(), kai_ext_sign_i8_i4().
  */

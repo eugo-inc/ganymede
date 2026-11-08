@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for nlohmann_json: binary; calls json::to_cbor(), json::from_cbor(), json::to_msgpack(), json::from_msgpack().
  */

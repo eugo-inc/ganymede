@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for ucc: core API; calls ucc_status_string(), ucc_lib_config_read(), ucc_init(), ucc_lib_config_release().
  */

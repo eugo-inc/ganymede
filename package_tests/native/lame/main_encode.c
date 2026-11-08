@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for lame: encode; calls get_lame_version(), lame_init(), lame_set_in_samplerate(), lame_set_num_channels().
  */

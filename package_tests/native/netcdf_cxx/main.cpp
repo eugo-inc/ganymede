@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for netcdf_cxx: core API; calls NcFile(), NcFile::addDim(), NcFile::addVar(), NcVar::putVar(), NcVar::getVar().
  */

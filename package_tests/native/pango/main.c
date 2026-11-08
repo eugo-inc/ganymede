@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pango: core API; calls pango_version(), pango_version_string(), pango_font_description_from_string(), pango_font_description_get_family().
  */

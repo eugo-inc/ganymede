@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libexpat: chardata; calls XML_ParserCreate(), XML_SetCharacterDataHandler(), XML_Parse(), XML_GetCurrentByteIndex().
  */

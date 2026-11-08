@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for sqlite: transaction; calls sqlite3_prepare_v2(), sqlite3_step(), sqlite3_column_int(), sqlite3_finalize().
  */

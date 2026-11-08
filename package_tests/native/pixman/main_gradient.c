@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for pixman: gradient; calls pixman_int_to_fixed(), pixman_image_create_linear_gradient(), pixman_image_create_bits(), pixman_image_composite32().
  */

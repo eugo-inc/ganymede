@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for lz4: frame; calls LZ4F_compressFrameBound(), LZ4F_compressFrame(), LZ4F_isError(), LZ4F_createDecompressionContext().
  */

@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for zstd: multiframe; calls ZSTD_compressBound(), ZSTD_compress(), ZSTD_isError(), ZSTD_findFrameCompressedSize().
  */

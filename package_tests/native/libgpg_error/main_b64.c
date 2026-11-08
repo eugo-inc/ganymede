@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for libgpg_error: b64; calls gpgrt_fopenmem(), gpgrt_b64enc_start(), gpgrt_b64enc_write(), gpgrt_b64enc_finish().
  */

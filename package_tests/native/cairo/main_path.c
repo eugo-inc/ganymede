@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for cairo: path; calls cairo_matrix_init_identity(), cairo_matrix_translate(), cairo_matrix_scale(), cairo_matrix_transform_point().
  */

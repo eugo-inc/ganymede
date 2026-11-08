@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for c_ares: core API; calls ares_library_init(), ares_init(), ares_destroy(), ares_library_cleanup().
  */

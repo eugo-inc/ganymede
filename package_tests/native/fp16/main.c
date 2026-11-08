@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: BSD-3-Clause
- * Copyright (c) 2026, Eugo
+ * Copyright (c) 2026, Eugo, Inc.
  *
  * Functional check for fp16: core API; calls fp16_ieee_to_fp32_bits(), fp16_ieee_to_fp32_value(), fp16_ieee_from_fp32_value().
  */
