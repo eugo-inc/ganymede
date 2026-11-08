@@ -1,0 +1,29 @@
+{
+  "name": "libvorbis",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/vorbis/codec.h",
+    "include/vorbis/vorbisenc.h",
+    "include/vorbis/vorbisfile.h",
+    "lib64/pkgconfig/vorbis.pc",
+    "lib64/pkgconfig/vorbisenc.pc",
+    "lib64/pkgconfig/vorbisfile.pc",
+    "lib64/libvorbis.so.0",
+    "lib64/libvorbisenc.so.2",
+    "lib64/libvorbisfile.so.3"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_encode_headers.c",
+      "language": "c",
+      "link_with": [
+        "vorbisenc",
+        "vorbis"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

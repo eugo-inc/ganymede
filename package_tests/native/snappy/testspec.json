@@ -1,0 +1,61 @@
+{
+  "name": "snappy",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libsnappy.so",
+    "include/snappy.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "snappy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_raw_buffer.cpp",
+      "language": "cpp",
+      "link_with": [
+        "snappy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_get_length.cpp",
+      "language": "cpp",
+      "link_with": [
+        "snappy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_sink_source.cpp",
+      "language": "cpp",
+      "link_with": [
+        "snappy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_uncompress_sink.cpp",
+      "language": "cpp",
+      "link_with": [
+        "snappy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_edge_cases.cpp",
+      "language": "cpp",
+      "link_with": [
+        "snappy"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

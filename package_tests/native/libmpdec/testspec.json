@@ -1,0 +1,47 @@
+{
+  "name": "libmpdec",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libmpdec.so.4",
+    "include/mpdecimal.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libmpdec.so.4"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "mpdec"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_mul_cmp.c",
+      "language": "c",
+      "link_with": [
+        "mpdec"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_div_inexact.c",
+      "language": "c",
+      "link_with": [
+        "mpdec"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_rounding.c",
+      "language": "c",
+      "link_with": [
+        "mpdec"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

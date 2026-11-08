@@ -1,0 +1,85 @@
+{
+  "name": "qhull",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/qhull",
+    "bin/qconvex",
+    "bin/qdelaunay",
+    "bin/qhalf",
+    "bin/qvoronoi",
+    "bin/rbox",
+    "include/libqhull_r/libqhull_r.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libqhull_r.so*",
+    "lib64/pkgconfig/qhull*.pc"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/qhull",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "qhull_r"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_3d_hull.c",
+      "language": "c",
+      "link_with": [
+        "qhull_r"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_delaunay.c",
+      "language": "c",
+      "link_with": [
+        "qhull_r"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_voronoi.c",
+      "language": "c",
+      "link_with": [
+        "qhull_r",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_halfspace.c",
+      "language": "c",
+      "link_with": [
+        "qhull_r"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_point_location.c",
+      "language": "c",
+      "link_with": [
+        "qhull_r"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_furthest_site.c",
+      "language": "c",
+      "link_with": [
+        "qhull_r",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

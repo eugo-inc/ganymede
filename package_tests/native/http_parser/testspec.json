@@ -1,0 +1,21 @@
+{
+  "name": "http_parser",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/http_parser.h",
+    "lib64/libhttp_parser.so.2.9"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_url.c",
+      "language": "c",
+      "link_with": [
+        "http_parser"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

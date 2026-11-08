@@ -1,0 +1,21 @@
+{
+  "name": "libev",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/ev.h",
+    "lib64/libev.so"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "ev"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

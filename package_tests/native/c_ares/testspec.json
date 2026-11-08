@@ -1,0 +1,70 @@
+{
+  "name": "c_ares",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libcares.so",
+    "include/ares.h",
+    "lib64/pkgconfig/libcares.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "cares"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_strerror.c",
+      "language": "c",
+      "link_with": [
+        "cares"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_inet_pton.c",
+      "language": "c",
+      "link_with": [
+        "cares"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_init_options.c",
+      "language": "c",
+      "link_with": [
+        "cares"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_dns_record.c",
+      "language": "c",
+      "link_with": [
+        "cares"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_servers_csv.c",
+      "language": "c",
+      "link_with": [
+        "cares"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_dup.c",
+      "language": "c",
+      "link_with": [
+        "cares"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

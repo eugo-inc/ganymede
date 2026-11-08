@@ -1,0 +1,47 @@
+{
+  "name": "psimd",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/psimd.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_int.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_shuffle.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_minmax.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_reduce.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_interleave.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cvt_div.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

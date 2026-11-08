@@ -1,0 +1,50 @@
+{
+  "name": "curl",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/curl",
+    "lib64/libcurl.so.4",
+    "include/curl/curl.h",
+    "lib64/pkgconfig/libcurl.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/curl",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "curl"
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "curl"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_url.c",
+      "language": "c",
+      "link_with": [
+        "curl"
+      ]
+    },
+    {
+      "source": "main_multi.c",
+      "language": "c",
+      "link_with": [
+        "curl"
+      ]
+    },
+    {
+      "source": "main_escape.c",
+      "language": "c",
+      "link_with": [
+        "curl"
+      ]
+    }
+  ]
+}

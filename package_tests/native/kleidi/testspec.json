@@ -1,0 +1,35 @@
+{
+  "name": "kleidi",
+  "kind": "static-libs-only",
+  "expected_artifacts": [],
+  "expected_artifact_globs": [
+    "include/kai/**/*.h",
+    "lib64/libkleidiai.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "kleidiai"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_datatype.c",
+      "language": "c",
+      "link_with": [
+        "kleidiai"
+      ]
+    },
+    {
+      "source": "main_bf16.c",
+      "language": "c",
+      "link_with": [
+        "kleidiai"
+      ]
+    }
+  ]
+}

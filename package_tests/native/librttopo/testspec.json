@@ -1,0 +1,49 @@
+{
+  "name": "librttopo",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/pkgconfig/rttopo.pc",
+    "include/librttopo_geom.h",
+    "include/librttopo.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/librttopo.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "rttopo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_wkb.c",
+      "language": "c",
+      "link_with": [
+        "rttopo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_line.c",
+      "language": "c",
+      "link_with": [
+        "rttopo",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_geojson.c",
+      "language": "c",
+      "link_with": [
+        "rttopo"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

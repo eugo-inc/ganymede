@@ -1,0 +1,70 @@
+{
+  "name": "nghttp2",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libnghttp2.so",
+    "include/nghttp2/nghttp2.h",
+    "lib64/pkgconfig/libnghttp2.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "nghttp2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_hpack.c",
+      "language": "c",
+      "link_with": [
+        "nghttp2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_session.c",
+      "language": "c",
+      "link_with": [
+        "nghttp2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_strerror.c",
+      "language": "c",
+      "link_with": [
+        "nghttp2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_server.c",
+      "language": "c",
+      "link_with": [
+        "nghttp2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_option.c",
+      "language": "c",
+      "link_with": [
+        "nghttp2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_priority.c",
+      "language": "c",
+      "link_with": [
+        "nghttp2"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

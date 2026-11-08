@@ -1,0 +1,34 @@
+{
+  "name": "libsndfile",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "include/sndfile.h",
+    "include/sndfile.hh",
+    "lib64/libsndfile.so",
+    "lib64/libsndfile.so.1",
+    "lib64/pkgconfig/sndfile.pc",
+    "bin/sndfile-info",
+    "bin/sndfile-convert",
+    "bin/sndfile-cmp",
+    "bin/sndfile-metadata-get",
+    "bin/sndfile-metadata-set",
+    "bin/sndfile-interleave",
+    "bin/sndfile-deinterleave",
+    "bin/sndfile-concat",
+    "bin/sndfile-salvage"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "sndfile",
+        "m"
+      ],
+      "runtime_timeout_s": 20.0
+    }
+  ]
+}

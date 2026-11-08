@@ -1,0 +1,17 @@
+{
+  "name": "haproxy",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/haproxy"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/haproxy",
+    "args": [
+      "-vv"
+    ],
+    "expect_stdout_contains": "HAProxy version"
+  },
+  "test_programs": []
+}

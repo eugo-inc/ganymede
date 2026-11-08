@@ -1,0 +1,72 @@
+{
+  "name": "readline",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libreadline.so",
+    "lib64/libhistory.so",
+    "include/readline/readline.h",
+    "include/readline/history.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "readline",
+        "history"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_keymap.c",
+      "language": "c",
+      "link_with": [
+        "readline"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_completion.c",
+      "language": "c",
+      "link_with": [
+        "readline"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_history_expand.c",
+      "language": "c",
+      "link_with": [
+        "history"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_tilde.c",
+      "language": "c",
+      "link_with": [
+        "readline"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_history_file.c",
+      "language": "c",
+      "link_with": [
+        "history"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_line_buffer.c",
+      "language": "c",
+      "link_with": [
+        "readline"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

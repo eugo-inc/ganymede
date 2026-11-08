@@ -1,0 +1,23 @@
+{
+  "name": "libbase64",
+  "kind": "static-libs-only",
+  "expected_artifacts": [
+    "include/libbase64.h",
+    "lib64/cmake/base64/base64-config.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libbase64.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_roundtrip.c",
+      "language": "c",
+      "link_with": [
+        "base64"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

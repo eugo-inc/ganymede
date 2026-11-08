@@ -1,0 +1,47 @@
+{
+  "name": "freetds",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/tsql",
+    "lib64/libsybdb.so",
+    "lib64/libtdsodbc.so",
+    "include/sybdb.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "sybdb"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_convert.c",
+      "language": "c",
+      "link_with": [
+        "sybdb"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_login_setters.c",
+      "language": "c",
+      "link_with": [
+        "sybdb"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_errhandler.c",
+      "language": "c",
+      "link_with": [
+        "sybdb"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

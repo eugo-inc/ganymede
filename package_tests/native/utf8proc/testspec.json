@@ -1,0 +1,70 @@
+{
+  "name": "utf8proc",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libutf8proc.so",
+    "include/utf8proc.h",
+    "lib64/pkgconfig/libutf8proc.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "utf8proc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_encode.c",
+      "language": "c",
+      "link_with": [
+        "utf8proc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_category.c",
+      "language": "c",
+      "link_with": [
+        "utf8proc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_casefold.c",
+      "language": "c",
+      "link_with": [
+        "utf8proc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_grapheme.c",
+      "language": "c",
+      "link_with": [
+        "utf8proc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_charwidth.c",
+      "language": "c",
+      "link_with": [
+        "utf8proc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_error.c",
+      "language": "c",
+      "link_with": [
+        "utf8proc"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

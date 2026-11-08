@@ -1,0 +1,33 @@
+{
+  "name": "inchi",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/inchi-1",
+    "include/inchi/bcf_s.h",
+    "include/inchi/ichisize.h",
+    "include/inchi/inchi_api.h",
+    "include/inchi/ixa.h",
+    "lib64/libinchi.so",
+    "lib64/libinchi.so.1"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/inchi-1",
+    "args": [
+      "{testspec_dir}/alanine.mol",
+      "-STDIO"
+    ],
+    "expect_stdout_contains": "InChI=1S/C3H7NO2/c1-2(4)3(5)6/h2H,4H2,1H3,(H,5,6)/t2-/m0/s1"
+  },
+  "test_programs": [
+    {
+      "source": "main_inchi.c",
+      "language": "c",
+      "link_with": [
+        "inchi"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "name": "blosc",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libblosc.so.1",
+    "include/blosc.h",
+    "lib64/pkgconfig/blosc.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "blosc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_compressors.c",
+      "language": "c",
+      "link_with": [
+        "blosc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cbuffer_info.c",
+      "language": "c",
+      "link_with": [
+        "blosc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_codec_registry.c",
+      "language": "c",
+      "link_with": [
+        "blosc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_threads.c",
+      "language": "c",
+      "link_with": [
+        "blosc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_bitshuffle.c",
+      "language": "c",
+      "link_with": [
+        "blosc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_getitem_validate.c",
+      "language": "c",
+      "link_with": [
+        "blosc"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

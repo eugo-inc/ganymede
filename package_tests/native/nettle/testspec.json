@@ -1,0 +1,81 @@
+{
+  "name": "nettle",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/nettle-hash",
+    "bin/sexp-conv",
+    "include/nettle/nettle-meta.h",
+    "lib64/pkgconfig/nettle.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libnettle.so*",
+    "lib64/libhogweed.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/nettle-hash",
+    "args": [
+      "--help"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "nettle"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_aes.c",
+      "language": "c",
+      "link_with": [
+        "nettle"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_hmac.c",
+      "language": "c",
+      "link_with": [
+        "nettle"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_base64.c",
+      "language": "c",
+      "link_with": [
+        "nettle"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cbc.c",
+      "language": "c",
+      "link_with": [
+        "nettle"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_chacha.c",
+      "language": "c",
+      "link_with": [
+        "nettle"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_sexp.c",
+      "language": "c",
+      "link_with": [
+        "hogweed",
+        "nettle"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

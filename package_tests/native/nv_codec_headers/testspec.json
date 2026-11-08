@@ -1,0 +1,16 @@
+{
+  "name": "nv_codec_headers",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/ffnvcodec/dynlink_cuda.h",
+    "include/ffnvcodec/dynlink_cuviddec.h",
+    "include/ffnvcodec/dynlink_loader.h",
+    "include/ffnvcodec/dynlink_nvcuvid.h",
+    "include/ffnvcodec/nvEncodeAPI.h",
+    "lib64/pkgconfig/ffnvcodec.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

@@ -1,0 +1,46 @@
+{
+  "name": "libyaml",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/yaml.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libyaml*.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "yaml"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_emitter.c",
+      "language": "c",
+      "link_with": [
+        "yaml"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_document.c",
+      "language": "c",
+      "link_with": [
+        "yaml"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_scanner.c",
+      "language": "c",
+      "link_with": [
+        "yaml"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

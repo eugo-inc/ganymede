@@ -1,0 +1,24 @@
+{
+  "name": "cuda_cutlass",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/cutlass/cutlass.h",
+    "include/cutlass/version.h",
+    "include/cutlass/util/host_tensor.h",
+    "include/cute/tensor.hpp"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_cute_layout.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++17",
+        "-I{cuda_home}/include"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

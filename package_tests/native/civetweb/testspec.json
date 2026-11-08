@@ -1,0 +1,22 @@
+{
+  "name": "civetweb",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/civetweb",
+    "lib64/libcivetweb.so",
+    "include/civetweb.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "civetweb"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

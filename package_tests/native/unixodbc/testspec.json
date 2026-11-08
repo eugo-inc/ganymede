@@ -1,0 +1,80 @@
+{
+  "name": "unixodbc",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/isql",
+    "bin/odbc_config",
+    "lib64/libodbc.so",
+    "lib64/libodbcinst.so",
+    "include/sql.h",
+    "include/sqlext.h",
+    "include/sqltypes.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/odbc_config",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "odbc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_dbc.c",
+      "language": "c",
+      "link_with": [
+        "odbc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_diag.c",
+      "language": "c",
+      "link_with": [
+        "odbc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_odbcinst.c",
+      "language": "c",
+      "link_with": [
+        "odbcinst"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_drivers.c",
+      "language": "c",
+      "link_with": [
+        "odbc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_envattr.c",
+      "language": "c",
+      "link_with": [
+        "odbc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_install.c",
+      "language": "c",
+      "link_with": [
+        "odbcinst"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

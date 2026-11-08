@@ -1,0 +1,56 @@
+{
+  "name": "libtiff",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/tiffinfo",
+    "lib64/libtiff.so.6",
+    "lib64/libtiffxx.so.6",
+    "include/tiff.h",
+    "include/tiffio.h",
+    "lib64/pkgconfig/libtiff-4.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/tiffinfo",
+    "args": [
+      "-h"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "tiff"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_compression.c",
+      "language": "c",
+      "link_with": [
+        "tiff"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_tile.c",
+      "language": "c",
+      "link_with": [
+        "tiff"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cxx.cpp",
+      "language": "cpp",
+      "link_with": [
+        "tiffxx",
+        "tiff"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

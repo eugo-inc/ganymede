@@ -1,0 +1,83 @@
+{
+  "name": "aws_c_io",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libaws-c-io.so",
+    "include/aws/io/io.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-io",
+        "aws-c-cal",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_host_resolver.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-io",
+        "aws-c-cal",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_bootstrap.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-io",
+        "aws-c-cal",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_tls.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-io",
+        "aws-c-cal",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_input_stream.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-io",
+        "aws-c-cal",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_tls_conn_options.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-io",
+        "aws-c-cal",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_pipe.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-io",
+        "aws-c-cal",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

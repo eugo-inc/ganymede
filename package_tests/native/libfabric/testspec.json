@@ -1,0 +1,32 @@
+{
+  "name": "libfabric",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/fi_info",
+    "include/rdma/fabric.h",
+    "lib64/pkgconfig/libfabric.pc",
+    "lib64/libfabric.so.1"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libfabric.so.1",
+    "lib64/libfabric.so.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/fi_info",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "libfabric api:"
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "fabric"
+      ],
+      "runtime_timeout_s": 30.0
+    }
+  ]
+}

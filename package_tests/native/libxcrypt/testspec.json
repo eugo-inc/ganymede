@@ -1,0 +1,70 @@
+{
+  "name": "libxcrypt",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libcrypt.so.2",
+    "include/crypt.h",
+    "lib64/pkgconfig/libcrypt.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "crypt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_gensalt.c",
+      "language": "c",
+      "link_with": [
+        "crypt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_checksalt.c",
+      "language": "c",
+      "link_with": [
+        "crypt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_rn_yescrypt.c",
+      "language": "c",
+      "link_with": [
+        "crypt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_crypt.c",
+      "language": "c",
+      "link_with": [
+        "crypt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_ra.c",
+      "language": "c",
+      "link_with": [
+        "crypt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_bcrypt.c",
+      "language": "c",
+      "link_with": [
+        "crypt"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

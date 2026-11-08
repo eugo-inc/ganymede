@@ -1,0 +1,21 @@
+{
+  "name": "arm_compute_library",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libarm_compute.so",
+    "include/arm_compute/core/Types.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "arm_compute"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

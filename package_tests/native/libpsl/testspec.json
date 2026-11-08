@@ -1,0 +1,52 @@
+{
+  "name": "libpsl",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libpsl.so",
+    "include/libpsl.h",
+    "lib64/pkgconfig/libpsl.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/psl",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "psl"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cookie.c",
+      "language": "c",
+      "link_with": [
+        "psl"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_idn.c",
+      "language": "c",
+      "link_with": [
+        "psl"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_metadata.c",
+      "language": "c",
+      "link_with": [
+        "psl"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

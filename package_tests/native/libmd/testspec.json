@@ -1,0 +1,48 @@
+{
+  "name": "libmd",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/pkgconfig/libmd.pc",
+    "include/md5.h",
+    "include/sha1.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libmd.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "md"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_md4.c",
+      "language": "c",
+      "link_with": [
+        "md"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_sha256.c",
+      "language": "c",
+      "link_with": [
+        "md"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_rmd160.c",
+      "language": "c",
+      "link_with": [
+        "md"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

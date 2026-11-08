@@ -1,0 +1,32 @@
+{
+  "name": "arrow",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libarrow.so",
+    "lib64/libparquet.so",
+    "include/arrow/api.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/pkgconfig/arrow.pc"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "arrow"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_string_to_float.cpp",
+      "language": "cpp",
+      "link_with": [
+        "arrow"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

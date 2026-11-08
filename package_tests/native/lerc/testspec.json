@@ -1,0 +1,71 @@
+{
+  "name": "lerc",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libLerc.so",
+    "include/Lerc_c_api.h",
+    "include/Lerc_types.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "Lerc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_mask_decode_double.c",
+      "language": "c",
+      "link_with": [
+        "Lerc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_multiband_ranges.c",
+      "language": "c",
+      "link_with": [
+        "Lerc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_encode_for_version.c",
+      "language": "c",
+      "link_with": [
+        "Lerc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_lossy_tolerance.c",
+      "language": "c",
+      "link_with": [
+        "Lerc",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_types_header.cpp",
+      "language": "cpp",
+      "link_with": [
+        "Lerc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_error_paths.c",
+      "language": "c",
+      "link_with": [
+        "Lerc"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

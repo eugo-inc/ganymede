@@ -1,0 +1,53 @@
+{
+  "name": "hdf5",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/h5dump",
+    "bin/h5ls",
+    "include/hdf5.h",
+    "lib64/pkgconfig/hdf5.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/h5dump",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "hdf5"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_attribute.c",
+      "language": "c",
+      "link_with": [
+        "hdf5"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_group.c",
+      "language": "c",
+      "link_with": [
+        "hdf5"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_compound_filter.c",
+      "language": "c",
+      "link_with": [
+        "hdf5"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

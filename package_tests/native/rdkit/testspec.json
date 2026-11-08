@@ -1,0 +1,32 @@
+{
+  "name": "rdkit",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [],
+  "expected_artifact_globs": [
+    "lib64/libRDKit*.so*",
+    "include/rdkit/GraphMol/GraphMol.h"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/python3",
+    "args": [
+      "{testspec_dir}/check_rdkit_coordgen_maeparser.py"
+    ],
+    "expect_stdout_contains": "RDKIT-COORDGEN-MAEPARSER-CHECK: PASS"
+  },
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "RDKitSmilesParse",
+        "RDKitGraphMol",
+        "RDKitRDGeneral"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/rdkit"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

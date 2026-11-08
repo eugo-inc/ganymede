@@ -1,0 +1,21 @@
+{
+  "name": "aws_cpp_sdk",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libaws-cpp-sdk-core.so",
+    "include/aws/core/Aws.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "aws-cpp-sdk-core"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

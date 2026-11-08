@@ -1,0 +1,33 @@
+{
+  "name": "nlohmann_json",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/nlohmann/json.hpp",
+    "include/nlohmann/json_fwd.hpp"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_pointer.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_binary.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_errors.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "mariadb_connector_c",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "bin/mariadb_config",
+    "include/mariadb/mysql.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/**/libmariadb.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/mariadb_config",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "mariadb"
+      ],
+      "extra_cflags": [
+        "-L{prefix}/lib/mariadb",
+        "-Wl,-rpath,{prefix}/lib/mariadb"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

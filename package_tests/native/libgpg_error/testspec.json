@@ -1,0 +1,52 @@
+{
+  "name": "libgpg_error",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/gpg-error",
+    "bin/gpgrt-config",
+    "include/gpg-error.h",
+    "lib64/pkgconfig/gpg-error.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libgpg-error.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/gpg-error",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "gpg-error"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_errno.c",
+      "language": "c",
+      "link_with": [
+        "gpg-error"
+      ]
+    },
+    {
+      "source": "main_b64.c",
+      "language": "c",
+      "link_with": [
+        "gpg-error"
+      ]
+    },
+    {
+      "source": "main_estream.c",
+      "language": "c",
+      "link_with": [
+        "gpg-error"
+      ]
+    }
+  ]
+}

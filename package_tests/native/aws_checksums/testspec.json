@@ -1,0 +1,53 @@
+{
+  "name": "aws_checksums",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libaws-checksums.so",
+    "include/aws/checksums/crc.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "aws-checksums"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_ex_size_t.c",
+      "language": "c",
+      "link_with": [
+        "aws-checksums"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_large_buffer.c",
+      "language": "c",
+      "link_with": [
+        "aws-checksums"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_crc64nvme.c",
+      "language": "c",
+      "link_with": [
+        "aws-checksums"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cpp_linkage.cpp",
+      "language": "cpp",
+      "link_with": [
+        "aws-checksums"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

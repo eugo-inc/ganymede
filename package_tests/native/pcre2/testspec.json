@@ -1,0 +1,31 @@
+{
+  "name": "pcre2",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/pcre2grep",
+    "bin/pcre2-config",
+    "lib64/libpcre2-8.so",
+    "lib64/libpcre2-posix.so",
+    "include/pcre2.h",
+    "lib64/pkgconfig/libpcre2-8.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/pcre2-config",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "pcre2-8"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "ngtcp2",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libngtcp2.so",
+    "lib64/libngtcp2_crypto_ossl.so",
+    "include/ngtcp2/ngtcp2.h",
+    "include/ngtcp2/ngtcp2_crypto.h",
+    "include/ngtcp2/ngtcp2_crypto_ossl.h",
+    "include/ngtcp2/version.h",
+    "lib64/pkgconfig/libngtcp2.pc",
+    "lib64/pkgconfig/libngtcp2_crypto_ossl.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "ngtcp2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_crypto_ossl.c",
+      "language": "c",
+      "link_with": [
+        "ngtcp2_crypto_ossl",
+        "ngtcp2"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "ucx",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/ucx_info",
+    "include/ucp/api/ucp.h",
+    "lib64/libucp.so",
+    "lib64/libuct.so",
+    "lib64/libucs.so",
+    "lib64/libucm.so",
+    "lib64/libucp.so.0",
+    "lib64/libuct.so.0",
+    "lib64/libucs.so.0",
+    "lib64/libucm.so.0",
+    "lib64/libucs_signal.so.0",
+    "lib64/ucx/libuct_cma.so.0"
+  ],
+  "expected_artifact_globs": [
+    "lib64/ucx/libuct_*.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/ucx_info",
+    "args": [
+      "-v"
+    ],
+    "expect_stdout_contains": "Library version"
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "ucp",
+        "ucs"
+      ],
+      "runtime_timeout_s": 20.0
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "name": "libdeflate",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/libdeflate-gzip",
+    "lib64/libdeflate.so.0",
+    "include/libdeflate.h",
+    "lib64/pkgconfig/libdeflate.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/libdeflate-gzip",
+    "args": [
+      "-V"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "deflate"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_deflate.c",
+      "language": "c",
+      "link_with": [
+        "deflate"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_zlib.c",
+      "language": "c",
+      "link_with": [
+        "deflate"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_checksum.c",
+      "language": "c",
+      "link_with": [
+        "deflate"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

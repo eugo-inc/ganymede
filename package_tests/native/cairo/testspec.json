@@ -1,0 +1,71 @@
+{
+  "name": "cairo",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libcairo.so",
+    "include/cairo/cairo.h",
+    "lib64/pkgconfig/cairo.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "cairo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_png.c",
+      "language": "c",
+      "link_with": [
+        "cairo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_path.c",
+      "language": "c",
+      "link_with": [
+        "cairo",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_pattern.c",
+      "language": "c",
+      "link_with": [
+        "cairo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_text.c",
+      "language": "c",
+      "link_with": [
+        "cairo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_pdf.c",
+      "language": "c",
+      "link_with": [
+        "cairo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_recording.c",
+      "language": "c",
+      "link_with": [
+        "cairo"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

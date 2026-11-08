@@ -1,0 +1,54 @@
+{
+  "name": "libarchive",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/bsdtar",
+    "bin/bsdcpio",
+    "lib64/libarchive.so.13",
+    "include/archive.h",
+    "include/archive_entry.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/bsdtar",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "archive"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_zip.c",
+      "language": "c",
+      "link_with": [
+        "archive"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_entry.c",
+      "language": "c",
+      "link_with": [
+        "archive"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_version.c",
+      "language": "c",
+      "link_with": [
+        "archive"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

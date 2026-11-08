@@ -1,0 +1,27 @@
+{
+  "name": "yajl",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/json_reformat",
+    "bin/json_verify",
+    "include/yajl/yajl_gen.h",
+    "include/yajl/yajl_parse.h",
+    "include/yajl/yajl_tree.h",
+    "include/yajl/yajl_version.h",
+    "lib64/libyajl.so.2",
+    "share/pkgconfig/yajl.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_tree.c",
+      "language": "c",
+      "link_with": [
+        "yajl"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

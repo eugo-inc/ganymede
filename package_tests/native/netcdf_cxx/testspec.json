@@ -1,0 +1,21 @@
+{
+  "name": "netcdf_cxx",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [],
+  "expected_artifact_globs": [
+    "lib64/libnetcdf-cxx*.so*",
+    "include/ncFile.h"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "netcdf-cxx4"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

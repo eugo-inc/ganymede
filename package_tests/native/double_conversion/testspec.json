@@ -1,0 +1,45 @@
+{
+  "name": "double_conversion",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libdouble-conversion.so",
+    "include/double-conversion/double-conversion.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "double-conversion"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_fixed_exponential.cpp",
+      "language": "cpp",
+      "link_with": [
+        "double-conversion"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_parsing_flags.cpp",
+      "language": "cpp",
+      "link_with": [
+        "double-conversion"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_float_special.cpp",
+      "language": "cpp",
+      "link_with": [
+        "double-conversion"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

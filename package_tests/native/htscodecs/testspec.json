@@ -1,0 +1,14 @@
+{
+  "name": "htscodecs",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/htscodecs/htscodecs.h",
+    "include/htscodecs/rANS_static4x16.h",
+    "lib64/libhtscodecs.so",
+    "lib64/libhtscodecs.so.2"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

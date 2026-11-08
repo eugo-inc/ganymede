@@ -1,0 +1,31 @@
+{
+  "name": "cuda_cccl",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/cub/version.cuh",
+    "include/thrust/version.h",
+    "include/cuda/std/version"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_versions.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-I{cuda_home}/include"
+      ],
+      "runtime_timeout_s": 5.0
+    },
+    {
+      "source": "main_thrust_host.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++17",
+        "-I{cuda_home}/include"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

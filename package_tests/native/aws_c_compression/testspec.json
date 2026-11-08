@@ -1,0 +1,49 @@
+{
+  "name": "aws_c_compression",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libaws-c-compression.so",
+    "include/aws/compression/compression.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-compression"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_lifecycle.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-compression"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_error_codes.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-compression"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_huffman_state.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-compression"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

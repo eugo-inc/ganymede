@@ -1,0 +1,26 @@
+{
+  "name": "opus",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/opus/opus.h",
+    "include/opus/opus_defines.h",
+    "include/opus/opus_multistream.h",
+    "include/opus/opus_projection.h",
+    "include/opus/opus_types.h",
+    "lib64/libopus.so.0",
+    "lib64/pkgconfig/opus.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_roundtrip.c",
+      "language": "c",
+      "link_with": [
+        "opus"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

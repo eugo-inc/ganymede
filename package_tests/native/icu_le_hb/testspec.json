@@ -1,0 +1,26 @@
+{
+  "name": "icu_le_hb",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/pkgconfig/icu-le-hb.pc",
+    "include/icu-le-hb/layout/LayoutEngine.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libicu-le-hb*.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "icu-le-hb"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/icu-le-hb"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "dav1d",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/dav1d",
+    "include/dav1d/common.h",
+    "include/dav1d/data.h",
+    "include/dav1d/dav1d.h",
+    "include/dav1d/headers.h",
+    "include/dav1d/picture.h",
+    "include/dav1d/version.h",
+    "lib64/libdav1d.so.7",
+    "lib64/pkgconfig/dav1d.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/dav1d",
+    "args": [
+      "--quiet",
+      "--muxer",
+      "md5",
+      "--input",
+      "{testspec_dir}/clip_av1_8bit.ivf",
+      "--output",
+      "-"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main_decode_av1.c",
+      "language": "c",
+      "link_with": [
+        "dav1d"
+      ],
+      "runtime_timeout_s": 30.0
+    }
+  ]
+}

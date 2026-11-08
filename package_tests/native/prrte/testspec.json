@@ -1,0 +1,19 @@
+{
+  "name": "prrte",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/prterun",
+    "bin/prted",
+    "bin/prte",
+    "bin/prun",
+    "bin/pterm",
+    "bin/prte_info",
+    "bin/pcc",
+    "lib64/libprrte.so",
+    "lib64/libprrte.so.3"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

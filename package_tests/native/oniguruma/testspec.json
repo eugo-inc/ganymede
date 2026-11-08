@@ -1,0 +1,30 @@
+{
+  "name": "oniguruma",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/onig-config",
+    "include/oniguruma.h",
+    "include/oniggnu.h",
+    "lib64/libonig.so.5",
+    "lib64/pkgconfig/oniguruma.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/onig-config",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main_search.c",
+      "language": "c",
+      "link_with": [
+        "onig"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

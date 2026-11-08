@@ -1,0 +1,33 @@
+{
+  "name": "sentencepiece",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/spm_encode",
+    "bin/spm_decode",
+    "bin/spm_train",
+    "bin/spm_normalize",
+    "bin/spm_export_vocab",
+    "lib64/libsentencepiece.so.0",
+    "lib64/libsentencepiece_train.so.0",
+    "include/sentencepiece_processor.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/spm_encode",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "sentencepiece"
+  },
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "sentencepiece"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

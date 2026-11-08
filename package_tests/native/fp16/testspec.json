@@ -1,0 +1,48 @@
+{
+  "name": "fp16",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/fp16.h",
+    "include/fp16/fp16.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_alt.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_bitcasts.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_special.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_rounding.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_overflow.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_alt_extended.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "libspatialindex",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/pkgconfig/libspatialindex.pc",
+    "include/spatialindex/SpatialIndex.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libspatialindex.so*",
+    "lib64/libspatialindex_c.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "spatialindex_c",
+        "spatialindex"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_nearest.c",
+      "language": "c",
+      "link_with": [
+        "spatialindex_c",
+        "spatialindex"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_bounds.c",
+      "language": "c",
+      "link_with": [
+        "spatialindex_c",
+        "spatialindex"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_property_rt.c",
+      "language": "c",
+      "link_with": [
+        "spatialindex_c",
+        "spatialindex"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

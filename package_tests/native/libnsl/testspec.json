@@ -1,0 +1,51 @@
+{
+  "name": "libnsl",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libnsl.so",
+    "lib64/pkgconfig/libnsl.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "nsl"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_yp_bind.c",
+      "language": "c",
+      "link_with": [
+        "nsl"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_yp_match.c",
+      "language": "c",
+      "link_with": [
+        "nsl"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/tirpc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_yp_xdr.c",
+      "language": "c",
+      "link_with": [
+        "nsl"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/tirpc"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

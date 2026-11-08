@@ -1,0 +1,15 @@
+{
+  "name": "cuda_libnvtiff",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libnvtiff.so",
+    "include/nvtiff.h",
+    "include/nvtiff_version.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/**/libnvtiff.so.0*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

@@ -1,0 +1,22 @@
+{
+  "name": "openssh",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/ssh",
+    "sbin/sshd",
+    "bin/ssh-keygen",
+    "bin/ssh-agent",
+    "bin/scp",
+    "bin/sftp"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/ssh",
+    "args": [
+      "-V"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": []
+}

@@ -1,0 +1,11 @@
+{
+  "name": "cuda_nvdebug",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/nvdebug"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

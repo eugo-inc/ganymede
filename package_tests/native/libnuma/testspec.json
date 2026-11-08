@@ -1,0 +1,35 @@
+{
+  "name": "libnuma",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/numactl",
+    "bin/numastat",
+    "include/numa.h",
+    "include/numaif.h",
+    "lib64/libnuma.so.1",
+    "lib64/libnuma.so.1.0.0",
+    "lib64/pkgconfig/numa.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libnuma.so.1",
+    "lib64/libnuma.so.1.0.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/numactl",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main_symver.c",
+      "language": "c",
+      "link_with": [
+        "numa"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

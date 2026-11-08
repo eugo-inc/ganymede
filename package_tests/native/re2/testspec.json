@@ -1,0 +1,62 @@
+{
+  "name": "re2",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libre2.so",
+    "include/re2/re2.h",
+    "lib64/pkgconfig/re2.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "re2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_replace.cpp",
+      "language": "cpp",
+      "link_with": [
+        "re2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_set.cpp",
+      "language": "cpp",
+      "link_with": [
+        "re2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_options.cpp",
+      "language": "cpp",
+      "link_with": [
+        "re2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_consume.cpp",
+      "language": "cpp",
+      "link_with": [
+        "re2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_quotemeta.cpp",
+      "language": "cpp",
+      "link_with": [
+        "re2"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

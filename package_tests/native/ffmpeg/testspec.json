@@ -1,0 +1,78 @@
+{
+  "name": "ffmpeg",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/ffmpeg",
+    "bin/ffprobe",
+    "include/libavutil/avutil.h",
+    "include/libavcodec/avcodec.h",
+    "include/libavformat/avformat.h",
+    "include/libavdevice/avdevice.h",
+    "include/libavfilter/avfilter.h",
+    "include/libswscale/swscale.h",
+    "include/libswresample/swresample.h",
+    "lib64/pkgconfig/libavutil.pc",
+    "lib64/pkgconfig/libavcodec.pc",
+    "lib64/pkgconfig/libavformat.pc",
+    "lib64/pkgconfig/libavdevice.pc",
+    "lib64/pkgconfig/libavfilter.pc",
+    "lib64/pkgconfig/libswscale.pc",
+    "lib64/pkgconfig/libswresample.pc",
+    "lib64/libavutil.so.61",
+    "lib64/libavcodec.so.63",
+    "lib64/libavformat.so.63",
+    "lib64/libavdevice.so.63",
+    "lib64/libavfilter.so.12",
+    "lib64/libswscale.so.10",
+    "lib64/libswresample.so.7"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/ffmpeg",
+    "args": [
+      "-hide_banner",
+      "-version"
+    ],
+    "expect_stdout_contains": "ffmpeg version"
+  },
+  "test_programs": [
+    {
+      "source": "main_opus_frame.c",
+      "language": "c",
+      "link_with": [
+        "avcodec",
+        "avutil"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_soxr_resampler.c",
+      "language": "c",
+      "link_with": [
+        "swresample",
+        "avutil"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_av1_software.c",
+      "language": "c",
+      "link_with": [
+        "avcodec",
+        "avutil"
+      ],
+      "runtime_timeout_s": 30.0
+    },
+    {
+      "source": "main_gpu_decode.c",
+      "language": "c",
+      "link_with": [
+        "avcodec",
+        "avutil"
+      ],
+      "runtime_timeout_s": 60.0,
+      "requires": "gpu"
+    }
+  ]
+}

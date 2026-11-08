@@ -1,0 +1,28 @@
+{
+  "name": "cuda_cudnn_backend",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libcudnn.so",
+    "lib64/libcudnn.so.9",
+    "lib64/libcudnn_ops.so",
+    "lib64/libcudnn_ops.so.9",
+    "lib64/libcudnn_cnn.so",
+    "lib64/libcudnn_adv.so",
+    "lib64/libcudnn_graph.so",
+    "lib64/libcudnn_engines_precompiled.so",
+    "include/cudnn.h",
+    "include/cudnn_version.h",
+    "include/cudnn_backend.h",
+    "include/cudnn_ops.h",
+    "include/cudnn_cnn.h",
+    "include/cudnn_adv.h",
+    "include/cudnn_graph.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libcudnn.so.9.*",
+    "lib64/libcudnn_heuristic.so.9*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

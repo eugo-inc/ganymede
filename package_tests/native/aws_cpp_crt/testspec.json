@@ -1,0 +1,48 @@
+{
+  "name": "aws_cpp_crt",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libaws-crt-cpp.so",
+    "include/aws/crt/Api.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "aws-crt-cpp"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_uuid.cpp",
+      "language": "cpp",
+      "link_with": [
+        "aws-crt-cpp",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_json.cpp",
+      "language": "cpp",
+      "link_with": [
+        "aws-crt-cpp",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_uri.cpp",
+      "language": "cpp",
+      "link_with": [
+        "aws-crt-cpp",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

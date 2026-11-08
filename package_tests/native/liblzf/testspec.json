@@ -1,0 +1,37 @@
+{
+  "name": "liblzf",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/liblzf.so",
+    "include/lzf.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "lzf"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_errors.c",
+      "language": "c",
+      "link_with": [
+        "lzf"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_incompressible.c",
+      "language": "c",
+      "link_with": [
+        "lzf"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

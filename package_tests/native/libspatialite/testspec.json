@@ -1,0 +1,52 @@
+{
+  "name": "libspatialite",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libspatialite.so",
+    "include/spatialite.h",
+    "lib64/pkgconfig/spatialite.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "spatialite",
+        "sqlite3"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_predicates.c",
+      "language": "c",
+      "link_with": [
+        "spatialite",
+        "sqlite3"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_transform.c",
+      "language": "c",
+      "link_with": [
+        "spatialite",
+        "sqlite3",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_geom_io.c",
+      "language": "c",
+      "link_with": [
+        "spatialite",
+        "sqlite3",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

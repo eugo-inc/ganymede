@@ -1,0 +1,45 @@
+{
+  "name": "tomlplusplus",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/toml++/toml.hpp",
+    "include/toml++/toml.h",
+    "lib64/libtomlplusplus.so",
+    "lib64/pkgconfig/tomlplusplus.pc",
+    "lib64/cmake/tomlplusplus/tomlplusplusConfig.cmake",
+    "lib64/cmake/tomlplusplus/tomlplusplusConfigVersion.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libtomlplusplus.so.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "tomlplusplus"
+      ],
+      "extra_cflags": [
+        "-std=c++17",
+        "-DTOML_HEADER_ONLY=0",
+        "-DTOML_SHARED_LIB=1"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_parse_error.cpp",
+      "language": "cpp",
+      "link_with": [
+        "tomlplusplus"
+      ],
+      "extra_cflags": [
+        "-std=c++17",
+        "-DTOML_HEADER_ONLY=0",
+        "-DTOML_SHARED_LIB=1"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

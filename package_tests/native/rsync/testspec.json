@@ -1,0 +1,23 @@
+{
+  "name": "rsync",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/rsync"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/rsync",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

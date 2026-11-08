@@ -1,0 +1,43 @@
+{
+  "name": "lzo",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/liblzo2.so.2",
+    "include/lzo/lzoconf.h",
+    "lib64/pkgconfig/lzo2.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "lzo2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_adler.c",
+      "language": "c",
+      "link_with": [
+        "lzo2"
+      ]
+    },
+    {
+      "source": "main_lzo1f.c",
+      "language": "c",
+      "link_with": [
+        "lzo2"
+      ]
+    },
+    {
+      "source": "main_lzo1x_999.c",
+      "language": "c",
+      "link_with": [
+        "lzo2"
+      ]
+    }
+  ]
+}

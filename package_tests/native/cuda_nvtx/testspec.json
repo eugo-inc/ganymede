@@ -1,0 +1,20 @@
+{
+  "name": "cuda_nvtx",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "cuda/include/nvtx3/nvToolsExt.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_mark.c",
+      "language": "c",
+      "extra_cflags": [
+        "-I{cuda_home}/include"
+      ],
+      "runtime_timeout_s": 5.0
+    }
+  ]
+}

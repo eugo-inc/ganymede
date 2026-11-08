@@ -1,0 +1,47 @@
+{
+  "name": "gflags",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/gflags/gflags.h",
+    "lib64/pkgconfig/gflags.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libgflags*.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "gflags"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_define_flags.cpp",
+      "language": "cpp",
+      "link_with": [
+        "gflags"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_set_get.cpp",
+      "language": "cpp",
+      "link_with": [
+        "gflags"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_validator.cpp",
+      "language": "cpp",
+      "link_with": [
+        "gflags"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

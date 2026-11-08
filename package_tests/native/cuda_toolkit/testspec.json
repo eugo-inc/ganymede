@@ -1,0 +1,42 @@
+{
+  "name": "cuda_toolkit",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "cuda/lib64/libcudart.so",
+    "cuda/lib64/libcudart_static.a",
+    "cuda/include/cuda_runtime.h",
+    "cuda/include/cuda.h",
+    "cuda/bin/nvcc",
+    "cuda/bin/ptxas",
+    "cuda/bin/cuobjdump",
+    "cuda/bin/nvdisasm"
+  ],
+  "expected_artifact_globs": [
+    "cuda/lib64/libcudart.so.*",
+    "cuda-*/targets/*/lib/libcudart.so.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "cuda/bin/nvcc",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "Cuda compilation tools"
+  },
+  "test_programs": [
+    {
+      "source": "main_runtime_version.c",
+      "language": "c",
+      "link_with": [
+        "cudart"
+      ],
+      "extra_cflags": [
+        "-I{cuda_home}/include",
+        "-L{cuda_home}/lib64",
+        "-Wl,-rpath,{cuda_home}/lib64"
+      ],
+      "runtime_timeout_s": 15.0,
+      "requires": "toolchain"
+    }
+  ]
+}

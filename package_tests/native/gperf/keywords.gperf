@@ -1,0 +1,4 @@
+# Keyword list for the gperf smoke run: gperf turns it into a C lookup function, in_word_set().
+alpha
+beta
+gamma

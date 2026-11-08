@@ -1,0 +1,17 @@
+{
+  "name": "cuda_cutensor",
+  "kind": "shared-and-static-libs",
+  "expected_artifacts": [],
+  "expected_artifact_globs": [
+    "lib64/**/libcutensor.so.2*",
+    "lib64/**/libcutensorMg.so.2*",
+    "lib64/**/libcutensorMp.so.2*",
+    "lib64/**/libcutensor_static.a",
+    "include/**/cutensor.h",
+    "include/**/cutensorMg.h",
+    "include/**/cutensorMp.h"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

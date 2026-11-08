@@ -1,0 +1,43 @@
+{
+  "name": "coordgen",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libcoordgen.so",
+    "lib64/libcoordgen.so.3",
+    "include/coordgen/CoordgenConfig.hpp",
+    "include/coordgen/CoordgenFragmentBuilder.h",
+    "include/coordgen/CoordgenFragmenter.h",
+    "include/coordgen/CoordgenMacrocycleBuilder.h",
+    "include/coordgen/CoordgenMinimizer.h",
+    "include/coordgen/sketcherMinimizerAtom.h",
+    "include/coordgen/sketcherMinimizerBendInteraction.h",
+    "include/coordgen/sketcherMinimizerBond.h",
+    "include/coordgen/sketcherMinimizerClashInteraction.h",
+    "include/coordgen/sketcherMinimizerEZConstrainInteraction.h",
+    "include/coordgen/sketcherMinimizerFragment.h",
+    "include/coordgen/sketcherMinimizer.h",
+    "include/coordgen/sketcherMinimizerInteraction.h",
+    "include/coordgen/sketcherMinimizerMarchingSquares.h",
+    "include/coordgen/sketcherMinimizerMaths.h",
+    "include/coordgen/sketcherMinimizerMolecule.h",
+    "include/coordgen/sketcherMinimizerResidue.h",
+    "include/coordgen/sketcherMinimizerResidueInteraction.h",
+    "include/coordgen/sketcherMinimizerRing.h",
+    "include/coordgen/sketcherMinimizerStretchInteraction.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/cmake/**/coordgen-config.cmake"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_coordgen.cpp",
+      "language": "cpp",
+      "link_with": [
+        "coordgen"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

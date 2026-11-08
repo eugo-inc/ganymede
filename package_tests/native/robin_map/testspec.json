@@ -1,0 +1,49 @@
+{
+  "name": "robin_map",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/tsl/robin_map.h",
+    "include/tsl/robin_set.h",
+    "include/tsl/robin_hash.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_hash.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_iter.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_capacity.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_copy_move.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_init_list.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_heterogeneous.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

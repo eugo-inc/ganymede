@@ -1,0 +1,17 @@
+{
+  "name": "nginx_unit",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "sbin/unitd"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "sbin/unitd",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": []
+}

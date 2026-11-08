@@ -1,0 +1,77 @@
+{
+  "name": "z3_solver",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/z3",
+    "lib64/libz3.so",
+    "include/z3.h",
+    "include/z3_api.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/z3",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "z3"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_bitvector.c",
+      "language": "c",
+      "link_with": [
+        "z3"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_model.c",
+      "language": "c",
+      "link_with": [
+        "z3"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_smtlib2.c",
+      "language": "c",
+      "link_with": [
+        "z3"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_real.c",
+      "language": "c",
+      "link_with": [
+        "z3"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_quantifier.c",
+      "language": "c",
+      "link_with": [
+        "z3"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_optimize.c",
+      "language": "c",
+      "link_with": [
+        "z3"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

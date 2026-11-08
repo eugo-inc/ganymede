@@ -1,0 +1,80 @@
+{
+  "name": "pixman",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libpixman-1.so",
+    "include/pixman-1/pixman.h",
+    "lib64/pkgconfig/pixman-1.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "pixman-1"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pixman-1"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_composite.c",
+      "language": "c",
+      "link_with": [
+        "pixman-1"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pixman-1"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_region.c",
+      "language": "c",
+      "link_with": [
+        "pixman-1"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pixman-1"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_transform.c",
+      "language": "c",
+      "link_with": [
+        "pixman-1"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pixman-1"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_gradient.c",
+      "language": "c",
+      "link_with": [
+        "pixman-1"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pixman-1"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_trapezoid.c",
+      "language": "c",
+      "link_with": [
+        "pixman-1"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pixman-1"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "ldns",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/ldns-config",
+    "lib64/libldns.so",
+    "include/ldns/ldns.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/ldns-config",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "ldns"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_rr.c",
+      "language": "c",
+      "link_with": [
+        "ldns"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_rdf_a.c",
+      "language": "c",
+      "link_with": [
+        "ldns"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_buffer.c",
+      "language": "c",
+      "link_with": [
+        "ldns"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

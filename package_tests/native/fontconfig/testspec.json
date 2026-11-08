@@ -1,0 +1,62 @@
+{
+  "name": "fontconfig",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libfontconfig.so.1",
+    "include/fontconfig/fontconfig.h",
+    "lib64/pkgconfig/fontconfig.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libfontconfig.so.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/fc-cache",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "fontconfig"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_charset.c",
+      "language": "c",
+      "link_with": [
+        "fontconfig"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_langset.c",
+      "language": "c",
+      "link_with": [
+        "fontconfig"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_name_parse.c",
+      "language": "c",
+      "link_with": [
+        "fontconfig"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_substitute.c",
+      "language": "c",
+      "link_with": [
+        "fontconfig"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "aws_c_http",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libaws-c-http.so",
+    "include/aws/http/http.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-http",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_headers.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-http",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_response.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-http",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_status_text.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-http",
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

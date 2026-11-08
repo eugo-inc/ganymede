@@ -1,0 +1,32 @@
+{
+  "name": "mpg123",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "include/mpg123.h",
+    "include/fmt123.h",
+    "lib64/libmpg123.so.0",
+    "lib64/pkgconfig/libmpg123.pc",
+    "lib64/libout123.so.0",
+    "lib64/libsyn123.so.0",
+    "include/out123.h",
+    "include/syn123.h",
+    "bin/mpg123",
+    "bin/out123",
+    "bin/mpg123-id3dump",
+    "bin/mpg123-strip"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "mpg123",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

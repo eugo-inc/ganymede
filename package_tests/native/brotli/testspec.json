@@ -1,0 +1,65 @@
+{
+  "name": "brotli",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/brotli",
+    "lib64/libbrotlicommon.so",
+    "lib64/libbrotlidec.so",
+    "lib64/libbrotlienc.so",
+    "include/brotli/decode.h",
+    "include/brotli/encode.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/pkgconfig/libbrotlicommon.pc"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/brotli",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "brotlienc",
+        "brotlidec",
+        "brotlicommon"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_stream.c",
+      "language": "c",
+      "link_with": [
+        "brotlienc",
+        "brotlidec",
+        "brotlicommon"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_quality.c",
+      "language": "c",
+      "link_with": [
+        "brotlienc",
+        "brotlidec",
+        "brotlicommon"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_decoder_error.c",
+      "language": "c",
+      "link_with": [
+        "brotlienc",
+        "brotlidec",
+        "brotlicommon"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

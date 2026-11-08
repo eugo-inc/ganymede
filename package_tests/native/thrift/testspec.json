@@ -1,0 +1,72 @@
+{
+  "name": "thrift",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/thrift",
+    "include/thrift/Thrift.h",
+    "lib64/pkgconfig/thrift.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/thrift",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "thrift"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_compact.cpp",
+      "language": "cpp",
+      "link_with": [
+        "thrift"
+      ]
+    },
+    {
+      "source": "main_json.cpp",
+      "language": "cpp",
+      "link_with": [
+        "thrift"
+      ]
+    },
+    {
+      "source": "main_zlib.cpp",
+      "language": "cpp",
+      "link_with": [
+        "thrift",
+        "thriftz",
+        "z"
+      ]
+    },
+    {
+      "source": "main_framed.cpp",
+      "language": "cpp",
+      "link_with": [
+        "thrift"
+      ]
+    },
+    {
+      "source": "main_multiplexed.cpp",
+      "language": "cpp",
+      "link_with": [
+        "thrift"
+      ]
+    },
+    {
+      "source": "main_exception.cpp",
+      "language": "cpp",
+      "link_with": [
+        "thrift"
+      ]
+    }
+  ]
+}

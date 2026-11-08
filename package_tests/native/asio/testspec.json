@@ -1,0 +1,23 @@
+{
+  "name": "asio",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/asio.hpp",
+    "include/asio/version.hpp",
+    "include/asio/io_context.hpp",
+    "share/pkgconfig/asio.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++17"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

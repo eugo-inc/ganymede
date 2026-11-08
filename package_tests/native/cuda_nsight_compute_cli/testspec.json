@@ -1,0 +1,17 @@
+{
+  "name": "cuda_nsight_compute_cli",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/ncu"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/ncu",
+    "args": [
+      "--list-sections"
+    ],
+    "expect_stdout_contains": "SpeedOfLight"
+  },
+  "test_programs": []
+}

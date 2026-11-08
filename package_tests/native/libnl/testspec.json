@@ -1,0 +1,55 @@
+{
+  "name": "libnl",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "include/libnl3/netlink/netlink.h",
+    "include/libnl3/netlink/route/link.h",
+    "lib64/pkgconfig/libnl-3.0.pc",
+    "lib64/pkgconfig/libnl-route-3.0.pc",
+    "lib64/libnl-3.so.200",
+    "lib64/libnl-route-3.so.200",
+    "lib64/libnl-cli-3.so.200",
+    "lib64/pkgconfig/libnl-cli-3.0.pc",
+    "include/libnl3/netlink/cli/utils.h",
+    "lib64/libnl/cli/qdisc/pfifo.so",
+    "lib64/libnl/cli/cls/basic.so",
+    "bin/nl-link-list",
+    "bin/nl-addr-list",
+    "bin/nl-route-list",
+    "bin/nl-neigh-list",
+    "bin/nl-qdisc-list",
+    "bin/genl-ctrl-list"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libnl-3.so.200",
+    "lib64/libnl-route-3.so.200",
+    "lib64/libnl-3.so.*",
+    "lib64/libnl-route-3.so.*",
+    "lib64/libnl-cli-3.so.200",
+    "lib64/libnl-cli-3.so.*",
+    "bin/nl-*",
+    "bin/nf-*",
+    "lib64/libnl/cli/qdisc/*.so",
+    "lib64/libnl/cli/cls/*.so"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/nl-link-list",
+    "args": [],
+    "expect_stdout_contains": "lo loopback"
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "nl-route-3",
+        "nl-3"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libnl3"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

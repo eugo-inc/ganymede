@@ -1,0 +1,34 @@
+{
+  "name": "liburing",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/liburing.h",
+    "include/liburing/io_uring.h",
+    "include/liburing/compat.h",
+    "include/liburing/io_uring_version.h",
+    "lib64/liburing.so",
+    "lib64/liburing-ffi.so",
+    "lib64/pkgconfig/liburing.pc",
+    "lib64/pkgconfig/liburing-ffi.pc",
+    "lib64/liburing.so.2",
+    "lib64/liburing-ffi.so.2"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "uring"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_ffi.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

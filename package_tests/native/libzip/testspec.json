@@ -1,0 +1,79 @@
+{
+  "name": "libzip",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "lib64/libzip.so",
+    "include/zip.h",
+    "lib64/pkgconfig/libzip.pc",
+    "bin/zipcmp",
+    "bin/zipmerge",
+    "bin/ziptool"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/zipcmp",
+    "args": [
+      "-V"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "zip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_error.c",
+      "language": "c",
+      "link_with": [
+        "zip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_stat.c",
+      "language": "c",
+      "link_with": [
+        "zip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_iterate.c",
+      "language": "c",
+      "link_with": [
+        "zip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_memory.c",
+      "language": "c",
+      "link_with": [
+        "zip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_comments.c",
+      "language": "c",
+      "link_with": [
+        "zip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_compression.c",
+      "language": "c",
+      "link_with": [
+        "zip"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

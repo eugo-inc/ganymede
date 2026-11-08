@@ -1,0 +1,69 @@
+{
+  "name": "xxhash",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/xxhsum",
+    "lib64/libxxhash.so.0",
+    "include/xxhash.h",
+    "lib64/pkgconfig/libxxhash.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/xxhsum",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "xxhash"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_xxh3.c",
+      "language": "c",
+      "link_with": [
+        "xxhash"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_xxh128.c",
+      "language": "c",
+      "link_with": [
+        "xxhash"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_canonical.c",
+      "language": "c",
+      "link_with": [
+        "xxhash"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_secret.c",
+      "language": "c",
+      "link_with": [
+        "xxhash"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_version_copystate.c",
+      "language": "c",
+      "link_with": [
+        "xxhash"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

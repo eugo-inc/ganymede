@@ -1,0 +1,104 @@
+{
+  "name": "absl",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/absl/base/config.h",
+    "lib64/pkgconfig/absl_base.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libabsl_base.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "absl_strings",
+        "absl_base"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_flat_hash_map.cpp",
+      "language": "cpp",
+      "link_with": [
+        "absl_raw_hash_set",
+        "absl_hash",
+        "absl_raw_logging_internal",
+        "absl_base"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_time.cpp",
+      "language": "cpp",
+      "link_with": [
+        "absl_time",
+        "absl_civil_time",
+        "absl_time_zone"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_status.cpp",
+      "language": "cpp",
+      "link_with": [
+        "absl_status",
+        "absl_statusor",
+        "absl_strings"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_str_split.cpp",
+      "language": "cpp",
+      "link_with": [
+        "absl_strings",
+        "absl_throw_delegate"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_mutex.cpp",
+      "language": "cpp",
+      "link_with": [
+        "absl_synchronization",
+        "absl_base",
+        "pthread"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_int128.cpp",
+      "language": "cpp",
+      "link_with": [
+        "absl_int128",
+        "absl_strings"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

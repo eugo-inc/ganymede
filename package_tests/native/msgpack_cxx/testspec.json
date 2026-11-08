@@ -1,0 +1,29 @@
+{
+  "name": "msgpack_cxx",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/msgpack.hpp"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_streaming_unpacker.cpp",
+      "language": "cpp"
+    },
+    {
+      "source": "main_define_macro.cpp",
+      "language": "cpp"
+    },
+    {
+      "source": "main_packer_zone.cpp",
+      "language": "cpp"
+    }
+  ]
+}

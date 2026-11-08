@@ -1,0 +1,30 @@
+{
+  "name": "maeparser",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libmaeparser.so",
+    "lib64/libmaeparser.so.1",
+    "include/maeparser/Buffer.hpp",
+    "include/maeparser/MaeBlock.hpp",
+    "include/maeparser/MaeConstants.hpp",
+    "include/maeparser/MaeParser.hpp",
+    "include/maeparser/MaeParserConfig.hpp",
+    "include/maeparser/Reader.hpp",
+    "include/maeparser/Writer.hpp"
+  ],
+  "expected_artifact_globs": [
+    "lib64/cmake/**/maeparser-config.cmake"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_maeparser.cpp",
+      "language": "cpp",
+      "link_with": [
+        "maeparser"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "name": "libraqm",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libraqm.so",
+    "include/raqm.h",
+    "lib64/pkgconfig/raqm.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "raqm"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/freetype2",
+        "-I{prefix}/include/fribidi",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_refcount.c",
+      "language": "c",
+      "link_with": [
+        "raqm"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/freetype2",
+        "-I{prefix}/include/fribidi",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_utf_variants.c",
+      "language": "c",
+      "link_with": [
+        "raqm"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/freetype2",
+        "-I{prefix}/include/fribidi",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_bidi.c",
+      "language": "c",
+      "link_with": [
+        "raqm",
+        "freetype"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/freetype2",
+        "-I{prefix}/include/fribidi",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

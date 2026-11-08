@@ -1,0 +1,34 @@
+{
+  "name": "lua",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/lua",
+    "include/lauxlib.h",
+    "include/lua.h",
+    "include/lua.hpp",
+    "include/luaconf.h",
+    "include/lualib.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/liblua*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/lua",
+    "args": [
+      "-v"
+    ],
+    "expect_stdout_contains": "Lua"
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "lua",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

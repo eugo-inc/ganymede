@@ -1,0 +1,53 @@
+{
+  "name": "libpq",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libpq.so.5",
+    "lib64/pkgconfig/libpq.pc",
+    "include/libpq-fe.h",
+    "bin/pg_config"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libpq.so.5"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/pg_config",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "PostgreSQL"
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "pq"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_defaults.c",
+      "language": "c",
+      "link_with": [
+        "pq"
+      ]
+    },
+    {
+      "source": "main_bytea.c",
+      "language": "c",
+      "link_with": [
+        "pq"
+      ]
+    },
+    {
+      "source": "main_conn_lifecycle.c",
+      "language": "c",
+      "link_with": [
+        "pq"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "name": "elfutils",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/eu-readelf",
+    "bin/eu-nm",
+    "include/elfutils/libdw.h",
+    "include/libelf.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libelf.so*",
+    "lib64/libdw.so*",
+    "lib64/libasm.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/eu-readelf",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "elf",
+        "dw"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_libelf.c",
+      "language": "c",
+      "link_with": [
+        "elf"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_gelf.c",
+      "language": "c",
+      "link_with": [
+        "elf"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_libdw.c",
+      "language": "c",
+      "link_with": [
+        "dw",
+        "elf"
+      ],
+      "extra_cflags": [
+        "-g"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

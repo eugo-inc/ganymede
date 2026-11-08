@@ -1,0 +1,31 @@
+{
+  "name": "util_linux",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/uuidgen",
+    "lib64/libuuid.so",
+    "lib64/libblkid.so",
+    "lib64/libmount.so",
+    "include/uuid/uuid.h",
+    "lib64/pkgconfig/uuid.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/uuidgen",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "uuid"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "jitify",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/jitify.hpp"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_reflect.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++17",
+        "-I{cuda_home}/include"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

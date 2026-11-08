@@ -1,0 +1,69 @@
+{
+  "name": "libsocket",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libsocket.so",
+    "lib64/libsocket++.so"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "socket"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_unix.c",
+      "language": "c",
+      "link_with": [
+        "socket"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cpp_exception.cpp",
+      "language": "cpp",
+      "link_with": [
+        "socket++"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cpp_dgram.cpp",
+      "language": "cpp",
+      "link_with": [
+        "socket++"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_get_addrfamily.c",
+      "language": "c",
+      "link_with": [
+        "socket"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_inet_server.c",
+      "language": "c",
+      "link_with": [
+        "socket"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cpp_inetdgram_server.cpp",
+      "language": "cpp",
+      "link_with": [
+        "socket++"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

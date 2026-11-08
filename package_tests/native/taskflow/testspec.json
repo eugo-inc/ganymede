@@ -1,0 +1,23 @@
+{
+  "name": "taskflow",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/taskflow/taskflow.hpp",
+    "include/taskflow/core/executor.hpp",
+    "lib64/pkgconfig/taskflow.pc",
+    "share/cmake/Taskflow/TaskflowConfig.cmake"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

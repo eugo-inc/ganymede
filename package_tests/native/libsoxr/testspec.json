@@ -1,0 +1,28 @@
+{
+  "name": "libsoxr",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/soxr.h",
+    "include/soxr-lsr.h",
+    "lib64/libsoxr.so",
+    "lib64/libsoxr.so.0",
+    "lib64/libsoxr-lsr.so",
+    "lib64/libsoxr-lsr.so.0",
+    "lib64/pkgconfig/soxr.pc",
+    "lib64/pkgconfig/soxr-lsr.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "soxr",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

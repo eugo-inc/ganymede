@@ -1,0 +1,68 @@
+{
+  "name": "libmagic",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/file",
+    "lib64/libmagic.so",
+    "include/magic.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/file",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "magic"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_mime.c",
+      "language": "c",
+      "link_with": [
+        "magic"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_file.c",
+      "language": "c",
+      "link_with": [
+        "magic"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_error.c",
+      "language": "c",
+      "link_with": [
+        "magic"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_compress.c",
+      "language": "c",
+      "link_with": [
+        "magic"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_params.c",
+      "language": "c",
+      "link_with": [
+        "magic"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

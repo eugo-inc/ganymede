@@ -1,0 +1,108 @@
+{
+  "name": "ncurses",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/tic",
+    "bin/infocmp",
+    "bin/tput",
+    "bin/clear",
+    "include/ncursesw/ncurses.h",
+    "include/ncursesw/curses.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libncursesw.so*",
+    "lib64/libpanelw.so*",
+    "lib64/libformw.so*",
+    "lib64/libmenuw.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/tput",
+    "args": [
+      "-V"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "ncursesw"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/ncursesw"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_terminfo_strings.c",
+      "language": "c",
+      "link_with": [
+        "ncursesw"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/ncursesw"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_panel.c",
+      "language": "c",
+      "link_with": [
+        "panelw",
+        "ncursesw"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/ncursesw"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_form.c",
+      "language": "c",
+      "link_with": [
+        "formw",
+        "ncursesw"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/ncursesw"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_menu.c",
+      "language": "c",
+      "link_with": [
+        "menuw",
+        "ncursesw"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/ncursesw"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_window.c",
+      "language": "c",
+      "link_with": [
+        "ncursesw"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/ncursesw"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_keyname.c",
+      "language": "c",
+      "link_with": [
+        "ncursesw"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/ncursesw"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

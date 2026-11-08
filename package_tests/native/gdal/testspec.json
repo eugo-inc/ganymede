@@ -1,0 +1,29 @@
+{
+  "name": "gdal",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/gdalinfo",
+    "bin/ogrinfo",
+    "lib64/libgdal.so",
+    "include/gdal.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/gdalinfo",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "gdal"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

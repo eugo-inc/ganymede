@@ -1,0 +1,28 @@
+{
+  "name": "xsf",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/xsf/config.h",
+    "include/xsf/error.h",
+    "include/xsf/gamma.h",
+    "include/xsf/loggamma.h",
+    "include/xsf/cephes/gamma.h",
+    "include/xsf/amos/amos.h",
+    "include/xsf/specfun/specfun.h",
+    "include/xsf/cpu/stats.h",
+    "include/xsf/third_party/kokkos/mdspan.hpp"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_gamma.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++17"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "flac",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "include/FLAC/format.h",
+    "include/FLAC/stream_decoder.h",
+    "include/FLAC/stream_encoder.h",
+    "include/FLAC++/all.h",
+    "lib64/pkgconfig/flac.pc",
+    "lib64/pkgconfig/flac++.pc",
+    "lib64/libFLAC.so.14",
+    "lib64/libFLAC++.so.11",
+    "bin/flac",
+    "bin/metaflac"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_encode.c",
+      "language": "c",
+      "link_with": [
+        "FLAC"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cxx_roundtrip.cpp",
+      "language": "cpp",
+      "link_with": [
+        "FLAC++",
+        "FLAC"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "name": "libacl",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libacl.so",
+    "include/acl/libacl.h",
+    "include/sys/acl.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "acl"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_iterate.c",
+      "language": "c",
+      "link_with": [
+        "acl"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_build.c",
+      "language": "c",
+      "link_with": [
+        "acl"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_ext.c",
+      "language": "c",
+      "link_with": [
+        "acl"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

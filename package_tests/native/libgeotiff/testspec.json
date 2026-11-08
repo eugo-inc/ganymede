@@ -1,0 +1,50 @@
+{
+  "name": "libgeotiff",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/geotiff.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libgeotiff.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "geotiff",
+        "tiff"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_double_key.c",
+      "language": "c",
+      "link_with": [
+        "geotiff",
+        "tiff"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_pcs_lookup.c",
+      "language": "c",
+      "link_with": [
+        "geotiff",
+        "tiff"
+      ],
+      "runtime_timeout_s": 15.0
+    },
+    {
+      "source": "main_print.c",
+      "language": "c",
+      "link_with": [
+        "geotiff",
+        "tiff"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

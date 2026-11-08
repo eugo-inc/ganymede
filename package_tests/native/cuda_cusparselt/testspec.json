@@ -1,0 +1,16 @@
+{
+  "name": "cuda_cusparselt",
+  "kind": "shared-and-static-libs",
+  "expected_artifacts": [
+    "lib/libcusparseLt.so",
+    "lib/libcusparseLt.so.0",
+    "lib/libcusparseLt_static.a",
+    "include/cusparseLt.h"
+  ],
+  "expected_artifact_globs": [
+    "lib/libcusparseLt.so.0.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

@@ -1,0 +1,69 @@
+{
+  "name": "xnnpack",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libXNNPACK.so",
+    "include/xnnpack.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "XNNPACK"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_subgraph.c",
+      "language": "c",
+      "link_with": [
+        "XNNPACK"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_workspace.c",
+      "language": "c",
+      "link_with": [
+        "XNNPACK"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_build_id.c",
+      "language": "c",
+      "link_with": [
+        "XNNPACK"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_weights_cache.c",
+      "language": "c",
+      "link_with": [
+        "XNNPACK"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_runtime.c",
+      "language": "c",
+      "link_with": [
+        "XNNPACK"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_allocator.c",
+      "language": "c",
+      "link_with": [
+        "XNNPACK"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

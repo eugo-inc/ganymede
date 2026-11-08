@@ -1,0 +1,22 @@
+{
+  "name": "lame",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "include/lame/lame.h",
+    "lib64/libmp3lame.so.0",
+    "bin/lame"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_encode.c",
+      "language": "c",
+      "link_with": [
+        "mp3lame"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

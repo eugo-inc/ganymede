@@ -1,0 +1,61 @@
+{
+  "name": "graphviz",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/dot",
+    "bin/gvpr",
+    "lib64/libgvc.so",
+    "lib64/libcgraph.so",
+    "lib64/libcdt.so",
+    "include/graphviz/gvc.h",
+    "include/graphviz/cgraph.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/dot",
+    "args": [
+      "-V"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "gvc",
+        "cgraph",
+        "cdt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_layout.c",
+      "language": "c",
+      "link_with": [
+        "gvc",
+        "cgraph",
+        "cdt"
+      ],
+      "runtime_timeout_s": 30.0
+    },
+    {
+      "source": "main_cgraph_build.c",
+      "language": "c",
+      "link_with": [
+        "cgraph",
+        "cdt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cdt_dict.c",
+      "language": "c",
+      "link_with": [
+        "cdt"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

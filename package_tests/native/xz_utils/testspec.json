@@ -1,0 +1,79 @@
+{
+  "name": "xz_utils",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/xz",
+    "bin/xzdec",
+    "bin/lzmainfo",
+    "lib64/liblzma.so.5",
+    "include/lzma.h",
+    "lib64/pkgconfig/liblzma.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/xz",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "lzma"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_stream.c",
+      "language": "c",
+      "link_with": [
+        "lzma"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_crc.c",
+      "language": "c",
+      "link_with": [
+        "lzma"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_raw.c",
+      "language": "c",
+      "link_with": [
+        "lzma"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_index.c",
+      "language": "c",
+      "link_with": [
+        "lzma"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_delta.c",
+      "language": "c",
+      "link_with": [
+        "lzma"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_mt.c",
+      "language": "c",
+      "link_with": [
+        "lzma"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

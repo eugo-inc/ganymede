@@ -1,0 +1,25 @@
+{
+  "name": "pmix",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/pmix_info",
+    "bin/pmixcc",
+    "include/pmix.h",
+    "include/pmix_common.h",
+    "include/pmix_tool.h",
+    "include/pmix_server.h",
+    "lib64/libpmix.so",
+    "lib64/libpmix.so.2",
+    "lib64/pkgconfig/pmix.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib*/**/pmix/pmix_mca_pcompress_zlib.so"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/pmix_info",
+    "args": [],
+    "expect_stdout_contains": null
+  },
+  "test_programs": []
+}

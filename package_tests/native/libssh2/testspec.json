@@ -1,0 +1,70 @@
+{
+  "name": "libssh2",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libssh2.so",
+    "include/libssh2.h",
+    "lib64/pkgconfig/libssh2.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "ssh2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_knownhosts.c",
+      "language": "c",
+      "link_with": [
+        "ssh2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_methods.c",
+      "language": "c",
+      "link_with": [
+        "ssh2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_error.c",
+      "language": "c",
+      "link_with": [
+        "ssh2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_userauth.c",
+      "language": "c",
+      "link_with": [
+        "ssh2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_session_config.c",
+      "language": "c",
+      "link_with": [
+        "ssh2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_keepalive.c",
+      "language": "c",
+      "link_with": [
+        "ssh2"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "name": "pthreadpool",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libpthreadpool.so",
+    "include/pthreadpool.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "pthreadpool"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_2d.c",
+      "language": "c",
+      "link_with": [
+        "pthreadpool"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_tile_2d.c",
+      "language": "c",
+      "link_with": [
+        "pthreadpool"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_1d_tile.c",
+      "language": "c",
+      "link_with": [
+        "pthreadpool"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_with_thread.c",
+      "language": "c",
+      "link_with": [
+        "pthreadpool"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_3d.c",
+      "language": "c",
+      "link_with": [
+        "pthreadpool"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

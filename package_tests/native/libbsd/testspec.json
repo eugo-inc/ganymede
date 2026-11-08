@@ -1,0 +1,47 @@
+{
+  "name": "libbsd",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/pkgconfig/libbsd.pc",
+    "include/bsd/bsd.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libbsd.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "bsd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_endian.c",
+      "language": "c",
+      "link_with": [
+        "bsd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_queue.c",
+      "language": "c",
+      "link_with": [
+        "bsd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_vis.c",
+      "language": "c",
+      "link_with": [
+        "bsd"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

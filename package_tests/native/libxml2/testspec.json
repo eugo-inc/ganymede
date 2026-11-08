@@ -1,0 +1,66 @@
+{
+  "name": "libxml2",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/xmllint",
+    "bin/xmlcatalog",
+    "lib64/libxml2.so",
+    "include/libxml2/libxml/parser.h",
+    "lib64/pkgconfig/libxml-2.0.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/xmllint",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "xml2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libxml2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_xpath.c",
+      "language": "c",
+      "link_with": [
+        "xml2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libxml2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_sax.c",
+      "language": "c",
+      "link_with": [
+        "xml2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libxml2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_writer.c",
+      "language": "c",
+      "link_with": [
+        "xml2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libxml2"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

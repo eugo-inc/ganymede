@@ -1,0 +1,36 @@
+{
+  "name": "inih",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/INIReader.h",
+    "include/ini.h",
+    "lib64/libINIReader.so",
+    "lib64/libINIReader.so.0",
+    "lib64/libinih.so",
+    "lib64/libinih.so.0",
+    "lib64/pkgconfig/INIReader.pc",
+    "lib64/pkgconfig/inih.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "inih"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_reader.cpp",
+      "language": "cpp",
+      "link_with": [
+        "INIReader",
+        "inih"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

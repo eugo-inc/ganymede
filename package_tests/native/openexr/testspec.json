@@ -1,0 +1,112 @@
+{
+  "name": "openexr",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/pkgconfig/OpenEXR.pc",
+    "include/OpenEXR/OpenEXRConfig.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libOpenEXR*.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "OpenEXR",
+        "OpenEXRCore",
+        "Iex",
+        "IlmThread"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/Imath",
+        "-I{prefix}/include/OpenEXR",
+        "-std=c++17"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_core_version.c",
+      "language": "c",
+      "link_with": [
+        "OpenEXRCore"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/Imath",
+        "-I{prefix}/include/OpenEXR"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_iex.cpp",
+      "language": "cpp",
+      "link_with": [
+        "Iex"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/OpenEXR",
+        "-std=c++17"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_thread.cpp",
+      "language": "cpp",
+      "link_with": [
+        "IlmThread",
+        "Iex"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/OpenEXR",
+        "-std=c++17"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_compression.c",
+      "language": "c",
+      "link_with": [
+        "OpenEXRCore"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/Imath",
+        "-I{prefix}/include/OpenEXR"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_rgba_io.cpp",
+      "language": "cpp",
+      "link_with": [
+        "OpenEXR",
+        "Imath",
+        "Iex",
+        "IlmThread"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/Imath",
+        "-I{prefix}/include/OpenEXR",
+        "-std=c++17"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_header.cpp",
+      "language": "cpp",
+      "link_with": [
+        "OpenEXR",
+        "Imath",
+        "Iex",
+        "IlmThread"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/Imath",
+        "-I{prefix}/include/OpenEXR",
+        "-std=c++17"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

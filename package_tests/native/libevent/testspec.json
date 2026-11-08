@@ -1,0 +1,50 @@
+{
+  "name": "libevent",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libevent.so",
+    "lib64/libevent_core.so",
+    "lib64/libevent_openssl.so",
+    "lib64/libevent_pthreads.so",
+    "include/event2/event.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "event"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_timer.c",
+      "language": "c",
+      "link_with": [
+        "event"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_evbuffer.c",
+      "language": "c",
+      "link_with": [
+        "event_core"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_pthreads.c",
+      "language": "c",
+      "link_with": [
+        "event",
+        "event_pthreads",
+        "pthread"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

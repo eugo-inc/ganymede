@@ -1,0 +1,79 @@
+{
+  "name": "libidn2",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/idn2",
+    "lib64/libidn2.so.0",
+    "include/idn2.h",
+    "lib64/pkgconfig/libidn2.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libidn2.so.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/idn2",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "idn2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_to_unicode.c",
+      "language": "c",
+      "link_with": [
+        "idn2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_strerror.c",
+      "language": "c",
+      "link_with": [
+        "idn2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_lookup_u8.c",
+      "language": "c",
+      "link_with": [
+        "idn2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_punycode.c",
+      "language": "c",
+      "link_with": [
+        "idn2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_register_u8.c",
+      "language": "c",
+      "link_with": [
+        "idn2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_invalid_input.c",
+      "language": "c",
+      "link_with": [
+        "idn2"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

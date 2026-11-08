@@ -1,0 +1,100 @@
+{
+  "name": "libabigail",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/abidiff",
+    "bin/abipkgdiff",
+    "bin/abidw",
+    "lib64/pkgconfig/libabigail.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libabigail.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/abidiff",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "abigail"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libabigail"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_version.c",
+      "language": "c",
+      "link_with": [
+        "abigail"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libabigail"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_ini.cpp",
+      "language": "cpp",
+      "link_with": [
+        "abigail"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libabigail"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_regex.cpp",
+      "language": "cpp",
+      "link_with": [
+        "abigail"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libabigail"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_config.cpp",
+      "language": "cpp",
+      "link_with": [
+        "abigail"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libabigail"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_workers.cpp",
+      "language": "cpp",
+      "link_with": [
+        "abigail"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libabigail"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_suppression.cpp",
+      "language": "cpp",
+      "link_with": [
+        "abigail"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libabigail"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

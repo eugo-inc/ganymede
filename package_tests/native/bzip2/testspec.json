@@ -1,0 +1,53 @@
+{
+  "name": "bzip2",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/bunzip2",
+    "bin/bzip2",
+    "include/bzlib.h",
+    "lib64/libbz2.so"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/bzip2",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "bz2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_stream.c",
+      "language": "c",
+      "link_with": [
+        "bz2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_file.c",
+      "language": "c",
+      "link_with": [
+        "bz2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_corrupt.c",
+      "language": "c",
+      "link_with": [
+        "bz2"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

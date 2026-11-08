@@ -1,0 +1,45 @@
+{
+  "name": "aws_s2n_tls",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libs2n.so",
+    "include/s2n.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "s2n"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_connection.c",
+      "language": "c",
+      "link_with": [
+        "s2n"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cipher_prefs.c",
+      "language": "c",
+      "link_with": [
+        "s2n"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cert_chain.c",
+      "language": "c",
+      "link_with": [
+        "s2n"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

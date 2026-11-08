@@ -1,0 +1,37 @@
+{
+  "name": "aws_lambda_cpp",
+  "kind": "shared-and-static-libs",
+  "expected_artifacts": [
+    "include/aws/lambda-runtime/runtime.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "aws-lambda-runtime",
+        "curl"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_http_response.cpp",
+      "language": "cpp",
+      "link_with": [
+        "aws-lambda-runtime"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_outcome.cpp",
+      "language": "cpp",
+      "link_with": [
+        "aws-lambda-runtime"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

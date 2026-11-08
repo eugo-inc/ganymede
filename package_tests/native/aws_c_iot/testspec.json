@@ -1,0 +1,49 @@
+{
+  "name": "aws_c_iot",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libaws-c-iot.so",
+    "include/aws/iotdevice/iotdevice.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-iot"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_defender_setters.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-iot"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_errors.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-iot"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_secure_tunnel.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-iot"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

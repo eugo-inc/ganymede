@@ -1,0 +1,60 @@
+name: checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  notebooks:
+    # Runs once the repository is public (Actions minutes are free for public repositories).
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Check notebook structure and stripped outputs
+        run: python tools/check_notebooks.py
+
+  native-runner:
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Validate native check specs
+        run: python package_tests/native/run_native_checks.py --validate-only
+      - name: Native runner self-test
+        run: python -m unittest package_tests/native/test_run_native_checks.py
+
+  python-runner:
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Install the notebook test runner
+        run: pip install -r package_tests/python/requirements.txt
+      - name: Collect every package-test notebook
+        run: pytest --collect-only -q package_tests/python
+
+  secrets:
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Scan for committed secrets
+        uses: trufflesecurity/trufflehog@v3.99.8
+        with:
+          extra_args: --results=verified,unknown

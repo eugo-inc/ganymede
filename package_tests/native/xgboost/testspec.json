@@ -1,0 +1,21 @@
+{
+  "name": "xgboost",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libxgboost.so",
+    "include/xgboost/c_api.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "xgboost"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

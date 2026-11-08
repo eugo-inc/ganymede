@@ -1,0 +1,25 @@
+{
+  "name": "mdspan",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/mdspan/mdspan.hpp",
+    "include/mdspan/mdarray.hpp",
+    "include/experimental/__p0009_bits/config.hpp",
+    "include/experimental/__p0009_bits/mdspan.hpp",
+    "include/experimental/__p0009_bits/layout_stride.hpp",
+    "include/experimental/__p2630_bits/submdspan.hpp",
+    "lib64/cmake/mdspan/mdspanConfig.cmake",
+    "lib64/cmake/mdspan/mdspanConfigVersion.cmake",
+    "lib64/cmake/mdspan/mdspanTargets.cmake"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

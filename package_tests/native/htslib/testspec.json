@@ -1,0 +1,31 @@
+{
+  "name": "htslib",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/bgzip",
+    "bin/tabix",
+    "bin/htsfile",
+    "include/htslib/hts.h",
+    "lib64/libhts.so",
+    "lib64/pkgconfig/htslib.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/bgzip",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "hts"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

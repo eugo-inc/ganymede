@@ -1,0 +1,58 @@
+{
+  "name": "libtirpc",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libtirpc.so",
+    "lib64/pkgconfig/libtirpc.pc",
+    "include/tirpc/rpc/rpc.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "tirpc"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/tirpc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_xdr_array.c",
+      "language": "c",
+      "link_with": [
+        "tirpc"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/tirpc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_xdr_float.c",
+      "language": "c",
+      "link_with": [
+        "tirpc"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/tirpc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_auth.c",
+      "language": "c",
+      "link_with": [
+        "tirpc"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/tirpc"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

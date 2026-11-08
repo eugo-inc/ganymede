@@ -1,0 +1,47 @@
+{
+  "name": "lcms2",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "lib64/liblcms2.so.2",
+    "include/lcms2.h",
+    "lib64/pkgconfig/lcms2.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "lcms2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_tone_curve.c",
+      "language": "c",
+      "link_with": [
+        "lcms2",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_mlu.c",
+      "language": "c",
+      "link_with": [
+        "lcms2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_profile_io.c",
+      "language": "c",
+      "link_with": [
+        "lcms2"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

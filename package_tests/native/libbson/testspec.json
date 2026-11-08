@@ -1,0 +1,24 @@
+{
+  "name": "libbson",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [],
+  "expected_artifact_globs": [
+    "include/bson-*/bson/bson.h",
+    "lib64/libbson2*.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "bson2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/bson-2*"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

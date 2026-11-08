@@ -1,0 +1,69 @@
+{
+  "name": "aws_c_common",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libaws-c-common.so",
+    "include/aws/common/common.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_byte_buf.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_hash_table.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_array_list.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_linked_list.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_priority_queue.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_uuid.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

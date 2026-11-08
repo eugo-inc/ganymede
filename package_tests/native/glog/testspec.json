@@ -1,0 +1,57 @@
+{
+  "name": "glog",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libglog.so",
+    "include/glog/logging.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "glog"
+      ],
+      "extra_cflags": [
+        "-DGLOG_USE_GLOG_EXPORT"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_check.cpp",
+      "language": "cpp",
+      "link_with": [
+        "glog"
+      ],
+      "extra_cflags": [
+        "-DGLOG_USE_GLOG_EXPORT"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_vlog.cpp",
+      "language": "cpp",
+      "link_with": [
+        "glog"
+      ],
+      "extra_cflags": [
+        "-DGLOG_USE_GLOG_EXPORT"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_sink.cpp",
+      "language": "cpp",
+      "link_with": [
+        "glog"
+      ],
+      "extra_cflags": [
+        "-DGLOG_USE_GLOG_EXPORT"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

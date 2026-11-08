@@ -1,0 +1,56 @@
+{
+  "name": "libgcrypt",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libgcrypt.so",
+    "include/gcrypt.h",
+    "bin/libgcrypt-config"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/libgcrypt-config",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "gcrypt",
+        "gpg-error"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_aes.c",
+      "language": "c",
+      "link_with": [
+        "gcrypt",
+        "gpg-error"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_hmac.c",
+      "language": "c",
+      "link_with": [
+        "gcrypt",
+        "gpg-error"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_random.c",
+      "language": "c",
+      "link_with": [
+        "gcrypt",
+        "gpg-error"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

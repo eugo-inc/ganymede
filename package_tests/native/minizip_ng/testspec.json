@@ -1,0 +1,80 @@
+{
+  "name": "minizip_ng",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/pkgconfig/minizip.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libminizip.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_crypt.c",
+      "language": "c",
+      "link_with": [
+        "minizip"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/minizip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_strm_mem.c",
+      "language": "c",
+      "link_with": [
+        "minizip"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/minizip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_zip.c",
+      "language": "c",
+      "link_with": [
+        "minizip"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/minizip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_path.c",
+      "language": "c",
+      "link_with": [
+        "minizip"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/minizip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_strm_zlib.c",
+      "language": "c",
+      "link_with": [
+        "minizip"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/minizip"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_strm_buf.c",
+      "language": "c",
+      "link_with": [
+        "minizip"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/minizip"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

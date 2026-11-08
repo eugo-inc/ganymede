@@ -1,0 +1,65 @@
+{
+  "name": "icu",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/icu-config",
+    "lib64/libicuuc.so",
+    "lib64/libicui18n.so",
+    "lib64/libicudata.so",
+    "include/unicode/utypes.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/pkgconfig/icu-uc.pc",
+    "lib64/pkgconfig/icu-i18n.pc"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/icu-config",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "icui18n",
+        "icuuc",
+        "icudata"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_collation.c",
+      "language": "c",
+      "link_with": [
+        "icui18n",
+        "icuuc",
+        "icudata"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_break_iterator.c",
+      "language": "c",
+      "link_with": [
+        "icui18n",
+        "icuuc",
+        "icudata"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_regex.c",
+      "language": "c",
+      "link_with": [
+        "icui18n",
+        "icuuc",
+        "icudata"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

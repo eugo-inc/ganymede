@@ -1,0 +1,46 @@
+{
+  "name": "json_c",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libjson-c.so",
+    "include/json-c/json.h",
+    "lib64/pkgconfig/json-c.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "json-c"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_parse.c",
+      "language": "c",
+      "link_with": [
+        "json-c"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_build.c",
+      "language": "c",
+      "link_with": [
+        "json-c"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_array.c",
+      "language": "c",
+      "link_with": [
+        "json-c"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

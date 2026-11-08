@@ -1,0 +1,20 @@
+{
+  "name": "ta_lib",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [],
+  "expected_artifact_globs": [
+    "lib64/libta-lib.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "ta-lib"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

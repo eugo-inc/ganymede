@@ -1,0 +1,46 @@
+{
+  "name": "libattr",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libattr.so",
+    "include/attr/attributes.h",
+    "lib64/pkgconfig/libattr.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "attr"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_get_set_remove.c",
+      "language": "c",
+      "link_with": [
+        "attr"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_multi.c",
+      "language": "c",
+      "link_with": [
+        "attr"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_copy.c",
+      "language": "c",
+      "link_with": [
+        "attr"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "python",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [],
+  "expected_artifact_globs": [
+    "bin/python3*",
+    "lib/libpython3*.so*",
+    "include/python3*/Python.h"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "python3.[0-9]*"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/python3.*"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

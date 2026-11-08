@@ -1,0 +1,47 @@
+{
+  "name": "zlib_ng",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/pkgconfig/zlib-ng.pc",
+    "include/zlib-ng.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libz-ng.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "z-ng"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_checksum.c",
+      "language": "c",
+      "link_with": [
+        "z-ng"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_gzio.c",
+      "language": "c",
+      "link_with": [
+        "z-ng"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_deflate_stream.c",
+      "language": "c",
+      "link_with": [
+        "z-ng"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

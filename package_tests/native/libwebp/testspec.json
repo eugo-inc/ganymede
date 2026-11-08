@@ -1,0 +1,65 @@
+{
+  "name": "libwebp",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/cwebp",
+    "bin/dwebp",
+    "lib64/libwebp.so",
+    "lib64/libwebpdemux.so",
+    "lib64/libsharpyuv.so",
+    "include/webp/decode.h",
+    "include/webp/encode.h",
+    "lib64/pkgconfig/libwebp.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/cwebp",
+    "args": [
+      "-version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "webp"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_demux.c",
+      "language": "c",
+      "link_with": [
+        "webpdemux",
+        "webp"
+      ]
+    },
+    {
+      "source": "main_sharpyuv.c",
+      "language": "c",
+      "link_with": [
+        "sharpyuv"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/webp"
+      ]
+    },
+    {
+      "source": "main_advanced_encode.c",
+      "language": "c",
+      "link_with": [
+        "webp"
+      ]
+    },
+    {
+      "source": "main_incremental_decode.c",
+      "language": "c",
+      "link_with": [
+        "webp"
+      ]
+    }
+  ]
+}

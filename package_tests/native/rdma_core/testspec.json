@@ -1,0 +1,68 @@
+{
+  "name": "rdma_core",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/ibv_devinfo",
+    "sbin/ibstat",
+    "include/infiniband/verbs.h",
+    "include/infiniband/mlx5dv.h",
+    "include/infiniband/efadv.h",
+    "include/rdma/rdma_cma.h",
+    "lib64/pkgconfig/libibverbs.pc",
+    "lib64/pkgconfig/librdmacm.pc",
+    "lib64/pkgconfig/libefa.pc",
+    "lib64/pkgconfig/libmlx5.pc",
+    "lib64/libibverbs.so.1",
+    "lib64/librdmacm.so.1",
+    "lib64/libmlx5.so.1",
+    "lib64/libefa.so.1"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libibverbs.so.*",
+    "lib64/librdmacm.so.*",
+    "lib64/libmlx5.so.*",
+    "lib64/libefa.so.*",
+    "lib64/libibverbs/libmlx5-rdmav*.so",
+    "lib64/libibverbs/libefa-rdmav*.so",
+    "lib/python3.*/site-packages/pyverbs/device.cpython-*.so",
+    "lib/python3.*/site-packages/pyverbs/providers/mlx5/mlx5dv.cpython-*.so",
+    "lib/python3.*/site-packages/pyverbs/providers/efa/efadv.cpython-*.so"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "sbin/ibstat",
+    "args": [
+      "-V"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main_verbs.c",
+      "language": "c",
+      "link_with": [
+        "ibverbs",
+        "mlx5",
+        "efa"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_device_list.c",
+      "language": "c",
+      "link_with": [
+        "ibverbs"
+      ],
+      "runtime_timeout_s": 10.0,
+      "requires": "rdma"
+    },
+    {
+      "source": "main_providers.c",
+      "language": "c",
+      "link_with": [
+        "ibverbs"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

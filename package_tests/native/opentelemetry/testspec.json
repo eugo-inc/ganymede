@@ -1,0 +1,69 @@
+{
+  "name": "opentelemetry",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/opentelemetry/version.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libopentelemetry_common.*",
+    "lib64/libopentelemetry_trace.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "opentelemetry_trace",
+        "opentelemetry_common"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_baggage.cpp",
+      "language": "cpp",
+      "link_with": [
+        "opentelemetry_common"
+      ]
+    },
+    {
+      "source": "main_metrics.cpp",
+      "language": "cpp",
+      "link_with": [
+        "opentelemetry_metrics",
+        "opentelemetry_common"
+      ]
+    },
+    {
+      "source": "main_logs.cpp",
+      "language": "cpp",
+      "link_with": [
+        "opentelemetry_logs",
+        "opentelemetry_common"
+      ]
+    },
+    {
+      "source": "main_context.cpp",
+      "language": "cpp",
+      "link_with": [
+        "opentelemetry_common"
+      ]
+    },
+    {
+      "source": "main_trace_id.cpp",
+      "language": "cpp",
+      "link_with": [
+        "opentelemetry_common"
+      ]
+    },
+    {
+      "source": "main_resource.cpp",
+      "language": "cpp",
+      "link_with": [
+        "opentelemetry_resources",
+        "opentelemetry_common"
+      ]
+    }
+  ]
+}

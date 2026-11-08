@@ -1,0 +1,96 @@
+{
+  "name": "libxslt",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/xsltproc",
+    "lib64/libxslt.so",
+    "lib64/libexslt.so",
+    "include/libxslt/xslt.h",
+    "include/libexslt/exslt.h",
+    "lib64/pkgconfig/libxslt.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/xsltproc",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "xslt",
+        "xml2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libxml2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_exslt.c",
+      "language": "c",
+      "link_with": [
+        "exslt",
+        "xslt",
+        "xml2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libxml2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_params.c",
+      "language": "c",
+      "link_with": [
+        "xslt",
+        "xml2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libxml2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_serialize.c",
+      "language": "c",
+      "link_with": [
+        "xslt",
+        "xml2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libxml2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_extfunc.c",
+      "language": "c",
+      "link_with": [
+        "xslt",
+        "xml2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libxml2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_security.c",
+      "language": "c",
+      "link_with": [
+        "xslt",
+        "xml2"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/libxml2"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

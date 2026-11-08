@@ -1,0 +1,74 @@
+{
+  "name": "cpuinfo",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/cpu-info",
+    "lib64/libcpuinfo.so",
+    "include/cpuinfo.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/cpu-info",
+    "args": [],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "cpuinfo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cache.c",
+      "language": "c",
+      "link_with": [
+        "cpuinfo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_topology.c",
+      "language": "c",
+      "link_with": [
+        "cpuinfo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_current.c",
+      "language": "c",
+      "link_with": [
+        "cpuinfo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_isa.c",
+      "language": "c",
+      "link_with": [
+        "cpuinfo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cluster.c",
+      "language": "c",
+      "link_with": [
+        "cpuinfo"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_vendor_uarch.c",
+      "language": "c",
+      "link_with": [
+        "cpuinfo"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

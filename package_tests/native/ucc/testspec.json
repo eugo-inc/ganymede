@@ -1,0 +1,40 @@
+{
+  "name": "ucc",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/ucc_info",
+    "include/ucc/api/ucc.h",
+    "include/ucc/api/ucc_def.h",
+    "include/ucc/api/ucc_status.h",
+    "include/ucc/api/ucc_version.h",
+    "lib64/libucc.so",
+    "lib64/libucc.so.1",
+    "lib64/pkgconfig/ucc.pc",
+    "lib64/cmake/ucc/ucc-config.cmake",
+    "lib64/ucc/libucc_cl_basic.so",
+    "lib64/ucc/libucc_cl_hier.so",
+    "lib64/ucc/libucc_tl_ucp.so",
+    "lib64/ucc/libucc_tl_self.so",
+    "lib64/ucc/libucc_mc_cpu.so",
+    "lib64/ucc/libucc_ec_cpu.so"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/ucc_info",
+    "args": [
+      "-A"
+    ],
+    "expect_stdout_contains": "tl/ucp algorithms:"
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "ucc"
+      ],
+      "runtime_timeout_s": 30.0
+    }
+  ]
+}

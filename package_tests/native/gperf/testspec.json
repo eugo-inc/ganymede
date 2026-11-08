@@ -1,0 +1,17 @@
+{
+  "name": "gperf",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/gperf"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/gperf",
+    "args": [
+      "{testspec_dir}/keywords.gperf"
+    ],
+    "expect_stdout_contains": "in_word_set"
+  },
+  "test_programs": []
+}

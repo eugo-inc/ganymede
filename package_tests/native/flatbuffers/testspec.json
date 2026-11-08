@@ -1,0 +1,67 @@
+{
+  "name": "flatbuffers",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/flatc",
+    "include/flatbuffers/flatbuffers.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/flatc",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "flatbuffers"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_vector.cpp",
+      "language": "cpp",
+      "link_with": [
+        "flatbuffers"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_verifier.cpp",
+      "language": "cpp",
+      "link_with": [
+        "flatbuffers"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_parser.cpp",
+      "language": "cpp",
+      "link_with": [
+        "flatbuffers"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_flexbuffers.cpp",
+      "language": "cpp",
+      "link_with": [
+        "flatbuffers"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_reflection.cpp",
+      "language": "cpp",
+      "link_with": [
+        "flatbuffers"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

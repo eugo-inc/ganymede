@@ -1,0 +1,33 @@
+{
+  "name": "openblas",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [],
+  "expected_artifact_globs": [
+    "include/**/cblas.h",
+    "lib64/libopenblas.so*",
+    "lib64/pkgconfig/openblas.pc"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "openblas"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/openblas"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_lapack.c",
+      "language": "c",
+      "link_with": [
+        "openblas"
+      ],
+      "runtime_timeout_s": 30.0
+    }
+  ]
+}

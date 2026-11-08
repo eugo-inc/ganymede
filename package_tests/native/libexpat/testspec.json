@@ -1,0 +1,43 @@
+{
+  "name": "libexpat",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libexpat.so",
+    "include/expat.h",
+    "lib64/pkgconfig/expat.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "expat"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_chardata.c",
+      "language": "c",
+      "link_with": [
+        "expat"
+      ]
+    },
+    {
+      "source": "main_error.c",
+      "language": "c",
+      "link_with": [
+        "expat"
+      ]
+    },
+    {
+      "source": "main_attrs.c",
+      "language": "c",
+      "link_with": [
+        "expat"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "name": "fmt",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libfmt.so",
+    "include/fmt/format.h",
+    "include/fmt/core.h",
+    "lib64/pkgconfig/fmt.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_format_to.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_ranges.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_chrono.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_printf.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_compile.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_ostream.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

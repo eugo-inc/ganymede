@@ -1,0 +1,26 @@
+{
+  "name": "gdrcopy",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/gdrapi.h",
+    "include/gdrconfig.h",
+    "lib64/libgdrapi.so",
+    "lib64/libgdrapi.so.2"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libgdrapi.so.2.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "gdrapi",
+        "dl"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

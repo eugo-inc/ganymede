@@ -1,0 +1,55 @@
+{
+  "name": "lz4",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/lz4",
+    "lib64/liblz4.so.1",
+    "include/lz4.h",
+    "include/lz4frame.h",
+    "include/lz4hc.h",
+    "lib64/pkgconfig/liblz4.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/lz4",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "lz4"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_hc.c",
+      "language": "c",
+      "link_with": [
+        "lz4"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_frame.c",
+      "language": "c",
+      "link_with": [
+        "lz4"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_stream.c",
+      "language": "c",
+      "link_with": [
+        "lz4"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

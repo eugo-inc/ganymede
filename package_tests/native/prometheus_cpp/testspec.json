@@ -1,0 +1,71 @@
+{
+  "name": "prometheus_cpp",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libprometheus-cpp-core.so",
+    "lib64/libprometheus-cpp-pull.so",
+    "lib64/libprometheus-cpp-push.so",
+    "include/prometheus/counter.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "prometheus-cpp-core"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_gauge.cpp",
+      "language": "cpp",
+      "link_with": [
+        "prometheus-cpp-core"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_histogram.cpp",
+      "language": "cpp",
+      "link_with": [
+        "prometheus-cpp-core"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_text_serializer.cpp",
+      "language": "cpp",
+      "link_with": [
+        "prometheus-cpp-core"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_summary.cpp",
+      "language": "cpp",
+      "link_with": [
+        "prometheus-cpp-core"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_family_labels.cpp",
+      "language": "cpp",
+      "link_with": [
+        "prometheus-cpp-core"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_registry_collect.cpp",
+      "language": "cpp",
+      "link_with": [
+        "prometheus-cpp-core"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "name": "glib",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "lib64/libglib-2.0.so",
+    "lib64/libgobject-2.0.so",
+    "lib64/libgio-2.0.so",
+    "lib64/libgmodule-2.0.so",
+    "lib64/libgthread-2.0.so",
+    "lib64/pkgconfig/glib-2.0.pc",
+    "include/glib-2.0/glib.h",
+    "bin/glib-genmarshal"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "glib-2.0"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_list.c",
+      "language": "c",
+      "link_with": [
+        "glib-2.0"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include"
+      ]
+    },
+    {
+      "source": "main_regex.c",
+      "language": "c",
+      "link_with": [
+        "glib-2.0"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include"
+      ]
+    },
+    {
+      "source": "main_variant.c",
+      "language": "c",
+      "link_with": [
+        "glib-2.0"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include"
+      ]
+    }
+  ]
+}

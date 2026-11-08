@@ -1,0 +1,46 @@
+{
+  "name": "hiredis",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libhiredis.so",
+    "lib64/libhiredis_ssl.so",
+    "include/hiredis/hiredis.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "hiredis"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_array.c",
+      "language": "c",
+      "link_with": [
+        "hiredis"
+      ]
+    },
+    {
+      "source": "main_format.c",
+      "language": "c",
+      "link_with": [
+        "hiredis"
+      ]
+    },
+    {
+      "source": "main_ssl.c",
+      "language": "c",
+      "link_with": [
+        "hiredis_ssl",
+        "hiredis",
+        "ssl",
+        "crypto"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "gloo",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libgloo.so",
+    "include/gloo/algorithm.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

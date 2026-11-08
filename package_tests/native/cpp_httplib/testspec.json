@@ -1,0 +1,18 @@
+{
+  "name": "cpp_httplib",
+  "kind": "header-only",
+  "expected_artifacts": [],
+  "expected_artifact_globs": [
+    "include/httplib.h"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

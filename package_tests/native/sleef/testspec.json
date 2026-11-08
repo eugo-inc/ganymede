@@ -1,0 +1,79 @@
+{
+  "name": "sleef",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libsleef.so",
+    "lib64/libsleefquad.so",
+    "lib64/libsleefdft.so",
+    "include/sleef.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "sleef"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_scalar_math.c",
+      "language": "c",
+      "link_with": [
+        "sleef",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_quad.c",
+      "language": "c",
+      "link_with": [
+        "sleefquad",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_dft.c",
+      "language": "c",
+      "link_with": [
+        "sleefdft",
+        "sleef",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_simd.c",
+      "language": "c",
+      "link_with": [
+        "sleef",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_quad_trig.c",
+      "language": "c",
+      "link_with": [
+        "sleefquad",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_dft_float.c",
+      "language": "c",
+      "link_with": [
+        "sleefdft",
+        "sleef",
+        "m"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "aws_c_s3",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libaws-c-s3.so",
+    "include/aws/s3/s3.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-s3"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_platforms_list.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-s3"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_log_subjects.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-s3"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

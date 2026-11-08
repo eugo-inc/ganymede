@@ -1,0 +1,38 @@
+{
+  "name": "graphite2",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libgraphite2.so",
+    "include/graphite2/Font.h",
+    "lib64/pkgconfig/graphite2.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "graphite2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_encform.c",
+      "language": "c",
+      "link_with": [
+        "graphite2"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_tag.c",
+      "language": "c",
+      "link_with": [
+        "graphite2"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

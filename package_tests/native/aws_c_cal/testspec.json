@@ -1,0 +1,94 @@
+{
+  "name": "aws_c_cal",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libaws-c-cal.so",
+    "include/aws/cal/cal.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-cal"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_hmac.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-cal"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_md5.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-cal"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_aes.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-cal"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_sha1.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-cal"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_ecdsa.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-cal"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_aes_gcm.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-cal"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_ecdsa_p384.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-cal"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_ecc_oid.c",
+      "language": "c",
+      "link_with": [
+        "aws-c-common",
+        "aws-c-cal"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

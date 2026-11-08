@@ -1,0 +1,69 @@
+{
+  "name": "xsimd",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/xsimd/xsimd.hpp",
+    "share/pkgconfig/xsimd.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++14"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_math.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++14"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_bool_select.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++14"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_int_bitwise.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++14"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_complex.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++14"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_fma.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++14"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_unaligned.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-std=c++14"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

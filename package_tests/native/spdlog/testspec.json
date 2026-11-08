@@ -1,0 +1,59 @@
+{
+  "name": "spdlog",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/pkgconfig/spdlog.pc",
+    "include/spdlog/spdlog.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libspdlog.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "extra_cflags": [
+        "-DSPDLOG_FMT_EXTERNAL"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_rotating_file.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "extra_cflags": [
+        "-DSPDLOG_FMT_EXTERNAL"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_levels.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "extra_cflags": [
+        "-DSPDLOG_FMT_EXTERNAL"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_registry.cpp",
+      "language": "cpp",
+      "link_with": [
+        "fmt"
+      ],
+      "extra_cflags": [
+        "-DSPDLOG_FMT_EXTERNAL"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

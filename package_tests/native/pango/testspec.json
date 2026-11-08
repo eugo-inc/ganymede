@@ -1,0 +1,142 @@
+{
+  "name": "pango",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libpango-1.0.so.0",
+    "lib64/libpangocairo-1.0.so.0",
+    "lib64/libpangoft2-1.0.so.0",
+    "lib64/pkgconfig/pango.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "pango-1.0",
+        "gobject-2.0",
+        "glib-2.0"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pango-1.0",
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_attr.c",
+      "language": "c",
+      "link_with": [
+        "pango-1.0",
+        "gobject-2.0",
+        "glib-2.0"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pango-1.0",
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_tab_array.c",
+      "language": "c",
+      "link_with": [
+        "pango-1.0",
+        "gobject-2.0",
+        "glib-2.0"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pango-1.0",
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_color.c",
+      "language": "c",
+      "link_with": [
+        "pango-1.0",
+        "gobject-2.0",
+        "glib-2.0"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pango-1.0",
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_matrix.c",
+      "language": "c",
+      "link_with": [
+        "pango-1.0",
+        "gobject-2.0",
+        "glib-2.0",
+        "m"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pango-1.0",
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_markup.c",
+      "language": "c",
+      "link_with": [
+        "pango-1.0",
+        "gobject-2.0",
+        "glib-2.0"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pango-1.0",
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_script.c",
+      "language": "c",
+      "link_with": [
+        "pango-1.0",
+        "gobject-2.0",
+        "glib-2.0"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/pango-1.0",
+        "-I{prefix}/include/glib-2.0",
+        "-I{prefix}/lib/glib-2.0/include",
+        "-I{prefix}/lib64/glib-2.0/include",
+        "-I{prefix}/lib/*/glib-2.0/include",
+        "-I{prefix}/include/harfbuzz"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "cuda_nccl",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libnccl.so",
+    "lib64/libnccl.so.2",
+    "include/nccl.h",
+    "include/nccl_device.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libnccl.so.2.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_unique_id.c",
+      "language": "c",
+      "link_with": [
+        "nccl"
+      ],
+      "extra_cflags": [
+        "-I{cuda_home}/include"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

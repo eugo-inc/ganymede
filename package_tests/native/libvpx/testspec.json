@@ -1,0 +1,33 @@
+{
+  "name": "libvpx",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/vpx/vp8.h",
+    "include/vpx/vp8cx.h",
+    "include/vpx/vp8dx.h",
+    "include/vpx/vpx_codec.h",
+    "include/vpx/vpx_decoder.h",
+    "include/vpx/vpx_encoder.h",
+    "include/vpx/vpx_ext_ratectrl.h",
+    "include/vpx/vpx_frame_buffer.h",
+    "include/vpx/vpx_image.h",
+    "include/vpx/vpx_integer.h",
+    "include/vpx/vpx_tpl.h",
+    "lib64/libvpx.so",
+    "lib64/pkgconfig/vpx.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_encode_decode_vpx.c",
+      "language": "c",
+      "link_with": [
+        "vpx",
+        "m"
+      ],
+      "runtime_timeout_s": 60.0
+    }
+  ]
+}

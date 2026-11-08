@@ -1,0 +1,67 @@
+{
+  "name": "fribidi",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "bin/fribidi",
+    "lib64/libfribidi.so.0",
+    "include/fribidi/fribidi.h",
+    "lib64/pkgconfig/fribidi.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libfribidi.so.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/fribidi",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "fribidi"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/fribidi"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_log2vis.c",
+      "language": "c",
+      "link_with": [
+        "fribidi"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/fribidi"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_mirror.c",
+      "language": "c",
+      "link_with": [
+        "fribidi"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/fribidi"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_joining.c",
+      "language": "c",
+      "link_with": [
+        "fribidi"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/fribidi"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "name": "imath",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/Imath/ImathConfig.h",
+    "lib64/pkgconfig/Imath.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libImath*.so"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "Imath"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_box.cpp",
+      "language": "cpp",
+      "link_with": [
+        "Imath"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_quat.cpp",
+      "language": "cpp",
+      "link_with": [
+        "Imath"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_matrix_ops.cpp",
+      "language": "cpp",
+      "link_with": [
+        "Imath"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

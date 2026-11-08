@@ -1,0 +1,69 @@
+{
+  "name": "rapidyaml",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libryml.so",
+    "include/c4/yml/yml.hpp"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "ryml"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_seq.cpp",
+      "language": "cpp",
+      "link_with": [
+        "ryml"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_build.cpp",
+      "language": "cpp",
+      "link_with": [
+        "ryml"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_c4core.cpp",
+      "language": "cpp",
+      "link_with": [
+        "ryml"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_json.cpp",
+      "language": "cpp",
+      "link_with": [
+        "ryml"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_anchors.cpp",
+      "language": "cpp",
+      "link_with": [
+        "ryml"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_float_reads.cpp",
+      "language": "cpp",
+      "link_with": [
+        "ryml"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

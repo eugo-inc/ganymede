@@ -1,0 +1,71 @@
+{
+  "name": "highway",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/hwy/highway.h",
+    "lib64/pkgconfig/libhwy.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libhwy.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "hwy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_aligned_alloc.cpp",
+      "language": "cpp",
+      "link_with": [
+        "hwy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_abort.cpp",
+      "language": "cpp",
+      "link_with": [
+        "hwy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_timer.cpp",
+      "language": "cpp",
+      "link_with": [
+        "hwy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_per_target.cpp",
+      "language": "cpp",
+      "link_with": [
+        "hwy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_disable_targets.cpp",
+      "language": "cpp",
+      "link_with": [
+        "hwy"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_aligned_nd_array.cpp",
+      "language": "cpp",
+      "link_with": [
+        "hwy"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

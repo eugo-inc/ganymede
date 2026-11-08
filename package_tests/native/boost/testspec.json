@@ -1,0 +1,48 @@
+{
+  "name": "boost",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [],
+  "expected_artifact_globs": [
+    "lib64/libboost_filesystem*.so*",
+    "lib64/libboost_atomic*.so*",
+    "lib64/libboost_python3*.so*",
+    "lib64/libboost_numpy3*.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "boost_filesystem"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_json.cpp",
+      "language": "cpp",
+      "link_with": [
+        "boost_json"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_program_options.cpp",
+      "language": "cpp",
+      "link_with": [
+        "boost_program_options"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_iostreams.cpp",
+      "language": "cpp",
+      "link_with": [
+        "boost_iostreams",
+        "z"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

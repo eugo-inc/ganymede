@@ -1,0 +1,16 @@
+{
+  "name": "cuda_libnvjpeg2k",
+  "kind": "shared-and-static-libs",
+  "expected_artifacts": [
+    "lib64/libnvjpeg2k.so",
+    "lib64/libnvjpeg2k_static.a",
+    "include/nvjpeg2k.h",
+    "include/nvjpeg2k_version.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/**/libnvjpeg2k.so.0*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

@@ -1,0 +1,24 @@
+{
+  "name": "llhttp",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/llhttp.h",
+    "lib64/pkgconfig/libllhttp.pc",
+    "lib64/cmake/llhttp/llhttpConfig.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libllhttp.so*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_request.c",
+      "language": "c",
+      "link_with": [
+        "llhttp"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "fast_float",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/fast_float/fast_float.h",
+    "include/fast_float/float_common.h",
+    "include/fast_float/parse_number.h",
+    "share/cmake/FastFloat/FastFloatConfig.cmake",
+    "share/cmake/FastFloat/FastFloatConfigVersion.cmake",
+    "share/cmake/FastFloat/fast_float-targets.cmake"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

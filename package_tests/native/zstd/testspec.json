@@ -1,0 +1,77 @@
+{
+  "name": "zstd",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/zstd",
+    "lib64/libzstd.so.1",
+    "include/zstd.h",
+    "lib64/pkgconfig/libzstd.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/zstd",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "zstd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_streaming.c",
+      "language": "c",
+      "link_with": [
+        "zstd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_dict.c",
+      "language": "c",
+      "link_with": [
+        "zstd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_frame_inspect.c",
+      "language": "c",
+      "link_with": [
+        "zstd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_cdict.c",
+      "language": "c",
+      "link_with": [
+        "zstd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_multiframe.c",
+      "language": "c",
+      "link_with": [
+        "zstd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_errors.c",
+      "language": "c",
+      "link_with": [
+        "zstd"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

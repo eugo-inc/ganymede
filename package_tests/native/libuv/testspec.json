@@ -1,0 +1,46 @@
+{
+  "name": "libuv",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libuv.so.1",
+    "include/uv.h",
+    "lib64/pkgconfig/libuv.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "uv"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_fs.c",
+      "language": "c",
+      "link_with": [
+        "uv"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_work.c",
+      "language": "c",
+      "link_with": [
+        "uv"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_sysinfo.c",
+      "language": "c",
+      "link_with": [
+        "uv"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

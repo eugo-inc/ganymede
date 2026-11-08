@@ -1,0 +1,59 @@
+{
+  "name": "libjpeg_turbo",
+  "kind": "shared-and-static-libs-with-cli",
+  "expected_artifacts": [
+    "bin/cjpeg",
+    "bin/djpeg",
+    "bin/jpegtran",
+    "lib64/libjpeg.so",
+    "lib64/libturbojpeg.so.0",
+    "include/jpeglib.h",
+    "include/turbojpeg.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libjpeg.so.*",
+    "lib64/libturbojpeg.so.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/cjpeg",
+    "args": [
+      "-version"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "turbojpeg"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_jpeglib.c",
+      "language": "c",
+      "link_with": [
+        "jpeg"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_yuv.c",
+      "language": "c",
+      "link_with": [
+        "turbojpeg"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_transform.c",
+      "language": "c",
+      "link_with": [
+        "turbojpeg"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

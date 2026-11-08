@@ -1,0 +1,55 @@
+{
+  "name": "openssl",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/openssl"
+  ],
+  "expected_artifact_globs": [
+    "lib64/ossl-modules/legacy.so",
+    "lib64/libcrypto.so.*",
+    "lib64/libssl.so.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/openssl",
+    "args": [
+      "version"
+    ],
+    "expect_stdout_contains": "OpenSSL"
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "ssl",
+        "crypto"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_aes_gcm.c",
+      "language": "c",
+      "link_with": [
+        "crypto"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_hmac.c",
+      "language": "c",
+      "link_with": [
+        "crypto"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_bignum.c",
+      "language": "c",
+      "link_with": [
+        "crypto"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "name": "protobuf",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "bin/protoc",
+    "lib64/libprotobuf.so",
+    "lib64/libprotoc.so",
+    "include/google/protobuf/descriptor.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/protoc",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "libprotoc"
+  },
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "protobuf",
+        "absl_log_internal_check_op",
+        "absl_log_internal_message"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_serialize.cpp",
+      "language": "cpp",
+      "link_with": [
+        "protobuf",
+        "absl_log_internal_check_op",
+        "absl_log_internal_message"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_textformat.cpp",
+      "language": "cpp",
+      "link_with": [
+        "protobuf",
+        "absl_log_internal_check_op",
+        "absl_log_internal_message"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_json.cpp",
+      "language": "cpp",
+      "link_with": [
+        "protobuf",
+        "absl_status",
+        "absl_log_internal_check_op",
+        "absl_log_internal_message"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_arena.cpp",
+      "language": "cpp",
+      "link_with": [
+        "protobuf",
+        "absl_log_internal_check_op",
+        "absl_log_internal_message"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_coded_stream.cpp",
+      "language": "cpp",
+      "link_with": [
+        "protobuf"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_differencer.cpp",
+      "language": "cpp",
+      "link_with": [
+        "protobuf",
+        "absl_log_internal_check_op",
+        "absl_log_internal_message"
+      ],
+      "extra_cflags": [
+        "-std=c++20"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}
