@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use these notebooks, please cite them as below and name the notebook you used."
+title: "ganymede: open HPC notebooks from Eugo"
+type: software
+authors:
+  - name: "Eugo, Inc."
+    website: "https://eugo.io"
+abstract: >-
+  Jupyter notebooks for high-performance and scientific Python: case studies on public NOAA and
+  Copernicus data (GOES-16 land surface temperature, National Water Model streamflow forecasts,
+  Sentinel-2 resampling), Ray patterns for parallel and distributed computing (Ray Core, Data,
+  Serve, Train and Tune), demos of popular data, geospatial and visualisation libraries, and smoke
+  tests for Python packages and native libraries.
+repository-code: "https://github.com/eugo-inc/ganymede"
+url: "https://eugo-inc.github.io/ganymede/"
+license: BSD-3-Clause
+keywords:
+  - high-performance computing
+  - HPC
+  - Ray
+  - distributed computing
+  - Jupyter notebooks
+  - scientific computing
+  - geospatial
+  - remote sensing
+  - GOES-16
+  - Sentinel-2
+  - National Water Model

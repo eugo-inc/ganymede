@@ -1,12 +1,63 @@
-# ganymede
+# ganymede: open HPC notebooks from Eugo
 
-Example notebooks, Ray patterns, and smoke tests for widely used Python packages and native
-libraries, from [Eugo](https://eugo.io).
+**ganymede is a public collection of Jupyter notebooks for high-performance and scientific Python:** three
+case studies on public NOAA and Copernicus data, 44 Ray programs for parallel and distributed computing,
+demos of popular data, geospatial and visualisation libraries, and smoke tests for 1,200+ Python packages and
+240+ native libraries. The notebooks use ordinary pip-installable packages, so they run on a laptop or a
+cluster, and everything is under the BSD 3-Clause license.
+
+[Eugo](https://eugo.io) is building the performance cloud. We're making high performance computing the
+default for every engineering team. The notebooks here run on any Python environment; none of them needs
+Eugo.
+
+**Website:** [eugo-inc.github.io/ganymede](https://eugo-inc.github.io/ganymede/) shows the case
+studies, demo notebooks and Ray patterns rendered, with search and an [FAQ](https://eugo-inc.github.io/ganymede/faq/).
+
+## Who it is for
+
+- **Scientists and engineers working with Earth observation, weather and hydrology data in Python**: reading
+  NetCDF, Zarr and Cloud-Optimized GeoTIFFs straight from public cloud buckets with xarray, rasterio and STAC.
+- **Developers learning Ray by example**: Ray Core, Ray Data, Ray Serve, Ray Train and Ray Tune, each
+  pattern shown as a graph next to the code it runs.
+- **Platform and HPC teams**: a quick check that a Python package or a native library installs and works on
+  a given machine.
+
+## Case studies
+
+Each case study reads public data anonymously (no cloud account), does the analysis on one file, then runs
+the same per-file step over many files in parallel with [Ray](https://www.ray.io/).
+
+<table>
+<tr>
+<td width="34%"><a href="demo_notebooks/case_studies/goes16_netcdf.ipynb"><img src="docs/assets/gallery/goes16_netcdf.png" alt="Map of afternoon land surface temperature over the continental U.S. from GOES-16"></a></td>
+<td><b><a href="demo_notebooks/case_studies/goes16_netcdf.ipynb">Land surface temperature from GOES-16 NetCDF files</a></b><br>
+Lists a day of hourly ABI Level 2 files in NOAA's public <code>noaa-goes16</code> bucket, applies the
+product's quality flags, converts the satellite's fixed grid to latitude and longitude, maps the afternoon
+skin temperature, and processes three days of files with Ray. xarray, s3fs, pyproj.</td>
+</tr>
+<tr>
+<td><a href="demo_notebooks/case_studies/national_water_model.ipynb"><img src="docs/assets/gallery/national_water_model.png" alt="Map of forecast streamflow on U.S. rivers from the National Water Model"></a></td>
+<td><b><a href="demo_notebooks/case_studies/national_water_model.ipynb">Streamflow forecasts from the NOAA National Water Model</a></b><br>
+Finds the newest 10-day forecast in the public <code>noaa-nwm-pds</code> archive, maps forecast flow on the
+larger rivers, follows five USGS gauges through the forecast, and reads more forecast hours with Ray. xarray,
+Zarr, s3fs.</td>
+</tr>
+<tr>
+<td><a href="demo_notebooks/case_studies/sentinel2_resampling.ipynb"><img src="docs/assets/gallery/sentinel2_resampling.png" alt="Sentinel-2 bands over Iowa farmland resampled with different methods"></a></td>
+<td><b><a href="demo_notebooks/case_studies/sentinel2_resampling.ipynb">Resampling Sentinel-2 imagery</a></b><br>
+Searches a public STAC catalogue for Sentinel-2 Level-2A scenes, reads small windows of Cloud-Optimized
+GeoTIFFs over HTTPS, compares resampling methods between the 10 m, 20 m and 60 m bands, and computes a
+cloud-masked NDVI for a whole growing season with Ray. pystac-client, rasterio.</td>
+</tr>
+</table>
+
+## What is in the repository
 
 | Folder | What is in it |
 | --- | --- |
-| [`ray_patterns/`](ray_patterns/) | Ray programs drawn in Eugo's visual Ray builder: each notebook pairs a picture of the graph with the Ray code the builder generated for it, run on Ray 2.55.1. |
-| [`demo_notebooks/`](demo_notebooks/) | Short demos of popular Python libraries: data storage, geospatial, visualisation, data processing and more. |
+| [`demo_notebooks/case_studies/`](demo_notebooks/case_studies/) | The three case studies above. |
+| [`ray_patterns/`](ray_patterns/) | 44 Ray programs drawn in Eugo's visual Ray builder: each notebook pairs a picture of the graph with the Ray code the builder generated for it, run on Ray 2.55.1. Core (tasks, actors, object refs), Data, Serve, Train and Tune. |
+| [`demo_notebooks/`](demo_notebooks/) | Short demos of popular Python libraries: data storage, geospatial, visualisation, data processing and more. Notebooks that draw plots or maps keep their figures. |
 | [`package_tests/python/`](package_tests/python/) | One smoke-test notebook per Python package: import it and exercise its main API. Runs under pytest. |
 | [`package_tests/native/`](package_tests/native/) | Declarative checks for native libraries (files present, shared-library dependencies resolve, static archives are position-independent, small test programs compile and run), with a standalone runner. |
 
@@ -61,6 +112,11 @@ images: no scripts, errors, `stderr` output, local paths or addresses.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Please report security issues privately as described in
 [SECURITY.md](SECURITY.md).
+
+## How to cite
+
+GitHub's **Cite this repository** button (from [CITATION.cff](CITATION.cff)) gives APA and BibTeX
+entries. Please name the notebook you used and link the repository.
 
 ## License
 

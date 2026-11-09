@@ -1,0 +1,23 @@
+# ganymede
+
+> Open HPC notebooks from Eugo: Jupyter notebooks for high-performance and scientific Python. Three case studies on public NOAA and Copernicus data, 44 Ray patterns for parallel and distributed computing, demos of popular data, geospatial and visualisation libraries, and smoke tests for 1,200+ Python packages and 240+ native libraries. BSD-3-Clause; the notebooks use ordinary pip-installable packages, and none of them needs an Eugo account.
+
+Rendered website: https://eugo-inc.github.io/ganymede/ (its own /llms.txt lists every notebook page).
+
+## Case studies
+
+- [Land surface temperature from GOES-16 NetCDF files](https://eugo-inc.github.io/ganymede/demo_notebooks/case_studies/goes16_netcdf/): read hourly ABI Level 2 NetCDF files anonymously from NOAA's public noaa-goes16 S3 bucket with xarray and s3fs, apply quality flags, convert the fixed grid to latitude and longitude, map skin temperature, and process days of files in parallel with Ray.
+- [Streamflow forecasts from the NOAA National Water Model](https://eugo-inc.github.io/ganymede/demo_notebooks/case_studies/national_water_model/): find the newest 10-day forecast in the public noaa-nwm-pds archive, map forecast river flow, follow USGS gauges, and read many forecast hours in parallel with Ray.
+- [Resampling Sentinel-2 imagery](https://eugo-inc.github.io/ganymede/demo_notebooks/case_studies/sentinel2_resampling/): search a public STAC catalogue, read windows of Cloud-Optimized GeoTIFFs over HTTPS with rasterio, compare resampling methods between 10 m, 20 m and 60 m bands, and compute a cloud-masked NDVI per scene in parallel with Ray.
+
+## Sections
+
+- [Ray patterns](https://eugo-inc.github.io/ganymede/ray_patterns/): 44 small Ray programs (Ray Core tasks and actors, Ray Data, Ray Serve, Ray Train, Ray Tune), each a graph drawn in Eugo's visual Ray builder next to the generated Ray code and its real output.
+- [Demo notebooks](https://eugo-inc.github.io/ganymede/demo_notebooks/): short demos of popular Python libraries for data storage, geospatial work, visualisation and data processing.
+- [Package tests](https://eugo-inc.github.io/ganymede/package_tests/): what the Python smoke-test notebooks and the native-library checks verify, and how to run them.
+- [FAQ](https://eugo-inc.github.io/ganymede/faq/): common questions, each answered with the notebook that shows it.
+
+## Source
+
+- [GitHub repository](https://github.com/eugo-inc/ganymede): source of every notebook, README files with run instructions, CITATION.cff.
+- [Eugo](https://eugo.io): Eugo is building the performance cloud, making high performance computing the default for every engineering team.
