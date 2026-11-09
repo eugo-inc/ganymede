@@ -8,9 +8,14 @@ Thanks for your interest in improving these examples and tests.
 - Keep notebooks self-contained: each one should run on its own, top to bottom.
 - Never commit credentials, hostnames or account ids. Notebooks that talk to a service read their
   connection settings from environment variables (see the note at the top of each such notebook).
-- Commit notebooks **without outputs** (`demo_notebooks/` and `package_tests/`). The pattern
-  notebooks under `ray_patterns/` are the exception: they are committed with outputs from a
-  real run, so readers can see what each pattern produces.
+- Commit `package_tests/` notebooks **without outputs**. The pattern notebooks under
+  `ray_patterns/` are committed with outputs from a real run, so readers can see what each
+  pattern produces.
+- A demo notebook that draws plots or maps may be committed with its outputs (printed results,
+  tables and static images) once its path is added to `FIGURE_NOTEBOOKS` in
+  `tools/check_notebooks.py`. Save interactive (JavaScript) charts as PNG images, and drop
+  warnings, `stderr` output and anything that shows a local path or address. Every other demo
+  notebook is committed without outputs.
 - Run the notebook checks before opening a pull request:
 
   ```bash

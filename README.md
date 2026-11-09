@@ -52,8 +52,10 @@ the title lists them. See [demo_notebooks/README.md](demo_notebooks/README.md).
 python tools/check_notebooks.py
 ```
 
-verifies that every notebook parses, carries no stray metadata, and (outside `ray_patterns/`)
-is committed without outputs.
+verifies that every notebook parses and carries no stray metadata, that `package_tests/`
+notebooks and most demo notebooks are committed without outputs, and that the demo notebooks
+listed in the script (the ones that draw plots or maps) keep only printed text, tables and static
+images: no scripts, errors, `stderr` output, local paths or addresses.
 
 ## Contributing and security
 
