@@ -394,7 +394,7 @@ def folder_page(folder: Folder, sections: set[str]) -> str:
     if any(t.casefold() == folder.title.casefold() for t in titles):
         # A section named like a notebook inside it (dask/ holding dask.ipynb) would share that
         # page's <title>; search engines and assistants may merge the two or show the wrong one.
-        page_title = f"{folder.title} notebooks"
+        page_title = f"{folder.title} section"
     lines = [front_matter(title=page_title, description=description), body.rstrip(), ""]
     if folder.notebooks and not readme.is_file():
         lines += ["## Notebooks", ""]
