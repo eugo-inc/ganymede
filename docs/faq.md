@@ -1,7 +1,7 @@
 ---
 title: Frequently asked questions
 nav_title: FAQ
-description: "Answers about ganymede: reading GOES-16, National Water Model and Sentinel-2 data in Python, Ray Data, Serve and Tune examples, package smoke tests, license and citation."
+description: "Answers about ganymede: GOES-16, National Water Model and Sentinel-2 data in Python, Ray Data, Serve and Tune examples, package tests, license and citation."
 ---
 
 # Frequently asked questions

@@ -162,7 +162,7 @@ def trim(text: str, limit: int = DESCRIPTION_LIMIT) -> str:
         if len(candidate) > limit:
             break
         kept = candidate
-    if len(kept) >= limit // 2:
+    if len(kept) >= 60:
         return kept
     cut = text[: limit - 1].rsplit(" ", 1)[0].rstrip(",;:-–— ")
     return cut + "…"
@@ -270,7 +270,14 @@ def notebook_info(path: Path) -> Notebook:
         description = strip_markdown(" ".join(lines))
         break
     if not description:
-        description = f"Example notebook: {title} in Python."
+        description = f"{title} examples in Python"
+    if rel.startswith("demo_notebooks/") and not rel.startswith(PROMOTED):
+        # Library demos open with a short blurb ("Work with geospatial data"): name the library
+        # and say what the page is.
+        if title.lower() not in description.lower():
+            description = f"{title}: {description}"
+        if len(description) < 100:
+            description = f"{description.rstrip('.')}. A Python demo notebook from ganymede."
     return Notebook(rel, title, trim(description))
 
 
@@ -359,8 +366,13 @@ def folder_page(folder: Folder, sections: set[str]) -> str:
         first = re.split(r"\n\s*\n", body.split("\n", 1)[1].strip())[0]
         description = trim(strip_markdown(first))
     else:
-        lead = folder.intro or f"{folder.title} notebooks."
-        description = trim(f"{folder.title} in ganymede: {lead} Notebooks: {', '.join(titles)}.")
+        if len(folder.notebooks) == 1 and not folder.children:
+            description = trim(f"{folder.title} in ganymede, one notebook: {folder.notebooks[0].description}")
+        elif folder.intro:
+            description = trim(f"{folder.title} in ganymede. {folder.intro} Notebooks: {', '.join(titles)}.")
+        else:
+            description = trim(f"{folder.title} notebooks in ganymede: {', '.join(titles)}. "
+                               "Python demos with code you can download and run.")
         n = folder.count()
         body = f"# {folder.title}\n\n"
         if folder.intro:
@@ -379,7 +391,7 @@ def folder_page(folder: Folder, sections: set[str]) -> str:
             lines.append(f"- [{md_escape(nb.title)}]({name}): {nb.description}")
         lines.append("")
     if folder.children:
-        lines += ["## Sections" if folder.notebooks or readme.is_file() else "## Sections", ""]
+        lines += ["## Sections", ""]
         for child in folder.children:
             n = child.count()
             name = child.path.rsplit("/", 1)[-1]

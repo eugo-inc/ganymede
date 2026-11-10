@@ -1,6 +1,6 @@
 ---
 title: Open HPC, Ray and geospatial Python notebooks
-description: "ganymede is an open, BSD-licensed collection of Jupyter notebooks from Eugo: case studies on public NOAA and Copernicus data, Ray patterns, Python demos and package smoke tests."
+description: "Open, BSD-licensed Jupyter notebooks from Eugo: case studies on public NOAA and Copernicus data, Ray patterns, Python library demos and package smoke tests."
 ---
 
 # ganymede
