@@ -6,6 +6,7 @@
  */
 
 #include <cairo/cairo.h>
+#include <fontconfig/fontconfig.h>
 #include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -71,6 +72,8 @@ int main(void) {
 
     cairo_destroy(cr);
     cairo_surface_destroy(surface);
+    cairo_debug_reset_static_data();
+    FcFini();
 
     printf("cairo text test OK: extents=%.2fx%.2f, %d non-black pixels\n",
            ext.width, ext.height, nonblack_pixels);

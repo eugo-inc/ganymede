@@ -1,0 +1,21 @@
+{
+  "name": "cuda_gdb",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/cuda-gdb",
+    "bin/cuda-gdbserver"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/cuda-gdb",
+    "args": [
+      "-nx",
+      "-batch",
+      "-ex",
+      "python print(6 * 7)"
+    ],
+    "expect_stdout_contains": "42"
+  },
+  "test_programs": []
+}

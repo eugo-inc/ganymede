@@ -30,6 +30,23 @@ int main(void) {
     assert(lower != NULL);
     assert(strcmp(lower, "www.example.org") == 0);
     psl_free_string(lower);
+    lower = NULL;
+
+    /* Non-ASCII: "ÄBC.DE" (U+00C4 as UTF-8) must lower to "äbc.de" (U+00E4). This is the
+     * case that leaves the ASCII shortcut and goes through libidn2. */
+    rc = psl_str_to_utf8lower("\xC3\x84" "BC.DE", "utf-8", NULL, &lower);
+    if (rc != PSL_SUCCESS || lower == NULL) {
+        fprintf(stderr, "FAIL: psl_str_to_utf8lower(non-ASCII) returned %d (no IDN lowering?)\n",
+                (int)rc);
+        return 1;
+    }
+    if (strcmp(lower, "\xC3\xA4" "bc.de") != 0) {
+        fprintf(stderr, "FAIL: psl_str_to_utf8lower(\"\\xC3\\x84BC.DE\") gave \"%s\", want \"\\xC3\\xA4bc.de\"\n",
+                lower);
+        psl_free_string(lower);
+        return 1;
+    }
+    psl_free_string(lower);
 
     /* --- Aspect 2: ICANN vs PRIVATE suffix type filtering. --------------------------- */
     assert(psl_is_public_suffix2(psl, "com", PSL_TYPE_ICANN | PSL_TYPE_NO_STAR_RULE) == 1);

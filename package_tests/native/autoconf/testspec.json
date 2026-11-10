@@ -1,0 +1,21 @@
+{
+  "name": "autoconf",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/autoconf",
+    "bin/autoheader",
+    "bin/autom4te",
+    "bin/autoreconf",
+    "bin/autoscan",
+    "bin/autoupdate",
+    "bin/ifnames",
+    "share/autoconf/autoconf/autoconf.m4f",
+    "share/autoconf/autom4te.cfg",
+    "share/autoconf/build-aux/config.guess",
+    "share/autoconf/build-aux/config.sub"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

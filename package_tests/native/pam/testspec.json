@@ -1,0 +1,34 @@
+{
+  "name": "pam",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libpam.so.0",
+    "lib64/libpam_misc.so.0",
+    "lib64/libpamc.so.0",
+    "lib64/pkgconfig/pam.pc",
+    "lib64/pkgconfig/pam_misc.pc",
+    "lib64/pkgconfig/pamc.pc",
+    "include/security/pam_appl.h",
+    "include/security/pam_modules.h",
+    "include/security/pam_misc.h",
+    "include/security/pam_client.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libpam.so.0",
+    "lib64/libpam_misc.so.0",
+    "lib64/libpamc.so.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "pam",
+        "pam_misc"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

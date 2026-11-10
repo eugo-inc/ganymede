@@ -1,0 +1,27 @@
+{
+  "name": "armadillo",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libarmadillo.so.15.6.2",
+    "lib64/libarmadillo.so.15",
+    "include/armadillo",
+    "include/armadillo_bits/config.hpp",
+    "lib64/pkgconfig/armadillo.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libarmadillo.so.15.6.2",
+    "lib64/libarmadillo.so.15"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "armadillo"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

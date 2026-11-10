@@ -1,0 +1,28 @@
+{
+  "name": "c4core",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libc4core.so",
+    "lib64/libc4core.so.0.6",
+    "include/c4/substr.hpp",
+    "include/c4/charconv.hpp",
+    "include/c4/ext/fast_float.hpp",
+    "lib64/cmake/c4core/c4coreConfig.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libc4core.so.0.6",
+    "lib64/libc4core.so.0.6.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "c4core"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

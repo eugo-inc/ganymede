@@ -1,0 +1,16 @@
+{
+  "name": "flatcc",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/flatcc",
+    "lib64/libflatcc.so",
+    "lib64/libflatccrt.so",
+    "include/flatcc/flatcc.h",
+    "include/flatcc/flatcc_builder.h",
+    "include/flatcc/reflection/reflection_reader.h"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

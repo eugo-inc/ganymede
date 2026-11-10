@@ -1,0 +1,32 @@
+{
+  "name": "gzip",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/gzip",
+    "bin/gunzip",
+    "bin/gzexe",
+    "bin/uncompress",
+    "bin/zcat",
+    "bin/zcmp",
+    "bin/zdiff",
+    "bin/zegrep",
+    "bin/zfgrep",
+    "bin/zforce",
+    "bin/zgrep",
+    "bin/zless",
+    "bin/zmore",
+    "bin/znew",
+    "share/man/man1/gzip.1",
+    "share/man/man1/zgrep.1"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/gzip",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "gzip 1.15"
+  },
+  "test_programs": []
+}

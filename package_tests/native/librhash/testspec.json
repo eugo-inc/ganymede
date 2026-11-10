@@ -1,0 +1,25 @@
+{
+  "name": "librhash",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/rhash.h",
+    "include/rhash_torrent.h",
+    "lib64/pkgconfig/librhash.pc",
+    "lib64/librhash.so"
+  ],
+  "expected_artifact_globs": [
+    "lib64/librhash.so.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "rhash"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

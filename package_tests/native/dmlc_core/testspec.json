@@ -1,0 +1,28 @@
+{
+  "name": "dmlc_core",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/dmlc/base.h",
+    "include/dmlc/build_config.h",
+    "include/dmlc/data.h",
+    "include/dmlc/io.h",
+    "lib64/libdmlc.so.0",
+    "lib64/cmake/dmlc/dmlc-config.cmake",
+    "lib64/cmake/dmlc/DMLCTargets.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libdmlc.so.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cc",
+      "language": "cpp",
+      "link_with": [
+        "dmlc"
+      ],
+      "runtime_timeout_s": 20.0
+    }
+  ]
+}

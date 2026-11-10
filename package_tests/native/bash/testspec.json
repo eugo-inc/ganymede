@@ -1,0 +1,15 @@
+{
+  "name": "bash",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/bash",
+    "bin/bashbug",
+    "lib64/bash/realpath",
+    "share/man/man1/bash.1",
+    "share/man/man1/bashbug.1"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

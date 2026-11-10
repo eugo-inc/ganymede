@@ -1,0 +1,21 @@
+{
+  "name": "kwiml",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/kwiml/abi.h",
+    "include/kwiml/int.h",
+    "include/kwiml/version.h",
+    "share/cmake/kwiml-1.0/kwiml-config.cmake",
+    "share/cmake/kwiml-1.0/kwiml-config-version.cmake"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

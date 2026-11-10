@@ -1,0 +1,19 @@
+{
+  "name": "hdf5_plugins",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "lib64/hdf5/plugin/libh5bitgroom.so",
+    "lib64/hdf5/plugin/libh5bitround.so",
+    "lib64/hdf5/plugin/libh5granular_bitround.so",
+    "lib64/hdf5/plugin/libh5bshuf.so",
+    "lib64/hdf5/plugin/libh5blosc2.so",
+    "lib64/hdf5/plugin/libh5jpeg.so",
+    "lib64/hdf5/plugin/libh5lz4.so",
+    "lib64/hdf5/plugin/libh5lzf.so",
+    "lib64/hdf5/plugin/libh5zzfp.so"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

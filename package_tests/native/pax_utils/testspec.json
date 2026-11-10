@@ -1,0 +1,22 @@
+{
+  "name": "pax_utils",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/scanelf",
+    "bin/dumpelf",
+    "bin/pspax",
+    "bin/scanmacho",
+    "bin/lddtree",
+    "bin/symtree"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/scanelf",
+    "args": [
+      "-V"
+    ],
+    "expect_stdout_contains": "pax-utils-"
+  },
+  "test_programs": []
+}

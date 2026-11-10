@@ -1,0 +1,29 @@
+{
+  "name": "git",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/git",
+    "bin/git-receive-pack",
+    "bin/git-upload-pack",
+    "bin/git-upload-archive",
+    "bin/git-shell",
+    "bin/scalar",
+    "libexec/git-core/git-remote-https",
+    "libexec/git-core/git-remote-http",
+    "libexec/git-core/git-http-fetch",
+    "libexec/git-core/git-http-push",
+    "libexec/git-core/git-sh-setup"
+  ],
+  "expected_artifact_globs": [
+    "share/git-core/templates/*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/git",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "git version 2.56.0"
+  },
+  "test_programs": []
+}

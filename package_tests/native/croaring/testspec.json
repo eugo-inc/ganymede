@@ -1,0 +1,19 @@
+{
+  "name": "croaring",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libroaring.so.5.4.0",
+    "include/roaring/roaring.h",
+    "include/roaring/roaring64.h",
+    "include/roaring/roaring_version.h",
+    "include/roaring/roaring.hh",
+    "lib64/pkgconfig/roaring.pc",
+    "lib64/cmake/roaring/roaring-config.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libroaring.so.5.4.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

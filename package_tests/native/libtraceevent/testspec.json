@@ -1,0 +1,40 @@
+{
+  "name": "libtraceevent",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libtraceevent.so.1",
+    "lib64/pkgconfig/libtraceevent.pc",
+    "include/traceevent/event-parse.h",
+    "include/traceevent/event-utils.h",
+    "include/traceevent/kbuffer.h",
+    "include/traceevent/trace-seq.h",
+    "lib64/traceevent/plugins/plugin_cfg80211.so",
+    "lib64/traceevent/plugins/plugin_function.so",
+    "lib64/traceevent/plugins/plugin_futex.so",
+    "lib64/traceevent/plugins/plugin_hrtimer.so",
+    "lib64/traceevent/plugins/plugin_jbd2.so",
+    "lib64/traceevent/plugins/plugin_kmem.so",
+    "lib64/traceevent/plugins/plugin_kvm.so",
+    "lib64/traceevent/plugins/plugin_mac80211.so",
+    "lib64/traceevent/plugins/plugin_net.so",
+    "lib64/traceevent/plugins/plugin_sched_switch.so",
+    "lib64/traceevent/plugins/plugin_scsi.so",
+    "lib64/traceevent/plugins/plugin_tlb.so",
+    "lib64/traceevent/plugins/plugin_xen.so"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libtraceevent.so.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "traceevent"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

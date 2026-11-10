@@ -1,0 +1,28 @@
+{
+  "name": "libpfm4",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/perfmon/perf_event.h",
+    "include/perfmon/pfmlib.h",
+    "include/perfmon/pfmlib_perf_event.h",
+    "lib64/libpfm.so",
+    "lib64/libpfm.so.4",
+    "lib64/libpfm.so.4.14.1"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libpfm.so.4",
+    "lib64/libpfm.so.4.14.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "pfm"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

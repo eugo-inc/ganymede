@@ -1,0 +1,26 @@
+{
+  "name": "tiledb",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libtiledb.so.2.30",
+    "lib64/libtiledb.so",
+    "include/tiledb/tiledb",
+    "include/tiledb/tiledb.h",
+    "lib64/cmake/TileDB/TileDBConfig.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libtiledb.so.2.30"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "tiledb"
+      ],
+      "runtime_timeout_s": 30.0
+    }
+  ]
+}

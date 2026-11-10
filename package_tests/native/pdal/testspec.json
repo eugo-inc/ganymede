@@ -1,0 +1,44 @@
+{
+  "name": "pdal",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/pdal",
+    "bin/pdal-config",
+    "include/pdal/pdal.hpp",
+    "include/pdal/PipelineManager.hpp",
+    "include/pdal/JsonFwd.hpp",
+    "lib64/libpdalcpp.so",
+    "lib64/libpdalcpp.so.20",
+    "lib64/libpdal_plugin_reader_arrow.so",
+    "lib64/libpdal_plugin_writer_arrow.so",
+    "lib64/libpdal_plugin_reader_hdf.so",
+    "lib64/libpdal_plugin_reader_icebridge.so",
+    "lib64/libpdal_plugin_reader_pgpointcloud.so",
+    "lib64/libpdal_plugin_writer_pgpointcloud.so",
+    "lib64/cmake/PDAL/PDALConfig.cmake",
+    "lib64/cmake/PDAL/PDALConfigVersion.cmake",
+    "lib64/cmake/PDAL/PDALTargets.cmake",
+    "lib64/pkgconfig/pdal.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libpdalcpp.so.20"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/pdal",
+    "args": [
+      "--drivers"
+    ],
+    "expect_stdout_contains": "readers.arrow"
+  },
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "pdalcpp"
+      ],
+      "runtime_timeout_s": 60.0
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "gettext",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/msgfmt",
+    "bin/msgmerge",
+    "bin/xgettext",
+    "bin/msginit",
+    "bin/autopoint",
+    "bin/gettextize",
+    "bin/envsubst",
+    "bin/gettext",
+    "bin/ngettext",
+    "lib64/libgettextpo.so",
+    "lib64/libasprintf.so",
+    "lib64/libtextstyle.so",
+    "include/gettext-po.h",
+    "include/autosprintf.h",
+    "include/textstyle.h",
+    "share/aclocal/nls.m4",
+    "share/gettext/m4/gettext.m4",
+    "share/gettext/m4/po.m4",
+    "share/gettext/archive.dir.tar.xz"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libgettextlib-*.so",
+    "lib64/libgettextsrc-*.so"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/msgfmt",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "msgfmt (GNU gettext-tools) 1.0"
+  },
+  "test_programs": []
+}

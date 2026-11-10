@@ -1,0 +1,23 @@
+{
+  "name": "libtool",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/libtoolize",
+    "lib64/libltdl.so",
+    "include/ltdl.h",
+    "share/aclocal/libtool.m4",
+    "share/aclocal/ltdl.m4",
+    "share/aclocal/ltoptions.m4",
+    "share/aclocal/ltsugar.m4",
+    "share/aclocal/ltversion.m4",
+    "share/aclocal/lt~obsolete.m4",
+    "share/libtool/build-aux/config.guess",
+    "share/libtool/build-aux/config.sub",
+    "share/libtool/build-aux/ltmain.sh",
+    "share/libtool/ltdl.c"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

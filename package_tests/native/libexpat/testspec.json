@@ -38,6 +38,13 @@
       "link_with": [
         "expat"
       ]
+    },
+    {
+      "source": "main_symbol_versions.c",
+      "language": "c",
+      "link_with": [
+        "expat"
+      ]
     }
   ]
 }

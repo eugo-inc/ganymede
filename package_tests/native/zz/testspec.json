@@ -1,0 +1,24 @@
+{
+  "name": "zz",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libzz.so.0.0.0",
+    "include/zz/zz.h",
+    "lib64/pkgconfig/zz.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libzz.so.0.0.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_multiply.c",
+      "language": "c",
+      "link_with": [
+        "zz"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

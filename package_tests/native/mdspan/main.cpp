@@ -26,6 +26,8 @@ int main() {
     if (matrix[1, 0] != 3.0) {
         ++failures;
     }
+#else
+#error "MDSPAN_USE_BRACKET_OPERATOR is 0: the installed mdspan does not enable m[i, j] at this standard (want C++23)"
 #endif
 
     // The same numbers read column-major through layout_stride (strides 1 and 3): 3x2, t(i, j) is data[i + 3 * j].

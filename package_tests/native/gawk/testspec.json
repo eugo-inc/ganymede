@@ -1,0 +1,22 @@
+{
+  "name": "gawk",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/gawk",
+    "bin/awk",
+    "bin/gawkbug",
+    "include/gawkapi.h",
+    "lib64/gawk/filefuncs.so",
+    "lib64/gawk/inplace.so",
+    "lib64/gawk/intdiv.so",
+    "lib64/gawk/rwarray.so",
+    "libexec/awk/grcat",
+    "libexec/awk/pwcat",
+    "share/awk/inplace.awk",
+    "share/man/man1/gawk.1"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

@@ -1,0 +1,39 @@
+{
+  "name": "libbpf",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/bpf/bpf.h",
+    "include/bpf/bpf_core_read.h",
+    "include/bpf/bpf_endian.h",
+    "include/bpf/bpf_helper_defs.h",
+    "include/bpf/bpf_helpers.h",
+    "include/bpf/bpf_tracing.h",
+    "include/bpf/btf.h",
+    "include/bpf/libbpf.h",
+    "include/bpf/libbpf_common.h",
+    "include/bpf/libbpf_legacy.h",
+    "include/bpf/libbpf_version.h",
+    "include/bpf/skel_internal.h",
+    "include/bpf/usdt.bpf.h",
+    "lib64/libbpf.so",
+    "lib64/libbpf.so.1",
+    "lib64/libbpf.so.1.8.0",
+    "lib64/pkgconfig/libbpf.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libbpf.so.1",
+    "lib64/libbpf.so.1.8.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "bpf"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

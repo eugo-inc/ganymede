@@ -1,0 +1,33 @@
+{
+  "name": "libde265",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "include/libde265/de265.h",
+    "include/libde265/de265-version.h",
+    "lib64/libde265.so.0",
+    "lib64/libde265.so",
+    "lib64/pkgconfig/libde265.pc",
+    "lib64/cmake/libde265/libde265-config.cmake",
+    "bin/dec265"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libde265.so.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/dec265",
+    "args": [
+      "--help"
+    ],
+    "expect_stdout_contains": null
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "de265"
+      ]
+    }
+  ]
+}

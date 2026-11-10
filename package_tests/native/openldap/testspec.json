@@ -1,0 +1,21 @@
+{
+  "name": "openldap",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "lib64/libldap.so.2",
+    "lib64/liblber.so.2",
+    "lib64/pkgconfig/ldap.pc",
+    "lib64/pkgconfig/lber.pc",
+    "include/ldap.h",
+    "include/lber.h",
+    "bin/ldapsearch",
+    "bin/ldapwhoami"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libldap.so.2",
+    "lib64/liblber.so.2"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

@@ -1,0 +1,25 @@
+{
+  "name": "sfparse",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/sfparse.h",
+    "lib64/libsfparse.so",
+    "lib64/libsfparse.so.0"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libsfparse.so.0",
+    "lib64/libsfparse.so.0.*"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "sfparse"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

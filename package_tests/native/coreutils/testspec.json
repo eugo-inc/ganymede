@@ -1,0 +1,29 @@
+{
+  "name": "coreutils",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/ls",
+    "bin/cp",
+    "bin/mv",
+    "bin/install",
+    "bin/cat",
+    "bin/sort",
+    "bin/sha256sum",
+    "bin/expr",
+    "bin/stdbuf",
+    "bin/arch",
+    "bin/[",
+    "libexec/coreutils/libstdbuf.so",
+    "share/man/man1/ls.1"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/ls",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "ls (GNU coreutils) 9.12"
+  },
+  "test_programs": []
+}

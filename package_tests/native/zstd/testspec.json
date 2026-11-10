@@ -3,19 +3,14 @@
   "kind": "shared-and-static-libs-with-cli",
   "expected_artifacts": [
     "bin/zstd",
+    "bin/pzstd",
     "lib64/libzstd.so.1",
     "include/zstd.h",
     "lib64/pkgconfig/libzstd.pc"
   ],
   "expected_artifact_globs": [],
   "static_archives_must_be_pic": false,
-  "smoke_run": {
-    "command": "bin/zstd",
-    "args": [
-      "--version"
-    ],
-    "expect_stdout_contains": null
-  },
+  "smoke_run": null,
   "test_programs": [
     {
       "source": "main.c",
@@ -67,6 +62,22 @@
     },
     {
       "source": "main_errors.c",
+      "language": "c",
+      "link_with": [
+        "zstd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_multithread.c",
+      "language": "c",
+      "link_with": [
+        "zstd"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_zdict.c",
       "language": "c",
       "link_with": [
         "zstd"

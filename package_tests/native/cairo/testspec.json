@@ -47,7 +47,8 @@
       "source": "main_text.c",
       "language": "c",
       "link_with": [
-        "cairo"
+        "cairo",
+        "fontconfig"
       ],
       "runtime_timeout_s": 10.0
     },

@@ -1,0 +1,28 @@
+{
+  "name": "libcap",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libcap.so.2",
+    "lib64/libpsx.so.2",
+    "lib64/pkgconfig/libcap.pc",
+    "lib64/pkgconfig/libpsx.pc",
+    "include/sys/capability.h",
+    "include/sys/psx_syscall.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libcap.so.2",
+    "lib64/libpsx.so.2"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "cap"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

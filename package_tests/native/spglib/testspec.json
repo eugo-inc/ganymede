@@ -1,0 +1,25 @@
+{
+  "name": "spglib",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libsymspg.so.2.8.0",
+    "include/spglib.h",
+    "lib64/pkgconfig/spglib.pc",
+    "lib64/cmake/Spglib/SpglibConfig.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libsymspg.so.2.8.0"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_spacegroup.c",
+      "language": "c",
+      "link_with": [
+        "symspg"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

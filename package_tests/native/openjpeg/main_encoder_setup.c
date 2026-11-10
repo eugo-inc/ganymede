@@ -11,6 +11,7 @@
 #include <openjpeg.h>
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int main(void) {
@@ -66,6 +67,9 @@ int main(void) {
     cparams2.tcp_mct = 0;  /* MCT must be off before opj_set_MCT */
     ok = opj_set_MCT(&cparams2, mct_matrix, dc_shift, 3);
     assert(ok == OPJ_TRUE);
+    assert(cparams2.mct_data != NULL);
+    free(cparams2.mct_data);
+    cparams2.mct_data = NULL;
 
     opj_image_destroy(img);
 

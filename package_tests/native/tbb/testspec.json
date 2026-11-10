@@ -1,0 +1,35 @@
+{
+  "name": "tbb",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libtbb.so.12",
+    "lib64/libtbbmalloc.so.2",
+    "lib64/libtbbmalloc_proxy.so.2",
+    "lib64/libtbbbind_2_5.so.3",
+    "lib64/libtcm.so.1",
+    "lib64/pkgconfig/tbb.pc",
+    "lib64/cmake/TBB/TBBConfig.cmake",
+    "include/tbb/tbb.h",
+    "include/oneapi/tbb.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libtbb.so.12",
+    "lib64/libtbbmalloc.so.2",
+    "lib64/libtbbmalloc_proxy.so.2",
+    "lib64/libtbbbind_2_5.so.3",
+    "lib64/libtcm.so.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "tbb",
+        "tbbmalloc"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

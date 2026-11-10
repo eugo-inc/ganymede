@@ -1,0 +1,35 @@
+{
+  "name": "cmark_gfm",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/cmark-gfm",
+    "include/cmark-gfm.h",
+    "include/cmark-gfm-core-extensions.h",
+    "lib64/libcmark-gfm.so.0.29.0.gfm.13",
+    "lib64/libcmark-gfm-extensions.so.0.29.0.gfm.13",
+    "lib64/pkgconfig/libcmark-gfm.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libcmark-gfm.so.0.29.0.gfm.13",
+    "lib64/libcmark-gfm-extensions.so.0.29.0.gfm.13"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/cmark-gfm",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "cmark-gfm 0.29.0.gfm.13"
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "cmark-gfm",
+        "cmark-gfm-extensions"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "ripgrep",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/rg"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/rg",
+    "args": [
+      "--pcre2",
+      "--no-filename",
+      "PCRE2-SMOKE-(?=MARKER)",
+      "{testspec_dir}/testspec.json"
+    ],
+    "expect_stdout_contains": "PCRE2-SMOKE-MARKER"
+  },
+  "test_programs": []
+}

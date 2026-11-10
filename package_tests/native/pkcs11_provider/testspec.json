@@ -1,0 +1,23 @@
+{
+  "name": "pkcs11_provider",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "lib64/ossl-modules/pkcs11.so",
+    "share/man/man7/provider-pkcs11.7"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/openssl",
+    "args": [
+      "list",
+      "-providers",
+      "-provider",
+      "pkcs11",
+      "-provider",
+      "default"
+    ],
+    "expect_stdout_contains": "PKCS#11 Provider"
+  },
+  "test_programs": []
+}

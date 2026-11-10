@@ -1,0 +1,28 @@
+{
+  "name": "libverto",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libverto.so.1",
+    "lib64/libverto-libev.so.1",
+    "lib64/pkgconfig/libverto.pc",
+    "lib64/pkgconfig/libverto-libev.pc",
+    "include/verto.h",
+    "include/verto-module.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libverto.so.1",
+    "lib64/libverto-libev.so.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "verto"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

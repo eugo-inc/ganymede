@@ -1,0 +1,27 @@
+{
+  "name": "uriparser",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/uriparser/Uri.h",
+    "include/uriparser/UriBase.h",
+    "lib64/liburiparser.so.1",
+    "lib64/pkgconfig/liburiparser.pc",
+    "lib64/cmake/uriparser-1.0.3/uriparser-config.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/liburiparser.so.1",
+    "lib64/cmake/uriparser-*/uriparser-config.cmake"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "uriparser"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

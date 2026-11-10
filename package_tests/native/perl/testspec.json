@@ -1,0 +1,44 @@
+{
+  "name": "perl",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/perl",
+    "bin/perldoc",
+    "bin/cpan",
+    "lib64/perl5/5.44/CORE/libperl.so",
+    "lib64/perl5/5.44/Config.pm",
+    "lib64/perl5/5.44/auto/Compress/Raw/Zlib/Zlib.so",
+    "lib64/perl5/5.44/auto/Compress/Raw/Bzip2/Bzip2.so",
+    "lib64/perl5/5.44/auto/GDBM_File/GDBM_File.so",
+    "lib64/perl5/5.44/auto/NDBM_File/NDBM_File.so",
+    "lib64/perl5/5.44/auto/ODBM_File/ODBM_File.so",
+    "lib64/perl5/5.44/auto/POSIX/POSIX.so",
+    "lib64/perl5/5.44/auto/threads/threads.so",
+    "share/perl5/5.44/FindBin.pm",
+    "share/man/man1/perl.1"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_embed.c",
+      "language": "c",
+      "link_with": [
+        "perl"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/lib64/perl5/5.44/CORE",
+        "-D_REENTRANT",
+        "-D_GNU_SOURCE",
+        "-D_LARGEFILE_SOURCE",
+        "-D_FILE_OFFSET_BITS=64",
+        "-fwrapv",
+        "-fno-strict-aliasing",
+        "-L{prefix}/lib64/perl5/5.44/CORE",
+        "-Wl,-rpath,{prefix}/lib64/perl5/5.44/CORE"
+      ],
+      "runtime_timeout_s": 30.0
+    }
+  ]
+}

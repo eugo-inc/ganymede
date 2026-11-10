@@ -1,0 +1,25 @@
+{
+  "name": "libudev",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "lib64/libudev.so.1",
+    "lib64/libudev.so",
+    "lib64/pkgconfig/libudev.pc",
+    "include/libudev.h"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libudev.so.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "udev"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

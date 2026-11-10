@@ -1,0 +1,15 @@
+{
+  "name": "autoconf_archive",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "share/aclocal/ax_check_compile_flag.m4",
+    "share/aclocal/ax_cxx_compile_stdcxx.m4",
+    "share/aclocal/ax_pthread.m4",
+    "share/doc/autoconf-archive/COPYING",
+    "share/doc/autoconf-archive/COPYING.EXCEPTION"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

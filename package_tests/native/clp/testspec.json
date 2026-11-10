@@ -1,0 +1,43 @@
+{
+  "name": "clp",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/clp",
+    "include/coin/ClpConfig.h",
+    "include/coin/ClpSimplex.hpp",
+    "include/coin/OsiClpSolverInterface.hpp",
+    "lib64/libClp.so.1",
+    "lib64/libClpSolver.so.1",
+    "lib64/libOsiClp.so.1",
+    "lib64/pkgconfig/clp.pc",
+    "lib64/pkgconfig/osi-clp.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libClp.so.1",
+    "lib64/libClpSolver.so.1",
+    "lib64/libOsiClp.so.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/clp",
+    "args": [
+      "-quit"
+    ],
+    "expect_stdout_contains": "Coin LP version 1.17.11"
+  },
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "OsiClp",
+        "Clp",
+        "Osi",
+        "CoinUtils"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/coin"
+      ]
+    }
+  ]
+}

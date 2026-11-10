@@ -1,0 +1,41 @@
+{
+  "name": "cbc",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/cbc",
+    "include/coin/CbcConfig.h",
+    "include/coin/Cbc_C_Interface.h",
+    "include/coin/CbcModel.hpp",
+    "lib64/libCbc.so.3",
+    "lib64/libCbcSolver.so.3",
+    "lib64/libOsiCbc.so.3",
+    "lib64/pkgconfig/cbc.pc",
+    "lib64/pkgconfig/osi-cbc.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libCbc.so.3",
+    "lib64/libCbcSolver.so.3",
+    "lib64/libOsiCbc.so.3"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/cbc",
+    "args": [
+      "-quit"
+    ],
+    "expect_stdout_contains": "Welcome to the CBC MILP Solver"
+  },
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "CbcSolver",
+        "Cbc"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/coin"
+      ]
+    }
+  ]
+}

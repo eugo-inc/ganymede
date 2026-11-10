@@ -1,0 +1,32 @@
+{
+  "name": "folly",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libfolly.so",
+    "lib64/libfolly.so.2026.10.19.00",
+    "include/folly/folly-config.h",
+    "include/folly/Portability.h",
+    "include/folly/CPortability.h",
+    "include/folly/Likely.h",
+    "include/folly/lang/Builtin.h",
+    "include/folly/portability/Config.h",
+    "include/folly/logging/xlog.h",
+    "include/folly/io/async/IoUringRecv.h",
+    "lib64/cmake/folly/folly-config.cmake",
+    "lib64/cmake/folly/folly-targets.cmake",
+    "lib64/pkgconfig/libfolly.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libfolly.so.*",
+    "lib64/libfolly.so.2026.10.19.00"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_folly.cpp",
+      "language": "cpp",
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

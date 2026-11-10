@@ -1,0 +1,32 @@
+{
+  "name": "cyrus_sasl",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "lib64/libsasl2.so.3",
+    "lib64/pkgconfig/libsasl2.pc",
+    "include/sasl/sasl.h",
+    "lib64/sasl2/libgssapiv2.so.3",
+    "lib64/sasl2/libgs2.so.3",
+    "lib64/sasl2/libscram.so.3",
+    "lib64/sasl2/libplain.so.3",
+    "lib64/sasl2/libanonymous.so.3",
+    "lib64/sasl2/libotp.so.3",
+    "lib64/sasl2/libsasldb.so.3",
+    "sbin/saslpasswd2",
+    "sbin/sasldblistusers2",
+    "sbin/pluginviewer"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libsasl2.so.3",
+    "lib64/sasl2/libgssapiv2.so.3",
+    "lib64/sasl2/libgs2.so.3",
+    "lib64/sasl2/libscram.so.3",
+    "lib64/sasl2/libplain.so.3",
+    "lib64/sasl2/libanonymous.so.3",
+    "lib64/sasl2/libotp.so.3",
+    "lib64/sasl2/libsasldb.so.3"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

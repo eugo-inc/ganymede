@@ -1,13 +1,25 @@
 {
   "name": "giflib",
-  "kind": "shared-libs-only",
+  "kind": "shared-libs-with-cli",
   "expected_artifacts": [
     "lib64/libgif.so.7",
-    "include/gif_lib.h"
+    "include/gif_lib.h",
+    "bin/gif2rgb",
+    "bin/gifbuild",
+    "bin/gifclrmp",
+    "bin/giffix",
+    "bin/giftext",
+    "bin/giftool"
   ],
   "expected_artifact_globs": [],
   "static_archives_must_be_pic": false,
-  "smoke_run": null,
+  "smoke_run": {
+    "command": "bin/giftext",
+    "args": [
+      "{testspec_dir}/fixture_4x2.gif"
+    ],
+    "expect_stdout_contains": "Image Size - Left = 0, Top = 0, Width = 4, Height = 2."
+  },
   "test_programs": [
     {
       "source": "main.c",

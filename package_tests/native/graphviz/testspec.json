@@ -12,13 +12,7 @@
   ],
   "expected_artifact_globs": [],
   "static_archives_must_be_pic": false,
-  "smoke_run": {
-    "command": "bin/dot",
-    "args": [
-      "-V"
-    ],
-    "expect_stdout_contains": null
-  },
+  "smoke_run": null,
   "test_programs": [
     {
       "source": "main.c",

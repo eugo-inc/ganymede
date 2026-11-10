@@ -1,0 +1,36 @@
+{
+  "name": "mimalloc",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/mimalloc.h",
+    "include/mimalloc-new-delete.h",
+    "include/mimalloc-override.h",
+    "include/mimalloc-stats.h",
+    "lib64/cmake/mimalloc/mimalloc-config-version.cmake",
+    "lib64/cmake/mimalloc/mimalloc-config.cmake",
+    "lib64/cmake/mimalloc/mimalloc-release.cmake",
+    "lib64/cmake/mimalloc/mimalloc.cmake",
+    "lib64/libmimalloc.so.3",
+    "lib64/pkgconfig/mimalloc.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libmimalloc.so.3"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main_link_override.c",
+      "language": "c",
+      "link_with": [
+        "mimalloc"
+      ],
+      "runtime_timeout_s": 10.0
+    },
+    {
+      "source": "main_preload_override.c",
+      "language": "c",
+      "runtime_timeout_s": 20.0
+    }
+  ]
+}

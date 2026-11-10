@@ -1,0 +1,15 @@
+{
+  "name": "nanoarrow",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "lib64/libnanoarrow_shared.so",
+    "lib64/libnanoarrow_ipc_shared.so",
+    "include/nanoarrow/nanoarrow.h",
+    "include/nanoarrow/nanoarrow_ipc.h",
+    "lib64/cmake/nanoarrow/nanoarrow-config.cmake"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

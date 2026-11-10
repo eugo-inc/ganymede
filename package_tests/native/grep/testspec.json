@@ -1,0 +1,20 @@
+{
+  "name": "grep",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/grep",
+    "bin/egrep",
+    "bin/fgrep",
+    "share/man/man1/grep.1"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": {
+    "command": "bin/grep",
+    "args": [
+      "--version"
+    ],
+    "expect_stdout_contains": "grep (GNU grep) 3.12"
+  },
+  "test_programs": []
+}

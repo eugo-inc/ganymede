@@ -1,0 +1,11 @@
+{
+  "name": "cargo_auditable",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/cargo-auditable"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

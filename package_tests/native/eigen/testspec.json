@@ -1,0 +1,27 @@
+{
+  "name": "eigen",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/eigen3/Eigen/Dense",
+    "include/eigen3/Eigen/Version",
+    "include/eigen3/signature_of_eigen3_matrix_library",
+    "include/eigen3/unsupported/Eigen/CXX11/Tensor",
+    "share/eigen3/cmake/Eigen3Config.cmake",
+    "share/eigen3/cmake/Eigen3ConfigVersion.cmake",
+    "share/eigen3/cmake/Eigen3Targets.cmake",
+    "share/pkgconfig/eigen3.pc"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-I{prefix}/include/eigen3"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

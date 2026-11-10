@@ -1,0 +1,16 @@
+{
+  "name": "bison",
+  "kind": "cli-tool-only",
+  "expected_artifacts": [
+    "bin/bison",
+    "share/bison/m4sugar/m4sugar.m4",
+    "share/bison/skeletons/yacc.c",
+    "share/bison/skeletons/glr2.cc",
+    "share/aclocal/bison-i18n.m4",
+    "share/man/man1/bison.1"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

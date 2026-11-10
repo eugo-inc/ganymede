@@ -1,0 +1,30 @@
+{
+  "name": "concurrentqueue",
+  "kind": "header-only",
+  "expected_artifacts": [
+    "include/concurrentqueue/moodycamel/concurrentqueue.h",
+    "include/concurrentqueue/moodycamel/blockingconcurrentqueue.h",
+    "include/concurrentqueue/moodycamel/lightweightsemaphore.h",
+    "lib64/cmake/concurrentqueue/concurrentqueueConfig.cmake",
+    "lib64/cmake/concurrentqueue/concurrentqueueConfigVersion.cmake",
+    "lib64/cmake/concurrentqueue/concurrentqueueTargets.cmake"
+  ],
+  "expected_artifact_globs": [],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "compile_timeout_s": 300.0
+    },
+    {
+      "source": "main_cmake_spelling.cpp",
+      "language": "cpp",
+      "extra_cflags": [
+        "-I{prefix}/include/concurrentqueue"
+      ],
+      "compile_timeout_s": 300.0
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "cjson",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/cjson/cJSON.h",
+    "lib64/libcjson.so.1",
+    "lib64/pkgconfig/libcjson.pc",
+    "lib64/cmake/cJSON/cJSONConfig.cmake",
+    "lib64/cmake/cJSON/cJSONConfigVersion.cmake",
+    "lib64/cmake/cJSON/cjson.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libcjson.so.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "cjson"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

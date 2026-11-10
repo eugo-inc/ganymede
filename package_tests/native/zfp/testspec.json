@@ -1,0 +1,17 @@
+{
+  "name": "zfp",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "bin/zfp",
+    "lib64/libzfp.so.1.0.1",
+    "include/zfp.h",
+    "include/zfp.hpp",
+    "lib64/cmake/zfp/zfp-config.cmake"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libzfp.so.1.0.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": []
+}

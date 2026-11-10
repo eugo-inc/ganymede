@@ -1,0 +1,25 @@
+{
+  "name": "keyutils",
+  "kind": "shared-libs-with-cli",
+  "expected_artifacts": [
+    "lib64/libkeyutils.so.1",
+    "lib64/pkgconfig/libkeyutils.pc",
+    "include/keyutils.h",
+    "bin/keyctl"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libkeyutils.so.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.c",
+      "language": "c",
+      "link_with": [
+        "keyutils"
+      ],
+      "runtime_timeout_s": 10.0
+    }
+  ]
+}

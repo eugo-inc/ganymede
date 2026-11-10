@@ -1,0 +1,28 @@
+{
+  "name": "coinutils",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/coin/CoinUtilsConfig.h",
+    "include/coin/CoinPackedMatrix.hpp",
+    "lib64/libCoinUtils.so.3",
+    "lib64/libCoinUtils.so",
+    "lib64/pkgconfig/coinutils.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libCoinUtils.so.3"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "CoinUtils"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/coin"
+      ]
+    }
+  ]
+}

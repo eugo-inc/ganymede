@@ -1,0 +1,32 @@
+{
+  "name": "osi",
+  "kind": "shared-libs-only",
+  "expected_artifacts": [
+    "include/coin/OsiConfig.h",
+    "include/coin/OsiSolverInterface.hpp",
+    "lib64/libOsi.so.1",
+    "lib64/libOsi.so",
+    "lib64/libOsiCommonTests.so.1",
+    "lib64/pkgconfig/osi.pc",
+    "lib64/pkgconfig/osi-unittests.pc"
+  ],
+  "expected_artifact_globs": [
+    "lib64/libOsi.so.1",
+    "lib64/libOsiCommonTests.so.1"
+  ],
+  "static_archives_must_be_pic": false,
+  "smoke_run": null,
+  "test_programs": [
+    {
+      "source": "main.cpp",
+      "language": "cpp",
+      "link_with": [
+        "Osi",
+        "CoinUtils"
+      ],
+      "extra_cflags": [
+        "-I{prefix}/include/coin"
+      ]
+    }
+  ]
+}
