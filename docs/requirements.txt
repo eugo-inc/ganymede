@@ -1,0 +1,10 @@
+# Toolchain for the website (https://eugo-inc.github.io/ganymede/), built by
+# .github/workflows/pages.yml. Local build:
+#   pip install -r docs/requirements.txt
+#   python tools/build_site.py --out build/site
+#   mkdocs build --strict -f build/site/mkdocs.yml
+mkdocs==1.6.1
+mkdocs-material==9.8.1
+mkdocs-jupyter==0.27.0
+nbconvert==7.17.2
+jupytext==1.19.6

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{#- Social preview tags and schema.org structured data (JSON-LD) on every page. -#}
+{% block extrahead %}
+  {%- set description = (page.meta.description if page and page.meta and page.meta.description else config.site_description) | trim -%}
+  {%- set title = (page.title | striptags) if page and page.title and not page.is_homepage else config.site_name -%}
+  {%- set url = page.canonical_url if page and page.canonical_url else config.site_url -%}
+  {%- set image = config.site_url ~ "assets/social-preview.png" -%}
+  {%- set eugo = {"@type": "Organization", "name": "Eugo, Inc.", "url": "https://eugo.io"} -%}
+  {%- set software = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "ganymede",
+    "description": config.site_description | trim,
+    "url": config.site_url,
+    "codeRepository": "https://github.com/eugo-inc/ganymede",
+    "license": "https://opensource.org/license/bsd-3-clause",
+    "programmingLanguage": "Python",
+    "author": eugo,
+    "publisher": eugo,
+    "image": image,
+    "keywords": ["high-performance computing", "HPC", "Ray", "Ray Core", "Ray Data", "Ray Serve",
+                 "Ray Train", "Ray Tune", "Jupyter notebooks", "scientific Python", "geospatial Python",
+                 "xarray", "NetCDF", "GOES-16", "National Water Model", "Sentinel-2", "STAC",
+                 "Cloud-Optimized GeoTIFF", "package smoke tests"]
+  } -%}
+  <meta property="og:type" content="{{ 'article' if page and page.meta and page.meta.notebook else 'website' }}">
+  <meta property="og:site_name" content="{{ config.site_name }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ url }}">
+  <meta property="og:image" content="{{ image }}">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="640">
+  <meta property="og:image:alt" content="ganymede: open HPC notebooks from Eugo">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{{ software | tojson }}</script>
+  {%- if page and page.meta and page.meta.notebook %}
+    {%- set article = {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": title,
+      "description": description,
+      "url": url,
+      "mainEntityOfPage": url,
+      "inLanguage": "en",
+      "author": eugo,
+      "publisher": eugo,
+      "isPartOf": {"@type": "SoftwareSourceCode", "name": "ganymede", "url": config.site_url,
+                   "codeRepository": "https://github.com/eugo-inc/ganymede"},
+      "encoding": {"@type": "MediaObject", "encodingFormat": "application/x-ipynb+json",
+                   "contentUrl": page.meta.github_url}
+    } %}
+  <script type="application/ld+json">{{ article | tojson }}</script>
+  {%- endif %}
+{% endblock %}

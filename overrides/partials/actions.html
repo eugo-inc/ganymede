@@ -1,0 +1,11 @@
+{#- Buttons at the top right of each page: the page's source on GitHub and, for a notebook, the .ipynb file. -#}
+{% if page.meta and page.meta.github_url %}
+  <a href="{{ page.meta.github_url }}" title="View on GitHub" aria-label="View on GitHub" class="md-content__button md-icon">
+    {% include ".icons/fontawesome/brands/github.svg" %}
+  </a>
+{% endif %}
+{% if page.nb_url %}
+  <a href="{{ page.nb_url }}" title="Download notebook (.ipynb)" aria-label="Download notebook (.ipynb)" class="md-content__button md-icon" download>
+    {% include ".icons/material/download.svg" %}
+  </a>
+{% endif %}

@@ -1,0 +1,100 @@
+# MkDocs configuration for https://eugo-inc.github.io/ganymede/
+#
+# Do not build this file directly: the notebooks live outside docs/. Assemble the site
+# source first, then build the copy of this file that the assembler writes:
+#
+#   python tools/build_site.py --out build/site
+#   mkdocs build --strict -f build/site/mkdocs.yml
+#
+# The assembler appends the `nav:` section, so do not add one here.
+
+site_name: ganymede
+site_url: https://eugo-inc.github.io/ganymede/
+site_description: >-
+  Open notebooks from Eugo: case studies on public NOAA and Copernicus data, Ray patterns,
+  demos of popular Python libraries, and smoke tests for Python packages and native libraries.
+site_author: Eugo, Inc.
+repo_url: https://github.com/eugo-inc/ganymede
+repo_name: eugo-inc/ganymede
+copyright: Copyright &copy; 2026 Eugo, Inc. Original content under the BSD 3-Clause License.
+
+docs_dir: docs
+site_dir: site
+use_directory_urls: true
+exclude_docs: |
+  hooks.py
+  requirements.txt
+  __pycache__/
+
+theme:
+  name: material
+  custom_dir: overrides
+  font: false
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocs-jupyter:
+      include: ["*.ipynb"]
+      execute: false
+      allow_errors: false
+      include_source: true
+      cache: false
+
+hooks:
+  - docs/hooks.py
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+
+extra_css:
+  - assets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/eugo-inc/ganymede
+      name: ganymede on GitHub
+    - icon: material/web
+      link: https://eugo.io
+      name: Eugo
+
+validation:
+  omitted_files: warn
+  absolute_links: info
+  unrecognized_links: warn
+  anchors: warn

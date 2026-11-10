@@ -1,0 +1,23 @@
+/* Home page gallery: same-height images, whole card clickable through its links. */
+.md-typeset .gallery img {
+  display: block;
+  width: 100%;
+  height: 12rem;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 0.2rem;
+}
+
+/* Package lists on the package-tests page: compact columns. */
+.md-typeset .pkg-list ul {
+  columns: 12rem;
+  column-gap: 1.5rem;
+  margin-left: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.md-typeset .pkg-list li {
+  margin: 0;
+  break-inside: avoid;
+}
