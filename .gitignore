@@ -28,3 +28,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Website: build output if mkdocs.yml is built in place (use tools/build_site.py --out build/site)
+/site/
