@@ -33,6 +33,7 @@ import json
 import re
 import shutil
 import struct
+import subprocess
 import sys
 import zlib
 from dataclasses import dataclass, field
@@ -146,9 +147,15 @@ def strip_markdown(text: str) -> str:
     text = re.sub(r"<(https?://[^>]+)>", r"\1", text)              # autolinks
     text = re.sub(r"<[^>]+>", "", text)                            # HTML tags
     text = text.replace("`", "")
+    dunders: list[str] = []
+    text = re.sub(r"(?<![\w*])__[A-Za-z][A-Za-z0-9]*__(?![\w*])",
+                  lambda m: dunders.append(m.group(0)) or f"\x00{len(dunders) - 1}\x00", text)  # __name__ is code
     text = re.sub(r"(\*\*|__)(?=\S)(.+?)(?<=\S)\1", r"\2", text)   # bold
     text = re.sub(r"(?<![\w*])\*(?=\S)(.+?)(?<=\S)\*(?![\w*])", r"\1", text)  # italics
     text = re.sub(r"(?<!\w)_(?=\S)(.+?)(?<=\S)_(?!\w)", r"\1", text)
+    text = re.sub(r"\x00(\d+)\x00", lambda m: dunders[int(m.group(1))], text)
+    # straight double quotes would end an HTML attribute early in the page's meta tags
+    text = re.sub(r'"([^"\n]*)"', "\u201c\\1\u201d", text).replace('"', "\u201d")
     return re.sub(r"\s+", " ", text).strip()
 
 
@@ -530,7 +537,33 @@ def llms_txt(nav: list, pages: dict[str, Page]) -> str:
     return "\n".join(out)
 
 
-def assemble(out: Path) -> None:
+COPIED_ROOTS = ("docs", "overrides", "demo_notebooks", "ray_patterns")
+
+
+def check_tracked() -> None:
+    """Stop when the folders copied into the site hold files git does not track (untracked or ignored), so a local
+    build publishes exactly what the repository holds. Python byte-code caches are allowed."""
+    try:
+        res = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain=v1", "-z", "--untracked-files=all",
+                              "--ignored", "--", *COPIED_ROOTS], capture_output=True, check=True)
+    except (OSError, subprocess.CalledProcessError):
+        print("build_site: not a git checkout; cannot check for untracked files", file=sys.stderr)
+        return
+    stray = []
+    for entry in res.stdout.decode("utf-8", "replace").split("\0"):
+        if entry[:2] in ("??", "!!"):
+            path = entry[3:]
+            if "__pycache__/" in path or path.endswith(".pyc"):
+                continue
+            stray.append(path)
+    if stray:
+        sys.exit("build_site: files git does not track would be copied into the site (move them, or pass "
+                 f"--allow-untracked): {', '.join(stray[:10])}" + (" ..." if len(stray) > 10 else ""))
+
+
+def assemble(out: Path, allow_untracked: bool = False) -> None:
+    if not allow_untracked:
+        check_tracked()
     out = out.resolve()
     if out == ROOT or ROOT.is_relative_to(out):
         sys.exit(f"--out must not be the repository or one of its parents: {out}")
@@ -799,13 +832,15 @@ def main() -> int:
     parser.add_argument("--out", type=Path, help="folder to assemble the MkDocs project in")
     parser.add_argument("--refresh-gallery", action="store_true",
                         help="rewrite docs/assets/gallery/*.png from the notebooks' figures")
+    parser.add_argument("--allow-untracked", action="store_true",
+                        help="build even when the copied folders hold files git does not track")
     args = parser.parse_args()
     if not args.out and not args.refresh_gallery:
         parser.error("give --out DIR, --refresh-gallery, or both")
     if args.refresh_gallery:
         refresh_gallery()
     if args.out:
-        assemble(args.out)
+        assemble(args.out, args.allow_untracked)
     return 0
 
 

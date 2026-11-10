@@ -38,15 +38,15 @@ skin temperature, and processes three days of files with Ray. xarray, s3fs, pypr
 <tr>
 <td><a href="demo_notebooks/case_studies/national_water_model.ipynb"><img src="docs/assets/gallery/national_water_model.png" alt="Map of forecast streamflow on U.S. rivers from the National Water Model"></a></td>
 <td><b><a href="demo_notebooks/case_studies/national_water_model.ipynb">Streamflow forecasts from the NOAA National Water Model</a></b><br>
-Finds the newest 10-day forecast in the public <code>noaa-nwm-pds</code> archive, maps forecast flow on the
+Finds the newest complete 10-day forecast from the 00 UTC run in the public <code>noaa-nwm-pds</code> archive, maps forecast flow on the
 larger rivers, follows five USGS gauges through the forecast, and reads more forecast hours with Ray. xarray,
 Zarr, s3fs.</td>
 </tr>
 <tr>
-<td><a href="demo_notebooks/case_studies/sentinel2_resampling.ipynb"><img src="docs/assets/gallery/sentinel2_resampling.png" alt="Sentinel-2 bands over Iowa farmland resampled with different methods"></a></td>
+<td><a href="demo_notebooks/case_studies/sentinel2_resampling.ipynb"><img src="docs/assets/gallery/sentinel2_resampling.png" alt="True-colour Sentinel-2 tile over central Iowa with the 6 km analysis window outlined"></a></td>
 <td><b><a href="demo_notebooks/case_studies/sentinel2_resampling.ipynb">Resampling Sentinel-2 imagery</a></b><br>
 Searches a public STAC catalogue for Sentinel-2 Level-2A scenes, reads small windows of Cloud-Optimized
-GeoTIFFs over HTTPS, compares resampling methods between the 10 m, 20 m and 60 m bands, and computes a
+GeoTIFFs over HTTPS, compares resampling methods from 10 m to 60 m and from 20 m to 10 m, and computes a
 cloud-masked NDVI for a whole growing season with Ray. pystac-client, rasterio.</td>
 </tr>
 </table>

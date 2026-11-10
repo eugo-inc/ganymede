@@ -2,13 +2,13 @@
 
 > Open HPC notebooks from Eugo: Jupyter notebooks for high-performance and scientific Python. Three case studies on public NOAA and Copernicus data, 44 Ray patterns for parallel and distributed computing, demos of popular data, geospatial and visualisation libraries, and smoke tests for 1,200+ Python packages and 240+ native libraries. BSD-3-Clause; the notebooks use ordinary pip-installable packages, and none of them needs an Eugo account.
 
-Rendered website: https://eugo-inc.github.io/ganymede/ (its own /llms.txt lists every notebook page).
+Rendered website: https://eugo-inc.github.io/ganymede/ (https://eugo-inc.github.io/ganymede/llms.txt lists every notebook page).
 
 ## Case studies
 
 - [Land surface temperature from GOES-16 NetCDF files](https://eugo-inc.github.io/ganymede/demo_notebooks/case_studies/goes16_netcdf/): read hourly ABI Level 2 NetCDF files anonymously from NOAA's public noaa-goes16 S3 bucket with xarray and s3fs, apply quality flags, convert the fixed grid to latitude and longitude, map skin temperature, and process days of files in parallel with Ray.
-- [Streamflow forecasts from the NOAA National Water Model](https://eugo-inc.github.io/ganymede/demo_notebooks/case_studies/national_water_model/): find the newest 10-day forecast in the public noaa-nwm-pds archive, map forecast river flow, follow USGS gauges, and read many forecast hours in parallel with Ray.
-- [Resampling Sentinel-2 imagery](https://eugo-inc.github.io/ganymede/demo_notebooks/case_studies/sentinel2_resampling/): search a public STAC catalogue, read windows of Cloud-Optimized GeoTIFFs over HTTPS with rasterio, compare resampling methods between 10 m, 20 m and 60 m bands, and compute a cloud-masked NDVI per scene in parallel with Ray.
+- [Streamflow forecasts from the NOAA National Water Model](https://eugo-inc.github.io/ganymede/demo_notebooks/case_studies/national_water_model/): find the newest complete 10-day forecast from the 00 UTC run in the public noaa-nwm-pds archive, map forecast river flow, follow USGS gauges, and read many forecast hours in parallel with Ray.
+- [Resampling Sentinel-2 imagery](https://eugo-inc.github.io/ganymede/demo_notebooks/case_studies/sentinel2_resampling/): search a public STAC catalogue, read windows of Cloud-Optimized GeoTIFFs over HTTPS with rasterio, compare resampling methods from 10 m to 60 m and from 20 m to 10 m, and compute a cloud-masked NDVI per scene in parallel with Ray.
 
 ## Sections
 
