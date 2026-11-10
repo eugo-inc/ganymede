@@ -11,7 +11,8 @@ Serve, Ray Train and Ray Tune, short demos of popular Python libraries, and smok
 packages and native libraries. The notebooks use open-source Python packages that you install
 yourself, mostly with pip, and the source is on [GitHub](https://github.com/eugo-inc/ganymede) under the BSD 3-Clause License.
 
-<!-- eugo-blurb -->
+[Eugo](https://eugo.io) is building the performance cloud. We're making high performance computing the
+default for every engineering team. None of these notebooks needs Eugo.
 
 ## Who it is for
 
