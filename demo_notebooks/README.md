@@ -21,8 +21,8 @@ documentation under *Resources*. Install the library it demonstrates, plus Jupyt
 the cells from the top.
 
 - Some notebooks, mainly those that draw plots or maps, are committed with their outputs, so the
-  figures show on GitHub; interactive charts (Bokeh, HoloViews, Plotly, Folium) appear there as
-  static images. The other notebooks are committed without outputs.
+  figures show on GitHub; interactive charts (Bokeh, HoloViews, Panel, Plotly, Folium) appear
+  there as static images. The other notebooks are committed without outputs.
 - Notebooks that connect to a database or a cloud service read their connection settings from
   environment variables. The *Environment variables* cell right after the title lists them; set
   them before you start Jupyter.
