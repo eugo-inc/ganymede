@@ -143,7 +143,7 @@ How adapted code is marked:
 | --- | --- | --- | --- | --- |
 | asyncpg | `demo_notebooks/data_storage/databases/postgres/asyncpg.ipynb` | The asyncpg README and documentation, <https://github.com/MagicStack/asyncpg> | Copyright (C) 2016-present the asyncpg authors and contributors | Apache-2.0 |
 | Bokeh | `demo_notebooks/data_visualization/bokeh/bokeh.ipynb` | The Bokeh first steps guide, <https://docs.bokeh.org/en/latest/docs/first_steps.html> | Copyright (c) Anaconda, Inc., and Bokeh Contributors | BSD-3-Clause |
-| Cartopy | `demo_notebooks/data_visualization/cartopy.ipynb` | The Cartopy example gallery, <https://scitools.org.uk/cartopy/docs/latest/gallery/index.html> | Copyright (c) Crown and Cartopy contributors | BSD-3-Clause |
+| Cartopy | `demo_notebooks/data_visualization/cartopy.ipynb` | The Cartopy example gallery, <https://cartopy.readthedocs.io/stable/gallery/index.html> | Copyright (c) Crown and Cartopy contributors | BSD-3-Clause |
 | descartes | `demo_notebooks/geospatial/descartes.ipynb` | The descartes README, <https://pypi.org/project/descartes/> | Copyright Sean Gillies | BSD (see note below) |
 | GeoAlchemy 2 | `demo_notebooks/data_storage/databases/postgres/geoalchemy2.ipynb` | The GeoAlchemy 2 ORM tutorial, <https://geoalchemy-2.readthedocs.io/en/stable/orm_tutorial.html> | Copyright (c) 2013 Eric Lemoine | MIT |
 | GeoViews | `demo_notebooks/data_visualization/holoviews/geoviews/geoviews.ipynb` | The GeoViews documentation and examples, <https://geoviews.org/> | Copyright (c) 2019, HoloViz Developers | BSD-3-Clause |

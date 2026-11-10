@@ -29,7 +29,7 @@ default for every engineering team. None of these notebooks needs Eugo.
 | Section | What you will find |
 | --- | --- |
 | [Case studies](demo_notebooks/case_studies/index.md) | Longer worked examples on public data: land surface temperature from GOES-16 NetCDF files, streamflow forecasts from the NOAA National Water Model, and resampling Sentinel-2 imagery. Each one ends by running its per-file step in parallel with Ray. |
-| [Ray patterns](ray_patterns/index.md) | One small Ray program per notebook, drawn in Eugo's visual Ray builder and shown with the plain Ray code it generated, run on Ray 2.55.1 with outputs. |
+| [Ray patterns](ray_patterns/index.md) | One small Ray program per notebook, drawn in Eugo's visual Ray builder and shown with the plain Ray code it generated, run on Ray 2.55.1 with outputs (three that need a GPU, a model-serving engine or a data catalog are code only). |
 | [Demo notebooks](demo_notebooks/index.md) | Short demos of libraries for data storage, geospatial work, visualisation, data processing, testing and more. |
 | [Package tests](package_tests.md) | One smoke-test notebook per Python package, and declarative install checks for native libraries. |
 | [FAQ](faq.md) | Short answers to common questions, each linking the notebook that shows it. |

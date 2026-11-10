@@ -390,7 +390,12 @@ def folder_page(folder: Folder, sections: set[str]) -> str:
             "Each page shows the notebook as committed; use the buttons at the top right of a page "
             "to download the `.ipynb` or open it on GitHub.\n"
         )
-    lines = [front_matter(title=folder.title, description=description), body.rstrip(), ""]
+    page_title = folder.title
+    if any(t.casefold() == folder.title.casefold() for t in titles):
+        # A section named like a notebook inside it (dask/ holding dask.ipynb) would share that
+        # page's <title>; search engines and assistants may merge the two or show the wrong one.
+        page_title = f"{folder.title} notebooks"
+    lines = [front_matter(title=page_title, description=description), body.rstrip(), ""]
     if folder.notebooks and not readme.is_file():
         lines += ["## Notebooks", ""]
         for nb in folder.notebooks:

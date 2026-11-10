@@ -56,7 +56,7 @@ cloud-masked NDVI for a whole growing season with Ray. pystac-client, rasterio.<
 | Folder | What is in it |
 | --- | --- |
 | [`demo_notebooks/case_studies/`](demo_notebooks/case_studies/) | The three case studies above. |
-| [`ray_patterns/`](ray_patterns/) | 44 Ray programs drawn in Eugo's visual Ray builder: each notebook pairs a picture of the graph with the Ray code the builder generated for it, run on Ray 2.55.1. Core (tasks, actors, object refs), Data, Serve, Train and Tune. |
+| [`ray_patterns/`](ray_patterns/) | 44 Ray programs drawn in Eugo's visual Ray builder: each notebook pairs a picture of the graph with the Ray code the builder generated for it, run on Ray 2.55.1 (three that need a GPU, a model-serving engine or a data catalog are shown as code only). Core (tasks, actors, object refs), Data, Serve, Train and Tune. |
 | [`demo_notebooks/`](demo_notebooks/) | Short demos of popular Python libraries: data storage, geospatial, visualisation, data processing and more. Notebooks that draw plots or maps keep their figures. |
 | [`package_tests/python/`](package_tests/python/) | One smoke-test notebook per Python package: import it and exercise its main API. Runs under pytest. |
 | [`package_tests/native/`](package_tests/native/) | Declarative checks for native libraries (files present, shared-library dependencies resolve, static archives are position-independent, small test programs compile and run), with a standalone runner. |

@@ -12,7 +12,7 @@ Rendered website: https://eugo-inc.github.io/ganymede/ (https://eugo-inc.github.
 
 ## Sections
 
-- [Ray patterns](https://eugo-inc.github.io/ganymede/ray_patterns/): 44 small Ray programs (Ray Core tasks and actors, Ray Data, Ray Serve, Ray Train, Ray Tune), each a graph drawn in Eugo's visual Ray builder next to the generated Ray code and its real output.
+- [Ray patterns](https://eugo-inc.github.io/ganymede/ray_patterns/): 44 small Ray programs (Ray Core tasks and actors, Ray Data, Ray Serve, Ray Train, Ray Tune), each a graph drawn in Eugo's visual Ray builder next to the generated Ray code and, except for three code-only patterns, its real output on Ray 2.55.1.
 - [Demo notebooks](https://eugo-inc.github.io/ganymede/demo_notebooks/): short demos of popular Python libraries for data storage, geospatial work, visualisation and data processing.
 - [Package tests](https://eugo-inc.github.io/ganymede/package_tests/): what the Python smoke-test notebooks and the native-library checks verify, and how to run them.
 - [FAQ](https://eugo-inc.github.io/ganymede/faq/): common questions, each answered with the notebook that shows it.

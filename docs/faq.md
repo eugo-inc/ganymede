@@ -110,10 +110,10 @@ later. The [Ray patterns](ray_patterns/index.md) page lists the extra packages e
 
 Original content is under the
 [BSD 3-Clause License](https://github.com/eugo-inc/ganymede/blob/main/LICENSE), Copyright (c) 2026,
-Eugo, Inc. Some examples are adapted from third-party projects and stay under their own licenses;
-the notebooks that contain adapted code say so in their first cell, and
+Eugo, Inc. Some examples are adapted from third-party projects and stay under their own licenses.
 [THIRD_PARTY_NOTICES.md](https://github.com/eugo-inc/ganymede/blob/main/THIRD_PARTY_NOTICES.md)
-lists those projects. The public datasets used by the case studies carry their own terms, which
+lists those projects and the notebooks that use them; adapted demo notebooks also say so in their
+first cell. The public datasets used by the case studies carry their own terms, which
 each case study states, such as NOAA's attribution request and the Copernicus Sentinel data notice.
 
 ## How do I cite ganymede?
