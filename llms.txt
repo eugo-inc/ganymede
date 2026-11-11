@@ -20,4 +20,5 @@ Rendered website: https://eugo-inc.github.io/ganymede/ (https://eugo-inc.github.
 ## Source
 
 - [GitHub repository](https://github.com/eugo-inc/ganymede): source of every notebook, README files with run instructions, CITATION.cff.
+- [Zenodo archive](https://doi.org/10.5281/zenodo.24117548): citable DOI for the repository (all versions); release v2026.11.0 is doi:10.5281/zenodo.24117549.
 - [Eugo](https://eugo.io): Eugo is building the performance cloud, making high performance computing the default for every engineering team.

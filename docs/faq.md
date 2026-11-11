@@ -121,4 +121,6 @@ each case study states, such as NOAA's attribution request and the Copernicus Se
 Use the citation metadata in
 [CITATION.cff](https://github.com/eugo-inc/ganymede/blob/main/CITATION.cff) at the root of the
 repository. On the [repository page](https://github.com/eugo-inc/ganymede), GitHub turns that
-file into a "Cite this repository" button with ready-made APA and BibTeX entries.
+file into a "Cite this repository" button with ready-made APA and BibTeX entries. The repository is
+archived on Zenodo: [doi:10.5281/zenodo.24117548](https://doi.org/10.5281/zenodo.24117548) covers all versions, and release v2026.11.0 is
+[doi:10.5281/zenodo.24117549](https://doi.org/10.5281/zenodo.24117549).

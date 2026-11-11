@@ -1,5 +1,7 @@
 # ganymede: open HPC notebooks from Eugo
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24117548.svg)](https://doi.org/10.5281/zenodo.24117548)
+
 **ganymede is a public collection of Jupyter notebooks for high-performance and scientific Python:** three
 case studies on public NOAA and Copernicus data, 44 Ray programs for parallel and distributed computing,
 demos of popular data, geospatial and visualisation libraries, and smoke tests for 1,200+ Python packages and
@@ -116,7 +118,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Please report security issues privately 
 ## How to cite
 
 GitHub's **Cite this repository** button (from [CITATION.cff](CITATION.cff)) gives APA and BibTeX
-entries. Please name the notebook you used and link the repository.
+entries. The repository is archived on Zenodo: [doi:10.5281/zenodo.24117548](https://doi.org/10.5281/zenodo.24117548) covers all versions,
+and release v2026.11.0 is [doi:10.5281/zenodo.24117549](https://doi.org/10.5281/zenodo.24117549). Please name the notebook you used and link
+the repository.
 
 ## License
 
