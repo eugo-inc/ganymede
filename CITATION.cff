@@ -14,6 +14,8 @@ abstract: >-
 repository-code: "https://github.com/eugo-inc/ganymede"
 url: "https://eugo-inc.github.io/ganymede/"
 license: BSD-3-Clause
+version: "2026.11.0"
+date-released: "2026-11-12"
 doi: "10.5281/zenodo.24117548"
 identifiers:
   - type: doi

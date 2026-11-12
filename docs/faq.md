@@ -122,5 +122,19 @@ Use the citation metadata in
 [CITATION.cff](https://github.com/eugo-inc/ganymede/blob/main/CITATION.cff) at the root of the
 repository. On the [repository page](https://github.com/eugo-inc/ganymede), GitHub turns that
 file into a "Cite this repository" button with ready-made APA and BibTeX entries. The repository is
-archived on Zenodo: [doi:10.5281/zenodo.24117548](https://doi.org/10.5281/zenodo.24117548) covers all versions, and release v2026.11.0 is
-[doi:10.5281/zenodo.24117549](https://doi.org/10.5281/zenodo.24117549).
+archived on Zenodo: [doi:10.5281/zenodo.24117548](https://doi.org/10.5281/zenodo.24117548) covers all versions and always resolves to the
+newest release, and release v2026.11.0 is
+[doi:10.5281/zenodo.24117549](https://doi.org/10.5281/zenodo.24117549). To cite the exact files you used, cite the release DOI.
+In BibTeX, the double braces keep the company name from being read as a person's name:
+
+```bibtex
+@software{ganymede_2026_11_0,
+  author    = {{Eugo, Inc.}},
+  title     = {ganymede: open HPC notebooks from Eugo},
+  version   = {2026.11.0},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.24117549},
+  url       = {https://doi.org/10.5281/zenodo.24117549}
+}
+```

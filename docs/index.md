@@ -79,6 +79,7 @@ them. The case studies need no account: every read is anonymous.
 ## Links
 
 - Source code: [github.com/eugo-inc/ganymede](https://github.com/eugo-inc/ganymede)
+- Cite: [doi:10.5281/zenodo.24117548](https://doi.org/10.5281/zenodo.24117548) (all versions; see [How do I cite ganymede?](faq.md#how-do-i-cite-ganymede))
 - License: [BSD 3-Clause](https://github.com/eugo-inc/ganymede/blob/main/LICENSE), Copyright (c) 2026, Eugo, Inc. Adapted examples keep their own licenses; see [THIRD_PARTY_NOTICES.md](https://github.com/eugo-inc/ganymede/blob/main/THIRD_PARTY_NOTICES.md).
 - Contributing: [CONTRIBUTING.md](https://github.com/eugo-inc/ganymede/blob/main/CONTRIBUTING.md) · Security: [SECURITY.md](https://github.com/eugo-inc/ganymede/blob/main/SECURITY.md)
 - A plain-text index of every page for AI assistants: [llms.txt](llms.txt)

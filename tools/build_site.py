@@ -529,7 +529,8 @@ def llms_txt(nav: list, pages: dict[str, Page]) -> str:
         "Python packages and native libraries. BSD 3-Clause License.",
         "",
         f"Source repository: {REPO_URL}. Every notebook page below shows the notebook as committed, "
-        "with its outputs where the repository keeps them, and links to the .ipynb file.",
+        "with its outputs where the repository keeps them, and links to the .ipynb file. "
+        "Citable archive on Zenodo: https://doi.org/10.5281/zenodo.24117548 (all versions).",
         "",
         "## Overview",
         "",

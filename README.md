@@ -20,7 +20,7 @@ studies, demo notebooks and Ray patterns rendered, with search and an [FAQ](http
 - **Scientists and engineers working with Earth observation, weather and hydrology data in Python**: reading
   NetCDF, Zarr and Cloud-Optimized GeoTIFFs straight from public cloud buckets with xarray, rasterio and STAC.
 - **Developers learning Ray by example**: Ray Core, Ray Data, Ray Serve, Ray Train and Ray Tune, each
-  pattern shown as a graph next to the code it runs.
+  pattern shown as a graph next to its Ray code.
 - **Platform and HPC teams**: a quick check that a Python package or a native library installs and works on
   a given machine.
 
@@ -118,9 +118,23 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Please report security issues privately 
 ## How to cite
 
 GitHub's **Cite this repository** button (from [CITATION.cff](CITATION.cff)) gives APA and BibTeX
-entries. The repository is archived on Zenodo: [doi:10.5281/zenodo.24117548](https://doi.org/10.5281/zenodo.24117548) covers all versions,
-and release v2026.11.0 is [doi:10.5281/zenodo.24117549](https://doi.org/10.5281/zenodo.24117549). Please name the notebook you used and link
-the repository.
+entries. The repository is archived on Zenodo: [doi:10.5281/zenodo.24117548](https://doi.org/10.5281/zenodo.24117548) covers all versions
+and always resolves to the newest release, and release v2026.11.0 is
+[doi:10.5281/zenodo.24117549](https://doi.org/10.5281/zenodo.24117549). To cite the exact files you used, cite the release DOI.
+Please name the notebook you used and link the repository. In BibTeX, the double braces keep the
+company name from being read as a person's name:
+
+```bibtex
+@software{ganymede_2026_11_0,
+  author    = {{Eugo, Inc.}},
+  title     = {ganymede: open HPC notebooks from Eugo},
+  version   = {2026.11.0},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.24117549},
+  url       = {https://doi.org/10.5281/zenodo.24117549}
+}
+```
 
 ## License
 
