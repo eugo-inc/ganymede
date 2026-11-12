@@ -127,7 +127,7 @@ company name from being read as a person's name:
 ```bibtex
 @software{ganymede_2026_11_0,
   author    = {{Eugo, Inc.}},
-  title     = {ganymede: open HPC notebooks from Eugo},
+  title     = {{ganymede: open HPC notebooks from Eugo}},
   version   = {2026.11.0},
   year      = {2026},
   publisher = {Zenodo},
