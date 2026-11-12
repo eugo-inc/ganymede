@@ -8,7 +8,7 @@ Each notebook has the same layout:
 2. the graph in the visual builder;
 3. a setup cell that starts Ray quietly;
 4. the user functions the graph's nodes call;
-5. the generated code;
+5. the generated code (where a notebook edited it by hand, the cell's first line says so);
 6. a check of the result;
 7. a walkthrough that maps each node to the lines it produced;
 8. other forms the builder can emit (a `bind()` DAG, a standalone script, a Ray Job submit script), where they exist;
