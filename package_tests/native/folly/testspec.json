@@ -3,7 +3,7 @@
   "kind": "shared-libs-only",
   "expected_artifacts": [
     "lib64/libfolly.so",
-    "lib64/libfolly.so.2026.10.19.00",
+    "lib64/libfolly.so.2026.10.26.00",
     "include/folly/folly-config.h",
     "include/folly/Portability.h",
     "include/folly/CPortability.h",
@@ -18,7 +18,7 @@
   ],
   "expected_artifact_globs": [
     "lib64/libfolly.so.*",
-    "lib64/libfolly.so.2026.10.19.00"
+    "lib64/libfolly.so.2026.10.26.00"
   ],
   "static_archives_must_be_pic": false,
   "smoke_run": null,
