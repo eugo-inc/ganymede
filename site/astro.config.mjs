@@ -36,6 +36,13 @@ export default defineConfig({
       // The tags every page names the share image with: public/assets/social-preview.png,
       // drawn by tools/share_image.py, with its size and its alt text.
       head: generated.head,
+      // The mark beside the name in the header, in the light and the dark theme, drawn by
+      // tools/share_image.py (which also writes public/favicon.svg).
+      logo: {
+        light: './src/assets/mark-light.svg',
+        dark: './src/assets/mark-dark.svg',
+        alt: '',
+      },
       // Inter, installed from the package and served by the site itself; the palette shared
       // with Eugo's other documentation; then what only this site needs.
       customCss: [
