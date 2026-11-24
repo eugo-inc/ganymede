@@ -1,0 +1,124 @@
+/* SPDX-License-Identifier: BSD-3-Clause */
+/* Copyright (c) 2026, Eugo, Inc. */
+/* The palette, the type and the few places the gradient is used: the rule under the header,
+   the primary buttons and the title of the home page. Starlight's dark theme is the default;
+   its light theme is the one with data-theme="light". */
+
+:root {
+	--sl-font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--pb-violet: #a142ff;
+	--pb-teal: #22c7e0;
+	--pb-teal-low: #0b2a31;
+	--pb-gradient: linear-gradient(90deg, #a03fff, #008294);
+
+	--sl-color-accent-low: #2a1250;
+	--sl-color-accent: #a142ff;
+	--sl-color-accent-high: #dcc4ff;
+	--sl-color-white: #f2f3f8;
+	--sl-color-gray-1: #dfe1ea;
+	--sl-color-gray-2: #b9bdcc;
+	--sl-color-gray-3: #8b91a7;
+	--sl-color-gray-4: #5c6279;
+	--sl-color-gray-5: #343a4e;
+	--sl-color-gray-6: #141a28;
+	--sl-color-black: #080d17;
+}
+
+:root[data-theme='light'] {
+	--pb-violet: #7c3aed;
+	--pb-teal: #048196;
+	--pb-teal-low: #e3f6f8;
+	--pb-gradient: linear-gradient(90deg, #7c3aed, #048196);
+
+	--sl-color-accent-low: #ede5fd;
+	--sl-color-accent: #7c3aed;
+	--sl-color-accent-high: #3d1785;
+	--sl-color-white: #0b1020;
+	--sl-color-gray-1: #1c2135;
+	--sl-color-gray-2: #343a51;
+	--sl-color-gray-3: #555b72;
+	--sl-color-gray-4: #868ba2;
+	--sl-color-gray-5: #c9c5d9;
+	--sl-color-gray-6: #f1eff7;
+	--sl-color-gray-7: #f8f7fc;
+	--sl-color-black: #ffffff;
+	--sl-color-hairline-light: #e4e1ee;
+	--sl-color-hairline: #e4e1ee;
+	--sl-color-hairline-shade: #d6d2e4;
+}
+
+/* The site title: the logo sized to the letters, then the name set bold and tight. */
+.site-title {
+	gap: 0.3em;
+	font-weight: 700;
+	letter-spacing: -0.03em;
+	color: var(--sl-color-white);
+}
+.site-title img {
+	height: 1.1em;
+}
+
+/* The gradient: a rule under the header, the primary buttons, the title of the home page. */
+header.header {
+	background-image: var(--pb-gradient);
+	background-size: 100% 2px;
+	background-position: bottom;
+	background-repeat: no-repeat;
+	border-bottom-color: transparent;
+}
+.sl-link-button.primary {
+	background: var(--pb-gradient);
+	border-color: transparent;
+	color: #ffffff;
+}
+.sl-link-button.primary:hover {
+	filter: brightness(1.08);
+	color: #ffffff;
+}
+.hero h1 {
+	background: var(--pb-gradient);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	letter-spacing: -0.03em;
+}
+
+/* The second accent: the step numbers, the selected tab and every other card's icon. */
+.card-grid .card:nth-child(odd) {
+	--sl-card-border: var(--pb-violet);
+	--sl-card-bg: var(--sl-color-accent-low);
+}
+.card-grid .card:nth-child(even) {
+	--sl-card-border: var(--pb-teal);
+	--sl-card-bg: var(--pb-teal-low);
+}
+.sl-steps > li::before {
+	border-color: var(--pb-teal);
+	color: var(--pb-teal);
+}
+starlight-tabs [role='tab'][aria-selected='true'] {
+	border-color: var(--pb-teal);
+	color: var(--pb-teal);
+}
+
+.pb-maker {
+	margin-top: 1.5rem;
+	font-size: var(--sl-text-xs);
+	color: var(--sl-color-gray-3);
+	text-align: center;
+}
+.pb-maker a {
+	color: var(--sl-color-gray-2);
+}
+
+/* The badges under the tagline of the home page, drawn by the build from the package. */
+.pb-badges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+.pb-badges img {
+	height: 20px;
+	width: auto;
+}

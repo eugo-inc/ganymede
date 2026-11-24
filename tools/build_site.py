@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
 import json
 import re
 import shutil
@@ -134,6 +135,14 @@ FOLDER_ORDER = {"ray_patterns": ("core", "data", "serve", "train", "tune", "cros
 # Folders shown as their own top-level tab instead of inside their parent.
 PROMOTED = ("demo_notebooks/case_studies",)
 DESCRIPTION_LIMIT = 160
+
+# The palette, type and gradient the website shares with Eugo's other documentation sites: a copy
+# of their brand.css under this repository's two licence lines. BRAND_SHA256 is the sha256 of the
+# file without those two lines; when the shared stylesheet changes, copy it again (keeping the
+# licence lines), check it with --check-brand PATH, and update the digest here.
+BRAND_CSS = ROOT / "site" / "src" / "styles" / "brand.css"
+BRAND_SHA256 = "18892f2b603cfdb58912003af37c0a7eaa3d2c2829e6fc8cf0ddb4fcc7035bc2"
+BRAND_HEADER_LINES = 2
 
 
 # --------------------------------------------------------------------------------------------
@@ -833,6 +842,30 @@ def refresh_gallery() -> None:
     print(f"gallery: {len(wanted)} images, {total / 1024 / 1024:.2f} MiB")
 
 
+def brand_body(path: Path) -> bytes:
+    """A brand stylesheet without its licence lines: the part every copy shares."""
+    return b"".join(path.read_bytes().splitlines(keepends=True)[BRAND_HEADER_LINES:])
+
+
+def brand_refusal(against: Path | None = None) -> str | None:
+    """Why site/src/styles/brand.css is not the shared stylesheet, or None when it is: its body
+    must have the digest BRAND_SHA256 and, when ``against`` names another copy (the stylesheet of
+    another Eugo documentation site), the same body as that copy."""
+    if not BRAND_CSS.is_file():
+        return f"{BRAND_CSS.relative_to(ROOT)} is missing"
+    body = brand_body(BRAND_CSS)
+    digest = hashlib.sha256(body).hexdigest()
+    if digest != BRAND_SHA256:
+        return (f"{BRAND_CSS.relative_to(ROOT)} has changed (sha256 {digest} without its licence lines, "
+                f"not {BRAND_SHA256}): copy the shared stylesheet again, or update BRAND_SHA256")
+    if against is not None:
+        other = hashlib.sha256(brand_body(against)).hexdigest()
+        if other != digest:
+            return (f"{against} differs from {BRAND_CSS.relative_to(ROOT)} (sha256 {other}, not {digest}): "
+                    "copy it under this repository's licence lines and update BRAND_SHA256")
+    return None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--out", type=Path, help="folder to assemble the MkDocs project in")
@@ -840,9 +873,20 @@ def main() -> int:
                         help="rewrite docs/assets/gallery/*.png from the notebooks' figures")
     parser.add_argument("--allow-untracked", action="store_true",
                         help="build even when the copied folders hold files git does not track")
+    parser.add_argument("--check-brand", nargs="?", const=True, metavar="PATH",
+                        help="check site/src/styles/brand.css against its digest and, given PATH, "
+                             "against another copy of the shared stylesheet")
     args = parser.parse_args()
+    if args.check_brand:
+        cause = brand_refusal(None if args.check_brand is True else Path(args.check_brand))
+        if cause:
+            print(f"build_site: {cause}", file=sys.stderr)
+            return 1
+        print(f"brand.css: sha256 {BRAND_SHA256} without its licence lines")
+        if not args.out and not args.refresh_gallery:
+            return 0
     if not args.out and not args.refresh_gallery:
-        parser.error("give --out DIR, --refresh-gallery, or both")
+        parser.error("give --out DIR, --refresh-gallery, --check-brand, or a combination")
     if args.refresh_gallery:
         refresh_gallery()
     if args.out:
