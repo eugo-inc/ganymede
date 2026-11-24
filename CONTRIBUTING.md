@@ -102,8 +102,8 @@ python3 tools/build_site.py clean
 
 Each `--delete` removes every key under its target that the build did not write, so never point
 these commands at another prefix. The three `AS BUILT` lines and `404` mean the site is live. The
-host's one-time setup (the bucket policy, the two cache behaviours for `/docs/ganymede/*` and
-`/docs/ganymede`, the role, and `site/hosting/docs-404.html` uploaded once as `docs/404.html`, the
+host's one-time setup (the bucket policy, cache behaviours for `/docs/ganymede/*`, `/docs/ganymede`
+and `/docs/404.html`, the role, and `site/hosting/docs-404.html` uploaded once as `docs/404.html`, the
 page for an address under `/docs/` that no documentation site holds) is done by whoever runs eugo.io.
 
 ## License
