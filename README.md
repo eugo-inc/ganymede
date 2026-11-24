@@ -1,6 +1,12 @@
-# ganymede: open HPC notebooks from Eugo
+<h1 align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/readme/banner-dark.svg"><img alt="ganymede: open notebooks for HPC, Ray and geospatial Python" src="docs/readme/banner-light.svg" width="100%"></picture></h1>
+
+<div align="center">
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24117548.svg)](https://doi.org/10.5281/zenodo.24117548)
+
+**[Website](https://eugo.io/docs/ganymede/)** · [Case studies](https://eugo.io/docs/ganymede/demo_notebooks/case_studies/) · [Ray patterns](https://eugo.io/docs/ganymede/ray_patterns/) · [FAQ](https://eugo.io/docs/ganymede/faq/) · [How to cite](#how-to-cite)
+
+</div>
 
 **ganymede is a public collection of Jupyter notebooks for high-performance and scientific Python:** three
 case studies on public NOAA and Copernicus data, 44 Ray programs for parallel and distributed computing,
@@ -12,8 +18,8 @@ cluster, and everything is under the BSD 3-Clause license.
 default for every engineering team. The notebooks here run on any Python environment; none of them needs
 Eugo.
 
-**Website:** [eugo-inc.github.io/ganymede](https://eugo-inc.github.io/ganymede/) shows the case
-studies, demo notebooks and Ray patterns rendered, with search and an [FAQ](https://eugo-inc.github.io/ganymede/faq/).
+**Website:** [eugo.io/docs/ganymede](https://eugo.io/docs/ganymede/) shows the case
+studies, demo notebooks and Ray patterns rendered, with search and an [FAQ](https://eugo.io/docs/ganymede/faq/).
 
 ## Who it is for
 

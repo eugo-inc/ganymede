@@ -6,7 +6,8 @@ The mark is a set of rounded tiles in violet and teal on a 64-unit grid, in the 
 other documentation sites: three notebook cells and a moon. ``MARKS`` holds each proposal as data
 (``MARK`` names the one in use), and this script writes it, for the light and the dark theme, to
 ``site/src/assets/mark-light.svg`` and ``mark-dark.svg``, the other proposals beside them, and
-``site/public/favicon.svg``, which follows the reader's colour scheme.
+``site/public/favicon.svg``, which follows the reader's colour scheme, and the README's banner,
+``docs/readme/banner-light.svg`` and ``banner-dark.svg``.
 
 The share image, ``site/public/assets/social-preview.png``, is what a page shared on a social site
 or in a chat shows beside its title. It holds a band of the site's accent gradient along its top,
@@ -26,7 +27,7 @@ are the ones it writes; ``is_current`` says exactly what is accepted and refused
 
 Usage::
 
-    python3 tools/share_image.py          # write the marks, the favicon and the share image
+    python3 tools/share_image.py          # write the marks, the favicon, the banner and the share image
     python3 tools/share_image.py --check  # exit 1, naming the cause, when a file differs
 """
 
@@ -867,11 +868,73 @@ def favicon_svg(name: str = MARK) -> str:
     )
 
 
+# --- the README's banner ------------------------------------------------------------------
+# The banner at the top of README.md, for GitHub's light and dark themes: a framed panel with a
+# band of the accent gradient along its top, the mark beside the name, and the share image's line
+# under them. Its letters are the strokes of the share image's font, so it needs no font file.
+BANNER_FILES = {"light": "docs/readme/banner-light.svg", "dark": "docs/readme/banner-dark.svg"}
+BANNER_WIDTH, BANNER_HEIGHT = 1200, 260
+BANNER_THEMES = {
+    "light": {"ground": "#ffffff", "border": "#e4e1ee", "ink": "#0b1020", "muted": "#4a4f63",
+              "rule": ("#7c3aed", "#048196")},
+    "dark": {"ground": "#080d17", "border": "#232a3b", "ink": "#f2f3f8", "muted": "#a9b0c3",
+             "rule": ("#a03fff", "#008294")},
+}
+
+
+def _stroke_path(strokes: Iterable[Stroke]) -> str:
+    """Strokes as the commands of one SVG path: each a move, then lines."""
+    parts = []
+    for stroke in strokes:
+        head, *rest = stroke
+        parts.append(f"M{_number(head[0])} {_number(head[1])}"
+                     + "".join(f"L{_number(x)} {_number(y)}" for x, y in rest))
+    return "".join(parts)
+
+
+def banner_svg(theme: str, name: str = MARK) -> str:
+    """The README's banner in one theme."""
+    look = BANNER_THEMES[theme]
+    name_unit, line_unit = 8.5, 3.2
+    mark = 100.0
+    gap = 26.0
+    name_width = text_width(NAME) * name_unit
+    left = (BANNER_WIDTH - (mark + gap + name_width)) / 2
+    baseline = 128.0
+    middle = baseline - X * name_unit / 2
+    inner = mark_svg(name, theme).split(">", 1)[1].rsplit("</svg>", 1)[0]
+    line_width = text_width(LINE) * line_unit
+    w, h = BANNER_WIDTH, BANNER_HEIGHT
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
+        f'role="img" aria-label="{NAME}: {LINE}">'
+        f'<defs><linearGradient id="gnBannerRule" x1="0" y1="0" x2="1" y2="0">'
+        f'<stop offset="0" stop-color="{look["rule"][0]}"/><stop offset="1" stop-color="{look["rule"][1]}"/>'
+        f'</linearGradient><clipPath id="gnBannerFrame"><rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="18"/>'
+        "</clipPath></defs>"
+        f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="18" fill="{look["ground"]}" '
+        f'stroke="{look["border"]}" stroke-width="2"/>'
+        f'<rect x="0" y="0" width="{w}" height="6" fill="url(#gnBannerRule)" clip-path="url(#gnBannerFrame)"/>'
+        f'<svg x="{_number(left)}" y="{_number(middle - mark / 2)}" width="{_number(mark)}" '
+        f'height="{_number(mark)}" viewBox="0 0 64 64">{inner}</svg>'
+        f'<path fill="none" stroke="{look["ink"]}" stroke-width="{_number(1.15 * name_unit)}" '
+        'stroke-linecap="round" stroke-linejoin="round" '
+        f'd="{_stroke_path(text_strokes(NAME, left + mark + gap, baseline, name_unit))}"/>'
+        f'<path fill="none" stroke="{look["muted"]}" stroke-width="{_number(0.85 * line_unit)}" '
+        'stroke-linecap="round" stroke-linejoin="round" '
+        f'd="{_stroke_path(text_strokes(LINE, (w - line_width) / 2, 206, line_unit))}"/>'
+        "</svg>\n"
+    )
+
+
 def mark_files() -> dict[str, str]:
     """Every SVG file this script writes, by its path in the repository, with its text: the
-    mark in use in both themes, the favicon, and each other proposal in both themes."""
+    mark in use in both themes, the favicon, the README's banner in both themes, and each other
+    proposal in both themes."""
     files = {MARK_FILES[theme]: mark_svg(MARK, theme) for theme in ("light", "dark")}
     files[FAVICON] = favicon_svg(MARK)
+    for theme, path in BANNER_FILES.items():
+        files[path] = banner_svg(theme)
     for name in MARKS:
         if name != MARK:
             for theme in ("light", "dark"):

@@ -12,7 +12,7 @@ abstract: >-
   Serve, Train and Tune), demos of popular data, geospatial and visualisation libraries, and smoke
   tests for Python packages and native libraries.
 repository-code: "https://github.com/eugo-inc/ganymede"
-url: "https://eugo-inc.github.io/ganymede/"
+url: "https://eugo.io/docs/ganymede/"
 license: BSD-3-Clause
 version: "2026.11.0"
 date-released: "2026-11-12"

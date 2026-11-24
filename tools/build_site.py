@@ -1607,6 +1607,27 @@ def check_site(dist: Path = DIST) -> list[str]:
         if EXTENSION.search(folder.name) and (folder / "index.html").is_file():
             problems.append(f"{folder.relative_to(dist).as_posix()}/: a page whose address looks like a file's")
     problems += check_parity(dist, page)
+    problems += check_repository_addresses(dist)
+    return problems
+
+
+# Files of the repository that name pages of the site by their full address.
+ADDRESS_FILES = ("README.md", "llms.txt", "CITATION.cff", "CONTRIBUTING.md")
+
+
+def check_repository_addresses(dist: Path) -> list[str]:
+    """Every address of the site that a file of ADDRESS_FILES writes is a page or file the
+    built site serves."""
+    problems = []
+    pattern = re.compile(re.escape(NEW_ROOT) + r"[^\s)\]\"'<>`]*")
+    for name in ADDRESS_FILES:
+        text = (ROOT / name).read_text(encoding="utf-8")
+        for address in sorted(set(pattern.findall(text))):
+            path = urlsplit(address).path.rstrip(".,;:")
+            if not path.endswith("/") and "." not in path.rsplit("/", 1)[-1]:
+                problems.append(f"{name}: {address} lacks its final slash")
+            elif built_file(dist, path) is None:
+                problems.append(f"{name}: {address} names nothing the site serves")
     return problems
 
 
