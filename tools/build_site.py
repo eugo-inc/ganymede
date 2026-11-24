@@ -602,6 +602,14 @@ class NotebookPage:
     files: dict[str, bytes] = field(default_factory=dict)  # path under the base -> bytes
 
 
+def cell_anchor(cell_id: str) -> str:
+    """An empty block that carries a cell's id as the MkDocs site gave it. A div, because Markdown
+    passes a line that starts with one through as it is, where a lone span would become a paragraph."""
+    if not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", cell_id):
+        raise SiteError(f"a cell id the notebook format does not allow: {cell_id!r}")
+    return f'<div id="cell-id={cell_id}"></div>'
+
+
 def notebook_page(repo_path: str, sections: set[str], images: dict[str, str]) -> NotebookPage:
     """One notebook as a Markdown page: its Markdown cells (without the first level-one heading,
     which becomes the page's title, links pointed at the site, attachments as files), its code
@@ -632,6 +640,9 @@ def notebook_page(repo_path: str, sections: set[str], images: dict[str, str]) ->
     for index, cell in enumerate(nb.get("cells", [])):
         kind = cell.get("cell_type")
         source = joined(cell.get("source", ""))
+        if cell.get("id"):
+            # The old site gave every cell the id cell-id=<the cell's id>; links to a cell keep working.
+            blocks.append(cell_anchor(cell["id"]))
         if kind == "markdown":
             if not dropped:
                 source, dropped = drop_first_h1(source)
@@ -1234,6 +1245,7 @@ def markdown_copy(page: SitePage) -> str:
     if page.kind == "notebook":
         lines.append(f"Notebook: {NEW_SITE}{page.front['download']} (source: {page.github})")
     body = re.sub(r'<span id="[^"]*"></span>', "", page.copy_body or page.body)
+    body = re.sub(r'<div id="cell-id=[^"]*"></div>(\n\n|\n?$)', "", body)
     return "\n".join(lines) + "\n\n" + absolute(body).strip("\n") + "\n"
 
 
