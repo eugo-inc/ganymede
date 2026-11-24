@@ -1059,6 +1059,7 @@ class SitePage:
     files: dict[str, bytes] = field(default_factory=dict)
     mdx: bool = False
     trail: list[tuple[str, str]] = field(default_factory=list)  # breadcrumbs: (name, address)
+    copy_body: str = ""      # Markdown for the page's copy, when the body is MDX
 
     @property
     def path(self) -> str:
@@ -1220,25 +1221,6 @@ def site_notebook_page(nb: Notebook, sections: set[str], images: dict[str, str])
                     "notebook", converted.front["github"], converted.body, front=front, files=converted.files)
 
 
-def gallery_html() -> str:
-    """The home page's gallery as plain HTML: one card per GALLERY notebook, its figure and
-    title linking to the notebook's page."""
-    cards = ['<div class="gn-gallery not-content">']
-    for rel, caption in GALLERY:
-        png = GALLERY_DIR / f"{Path(rel).stem}.png"
-        if not png.is_file():
-            raise SiteError(f"missing {png.relative_to(ROOT)}: run python3 tools/build_site.py refresh-gallery")
-        width, height = struct.unpack(">II", png.read_bytes()[16:24])
-        href = site_path(rel)
-        cards.append(
-            f'<figure class="gn-gallery-card"><a href="{href}" tabindex="-1" aria-hidden="true">'
-            f'<img src="{BASE_PATH}assets/gallery/{png.name}" width="{width}" height="{height}" alt="" '
-            f'loading="lazy" decoding="async"></a><figcaption><a href="{href}">'
-            f"{html_escape(notebook_info(ROOT / rel).title)}</a><span>{html_escape(caption)}</span>"
-            "</figcaption></figure>")
-    return "\n".join(cards + ["</div>"])
-
-
 def html_escape(text: str) -> str:
     return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
@@ -1254,8 +1236,6 @@ def hand_page(name: str, sections: set[str]) -> SitePage:
     text, heading = take_first_h1(text)
     if name == "package_tests.md":
         text = text.replace("<!-- package-list -->", site_package_list())
-    if name == "index.md":
-        text = text.replace("<!-- gallery -->", gallery_html())
     body = rewrite_hand_links(text, sections, f"docs/{name}")
     page_id = name[: -len(".md")]
     kind = "home" if name == "index.md" else "doc"
@@ -1263,12 +1243,138 @@ def hand_page(name: str, sections: set[str]) -> SitePage:
     page = SitePage(page_id, f"docs/{name}", title, fm["description"], kind, github_url(f"docs/{name}"),
                     body_text(body, heading), label=fm.get("nav_title", ""))
     if kind == "home":
+        page.copy_body = home_markdown(page.body)
         # A page with a hero has no page title of its own: the old id of the home page's heading
         # is kept on an empty element at the start of its text.
-        page.body = f'<span id="{old_id(heading)}"></span>\n\n{page.body}'
+        page.body = f'<span id="{old_id(heading)}"></span>\n\n{home_mdx(page.body)}'
+        page.mdx = True
+        page.front["template"] = "splash"
+        page.front["hero"] = home_hero(page.description)
     else:
         page.front["legacyTitleId"] = old_id(heading)
     return page
+
+
+# The home page: a hero (a question as its title, the description as its tagline, the mark, three
+# buttons), then its text, in which three marked regions become Starlight's components:
+#   <!-- linkcards --> ... <!-- /linkcards -->  each line "- [Title](target): text" is a link card;
+#   <!-- gallery -->                            the gallery of figures (GALLERY);
+#   <!-- steps --> ... <!-- /steps -->          an ordered list shown as numbered steps.
+HERO_TITLE = "Need a Python notebook that already runs?"
+HERO_ACTIONS = (
+    ("Case studies", "demo_notebooks/case_studies/", "primary", "right-arrow"),
+    ("Ray patterns", "ray_patterns/", "secondary", None),
+    ("Source", REPO_URL, "minimal", "external"),
+)
+HOME_IMPORTS = ("import { CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';\n"
+                "import GalleryCard from '../../components/GalleryCard.astro';")
+CARD_LINE = re.compile(r"^- \[([^\]]+)\]\(([^)\s]+)\):\s*(.+)$")
+HOME_MARKER = re.compile(r"^<!--\s*(/?)(linkcards|steps|gallery)\s*-->$")
+
+
+def home_hero(description: str) -> dict:
+    actions = []
+    for text, target, variant, icon in HERO_ACTIONS:
+        action = {"text": text, "link": target if "://" in target else BASE_PATH + target, "variant": variant}
+        if icon:
+            action["icon"] = icon
+        actions.append(action)
+    return {"title": HERO_TITLE, "tagline": description,
+            "image": {"alt": "", "light": "../../assets/mark-light.svg", "dark": "../../assets/mark-dark.svg"},
+            "actions": actions}
+
+
+def gallery_cards() -> list[tuple[str, str, int, int, str, str]]:
+    """Each gallery card: the notebook's page, the figure's address, its size, title and caption."""
+    cards = []
+    for rel, caption in GALLERY:
+        png = GALLERY_DIR / f"{Path(rel).stem}.png"
+        if not png.is_file():
+            raise SiteError(f"missing {png.relative_to(ROOT)}: run python3 tools/build_site.py refresh-gallery")
+        width, height = struct.unpack(">II", png.read_bytes()[16:24])
+        cards.append((site_path(rel), f"{BASE_PATH}assets/gallery/{png.name}", width, height,
+                      notebook_info(ROOT / rel).title, caption))
+    return cards
+
+
+def outside_fences(text: str):
+    """Each line of a text, with whether it is inside fenced code (its fences included)."""
+    fence = None
+    for line in text.split("\n"):
+        opened = FENCE_LINE.match(line)
+        if fence:
+            if opened and opened.group(1)[0] == fence[0] and len(opened.group(1)) >= len(fence):
+                fence = None
+            yield line, True
+        elif opened:
+            fence = opened.group(1)
+            yield line, True
+        else:
+            yield line, False
+
+
+def home_markdown(body: str) -> str:
+    """The home page's text as plain Markdown: the markers left out, the gallery as a list."""
+    out = []
+    for line, fenced in outside_fences(body):
+        marker = None if fenced else HOME_MARKER.match(line.strip())
+        if marker and marker.group(2) == "gallery":
+            out += [f"- [{md_escape(title)}]({href}): {caption}" for href, _src, _w, _h, title, caption in gallery_cards()]
+        elif not marker:
+            out.append(line)
+    return "\n".join(out)
+
+
+def mdx_prose(line: str) -> str:
+    """A line of prose made safe for MDX: braces outside code spans are escaped."""
+    pieces = re.split(r"(`+[^`]*?`+)", line)
+    for i in range(0, len(pieces), 2):
+        pieces[i] = re.sub(r"([{}])", r"\\\1", pieces[i])
+    return "".join(pieces)
+
+
+def jsx(value: str) -> str:
+    return json.dumps(value, ensure_ascii=False)
+
+
+def home_mdx(body: str) -> str:
+    """The home page's text as MDX, its marked regions as Starlight's components. A region left
+    open, or closed without being opened, is refused."""
+    out, region = [], None
+    for line, fenced in outside_fences(body):
+        if fenced:
+            out.append(line)
+            continue
+        marker = HOME_MARKER.match(line.strip())
+        if marker:
+            closing, name = marker.groups()
+            if name == "gallery":
+                out.append('<div class="gn-gallery not-content">')
+                out += [f"  <GalleryCard href={jsx(h)} src={jsx(s)} width={{{w}}} height={{{ht}}} "
+                        f"title={jsx(t)} caption={jsx(c)} />" for h, s, w, ht, t, c in gallery_cards()]
+                out.append("</div>")
+            elif closing:
+                if region != name:
+                    raise SiteError(f"docs/index.md: <!-- /{name} --> closes no open {name} region")
+                out += ["", "</CardGrid>" if name == "linkcards" else "</Steps>", ""]
+                region = None
+            else:
+                region = name
+                out += ["", "<CardGrid>" if name == "linkcards" else "<Steps>", ""]
+            continue
+        if line.strip().startswith("<!--"):
+            continue
+        card = CARD_LINE.match(line) if region == "linkcards" else None
+        if card:
+            title, href, text = card.groups()
+            out.append(f"  <LinkCard title={jsx(strip_markdown(title))} href={jsx(href)} "
+                       f"description={jsx(strip_markdown(text))} />")
+            continue
+        out.append(mdx_prose(line))
+    if region:
+        raise SiteError(f"docs/index.md: <!-- {region} --> is never closed")
+    text = re.sub(r"\n{3,}", "\n\n", "\n".join(out)).strip("\n")
+    return f"{HOME_IMPORTS}\n\n{text}\n"
 
 
 @dataclass
@@ -1437,7 +1543,7 @@ def markdown_copy(page: SitePage) -> str:
              f"# {page.title}", "", f"> {page.description}", "", f"Web page: {page.url}"]
     if page.kind == "notebook":
         lines.append(f"Notebook: {NEW_SITE}{page.front['download']} (source: {page.github})")
-    body = re.sub(r'<span id="[^"]*"></span>', "", page.body)
+    body = re.sub(r'<span id="[^"]*"></span>', "", page.copy_body or page.body)
     return "\n".join(lines) + "\n\n" + absolute(body).strip("\n") + "\n"
 
 
