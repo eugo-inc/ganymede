@@ -4,7 +4,8 @@ name: site
 # Only once the published site answers with the very files this run built does the last job
 # replace the old site at https://eugo-inc.github.io/ganymede/ with pages that send each reader
 # to the same page at the new address. Until the eugo-docs environment holds its settings (see
-# CONTRIBUTING.md, "Website"), the publish job stops and the old address keeps its site.
+# CONTRIBUTING.md, "Website"), the publish job skips its steps with a warning and the old address
+# keeps its site. .github/workflows/old-site.yml puts the old site back when it is needed again.
 on:
   push:
     branches: [main]
@@ -59,6 +60,8 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    outputs:
+      published: ${{ steps.readback.outputs.published }}
     env:
       # Secrets, so that the logs of this public repository never show them.
       DOCS_AWS_ROLE_ARN: ${{ secrets.DOCS_AWS_ROLE_ARN }}
@@ -68,43 +71,64 @@ jobs:
       ADDRESS: https://eugo.io/docs/ganymede
     steps:
       - name: Check the environment's settings
+        id: settings
+        # Until the one-time setup is done, the run stays green and says so: nothing is
+        # uploaded, and the redirects job, which needs published=true, does not run.
         run: |
           missing=""
           for name in DOCS_AWS_ROLE_ARN DOCS_S3_BUCKET DOCS_CLOUDFRONT_DISTRIBUTION_ID DOCS_AWS_REGION; do
             [ -n "${!name}" ] || missing="$missing $name"
           done
           if [ -n "$missing" ]; then
-            echo "::error::the eugo-docs environment lacks:$missing (CONTRIBUTING.md, Website). Nothing was published; the old address keeps its site."
-            exit 1
+            echo "::warning::the eugo-docs environment lacks:$missing (CONTRIBUTING.md, Website). Nothing was published; the old address keeps its site."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
-      - uses: actions/download-artifact@v8.0.2
+      - if: steps.settings.outputs.ready == 'true'
+        uses: actions/download-artifact@v8.0.2
         with:
           name: site
           path: dist
-      - uses: aws-actions/configure-aws-credentials@v6.3.0
+      - if: steps.settings.outputs.ready == 'true'
+        uses: aws-actions/configure-aws-credentials@v6.3.0
         with:
           role-to-assume: ${{ env.DOCS_AWS_ROLE_ARN }}
           aws-region: ${{ env.DOCS_AWS_REGION }}
       - name: Upload the site under docs/ganymede/
-        # Three syncs, each deleting only what its own filter covers: the pages and files (kept
-        # by caches for five minutes), Astro's hashed files (kept for a year) and the Markdown
-        # copies (served as text/markdown). Together they cover every key under the prefix.
+        if: steps.settings.outputs.ready == 'true'
+        # Astro's hashed files go first and nothing of theirs is deleted yet, so a page, old or
+        # new, never names a file that is missing; the last step removes the ones no page names.
+        # Then one sync per kind of file, each deleting only what its own filter covers: the
+        # pages and other files (cached for five minutes), the notebooks, the gzipped sitemap and
+        # the Markdown copies, each with its own content type. Every file of dist/ matches
+        # exactly one of the five filters.
         run: |
           target="s3://$DOCS_S3_BUCKET/docs/ganymede"
-          aws s3 sync dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
-            --exclude '*.md' --exclude '_astro/*' --cache-control 'public, max-age=300'
-          aws s3 sync dist/_astro/ "$target/_astro/" --delete --no-follow-symlinks --only-show-errors \
+          aws s3 sync dist/_astro/ "$target/_astro/" --size-only --no-follow-symlinks --only-show-errors \
             --cache-control 'public, max-age=31536000, immutable'
+          aws s3 sync dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
+            --exclude '_astro/*' --exclude '*.md' --exclude '*.ipynb' --exclude '*.gz' \
+            --cache-control 'public, max-age=300'
+          aws s3 sync dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
+            --exclude '*' --include '*.ipynb' --content-type 'application/x-ipynb+json' \
+            --cache-control 'public, max-age=300'
+          aws s3 sync dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
+            --exclude '*' --include '*.gz' --content-type 'application/gzip' \
+            --cache-control 'public, max-age=300'
           aws s3 sync dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
             --exclude '*' --include '*.md' --content-type 'text/markdown; charset=utf-8' \
             --cache-control 'public, max-age=300'
       - name: Drop the cached copies of the site's addresses
+        if: steps.settings.outputs.ready == 'true'
         run: |
           id="$(aws cloudfront create-invalidation --distribution-id "$DOCS_CLOUDFRONT_DISTRIBUTION_ID" \
             --paths '/docs/ganymede' '/docs/ganymede/*' --query Invalidation.Id --output text)"
           aws cloudfront wait invalidation-completed --distribution-id "$DOCS_CLOUDFRONT_DISTRIBUTION_ID" --id "$id"
           echo "invalidation completed"
       - name: Read the live site back
+        id: readback
+        if: steps.settings.outputs.ready == 'true'
         # The host answers any unknown address with a page of its own and status 200, so a
         # status alone proves nothing: each address must answer with the bytes just built.
         run: |
@@ -133,10 +157,19 @@ jobs:
           echo "a missing page: $miss; the address without its slash: $bare"
           [ "$miss" = 404 ] || { echo "::error::a missing page answers $miss, not 404"; exit 1; }
           [ "$bare" = 301 ] || { echo "::error::$ADDRESS answers $bare, not 301"; exit 1; }
+          echo "published=true" >> "$GITHUB_OUTPUT"
+      - name: Remove Astro's files that no page names any more
+        if: steps.settings.outputs.ready == 'true'
+        # A browser may keep a page for five minutes after the cached copies were dropped, so
+        # the hashed files that page names stay that long; then only the new build's remain.
+        run: |
+          sleep 330
+          aws s3 sync dist/_astro/ "s3://$DOCS_S3_BUCKET/docs/ganymede/_astro/" --delete --size-only \
+            --no-follow-symlinks --only-show-errors --cache-control 'public, max-age=31536000, immutable'
 
   redirects:
     needs: publish-eugo-io
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && needs.publish-eugo-io.outputs.published == 'true'
     runs-on: ubuntu-latest
     permissions:
       pages: write

@@ -70,7 +70,14 @@ deployments from `main`, with:
 - secret `DOCS_CLOUDFRONT_DISTRIBUTION_ID`: the distribution that serves eugo.io;
 - variable `DOCS_AWS_REGION`: the region of that role's sign-in.
 
-Without them the publish job stops before uploading anything, and the old address keeps its site.
+Without them the publish job uploads nothing and ends with a warning that names what is missing,
+the redirect job does not run, and the old address keeps its site.
+
+Replacing the old site is one-way until it is undone by hand. If <https://eugo.io/docs/ganymede/>
+has to come down, run the `old-site` workflow (`.github/workflows/old-site.yml`) from `main`: it
+builds the MkDocs site from the last commit that had it and puts it back at the old address. It
+stays there while the new address fails its read-back; the first passing publish replaces it with
+the redirect pages again.
 
 ### Uploading by hand
 
@@ -82,10 +89,17 @@ python3 tools/build_site.py build
 DOCS_S3_BUCKET='<the documentation bucket>'
 DISTRIBUTION_ID='<the eugo.io distribution>'
 target="s3://$DOCS_S3_BUCKET/docs/ganymede"
-aws s3 sync site/dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
-  --exclude '*.md' --exclude '_astro/*' --cache-control 'public, max-age=300'
-aws s3 sync site/dist/_astro/ "$target/_astro/" --delete --no-follow-symlinks --only-show-errors \
+aws s3 sync site/dist/_astro/ "$target/_astro/" --size-only --no-follow-symlinks --only-show-errors \
   --cache-control 'public, max-age=31536000, immutable'
+aws s3 sync site/dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
+  --exclude '_astro/*' --exclude '*.md' --exclude '*.ipynb' --exclude '*.gz' \
+  --cache-control 'public, max-age=300'
+aws s3 sync site/dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
+  --exclude '*' --include '*.ipynb' --content-type 'application/x-ipynb+json' \
+  --cache-control 'public, max-age=300'
+aws s3 sync site/dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
+  --exclude '*' --include '*.gz' --content-type 'application/gzip' \
+  --cache-control 'public, max-age=300'
 aws s3 sync site/dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
   --exclude '*' --include '*.md' --content-type 'text/markdown; charset=utf-8' \
   --cache-control 'public, max-age=300'
@@ -97,11 +111,15 @@ curl -sS https://eugo.io/docs/ganymede/llms.txt | cmp - site/dist/llms.txt && ec
 curl -sS -H 'Accept: text/markdown' https://eugo.io/docs/ganymede/faq/ | cmp - site/dist/faq/index.md && echo "MARKDOWN AS BUILT"
 site='https://eugo.io/docs/ganymede/'
 curl -sS -o /dev/null -w '%{http_code}\n' "${site}no-such-page/"    # 404
+sleep 330    # pages still cached in browsers keep the hashed files they name
+aws s3 sync site/dist/_astro/ "$target/_astro/" --delete --size-only --no-follow-symlinks \
+  --only-show-errors --cache-control 'public, max-age=31536000, immutable'
 python3 tools/build_site.py clean
 ```
 
-Each `--delete` removes every key under its target that the build did not write, so never point
-these commands at another prefix. The three `AS BUILT` lines and `404` mean the site is live. The
+Astro's hashed files go up first, so no page ever names one that is missing, and the old ones
+are removed only at the end. Each `--delete` removes every key under its target and filter that
+the build did not write, so never point these commands at another prefix. The three `AS BUILT` lines and `404` mean the site is live. The
 host's one-time setup (the bucket policy, cache behaviours for `/docs/ganymede/*`, `/docs/ganymede`
 and `/docs/404.html`, the role, and `site/hosting/docs-404.html` uploaded once as `docs/404.html`, the
 page for an address under `/docs/` that no documentation site holds) is done by whoever runs eugo.io.
