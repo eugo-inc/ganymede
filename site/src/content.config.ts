@@ -17,6 +17,8 @@ export const collections = {
         // The address of the notebook to download, under the site's base.
         download: z.string().optional(),
         kind: z.enum(['doc', 'section', 'notebook']).optional(),
+        // The id the page's title had on the MkDocs site, kept so that old links to it still land.
+        legacyTitleId: z.string().optional(),
       }),
     }),
   }),

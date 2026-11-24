@@ -31,6 +31,7 @@ import argparse
 import base64
 import hashlib
 import json
+import posixpath
 import re
 import shutil
 import struct
@@ -661,6 +662,339 @@ def _flat_nav(items: list):
             yield from _flat_nav(value)
         else:
             yield title, value
+
+
+# --------------------------------------------------------------------------------------------
+# Notebook pages for the Starlight site: each notebook becomes one Markdown page
+
+
+class SiteError(Exception):
+    """A page or a link the site cannot be built with; the message names it and the fix."""
+
+
+# The site's address: every page and file lives under BASE_PATH on NEW_SITE.
+NEW_SITE = "https://eugo.io"
+BASE_PATH = "/docs/ganymede/"
+FENCE_LINE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
+H1_LINE = re.compile(r"^ {0,3}#[ \t]+\S")
+MD_LINK = re.compile(r"(!?\[(?:[^\[\]]|\[[^\[\]]*\])*\]\()(<[^>]*>|[^()\s]+)((?:\s+\"[^\"]*\")?\))")
+HTML_LINK = re.compile(r"""(\b(?:href|src)=")([^"]+)(")""")
+SCHEME_OR_ANCHOR = re.compile(r"^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|#|/)")
+# The kinds of output a notebook page shows, in the order one is chosen from a bundle that
+# holds several representations of the same result: a table, then a figure, then text.
+OUTPUT_PREFERENCE = ("text/html", "image/png", "text/plain")
+
+
+def site_path(repo_path: str) -> str:
+    """The address of a page under the site's base, given the repository file it is made from:
+    a notebook, a folder's README.md, a hand-written page of docs/ or a folder."""
+    path = re.sub(r"(^|/)README\.md$", r"\1", repo_path)
+    path = re.sub(r"^docs/", "", path)
+    path = re.sub(r"(^|/)index\.md$", r"\1", path)
+    path = re.sub(r"\.(md|ipynb)$", "", path).strip("/")
+    return f"{BASE_PATH}{path}/" if path else BASE_PATH
+
+
+def normalize(path: str) -> str | None:
+    """A repository path with ``.`` and ``..`` resolved, or None when it leaves the repository."""
+    parts: list[str] = []
+    for part in path.split("/"):
+        if part == "..":
+            if not parts:
+                return None
+            parts.pop()
+        elif part not in ("", "."):
+            parts.append(part)
+    return "/".join(parts)
+
+
+def resolve(from_repo_path: str, target: str, sections: set[str]) -> str:
+    """Where a relative link written in a repository file points on the site.
+
+    A notebook, a folder's README.md, a section folder or a hand-written page of docs/ is a page
+    of the site; a Ray pattern image is a file of the site; any other file or folder of the
+    repository is linked on GitHub. A target that names nothing in the repository is refused.
+    Absolute addresses, anchors and paths from the root are left as they are."""
+    if SCHEME_OR_ANCHOR.match(target):
+        return target
+    path, hash_, anchor = target.partition("#")
+    path, query, rest = path.partition("?")
+    if not path:
+        return target
+    base = posixpath.dirname(from_repo_path)
+    resolved = normalize(posixpath.join(base, path))
+    if resolved is None or not (ROOT / resolved).exists():
+        raise SiteError(f"{from_repo_path}: the link {target!r} names nothing in the repository")
+    suffix = (query + rest) + (hash_ + anchor)
+    folder = posixpath.dirname(resolved)
+    if resolved.endswith(".ipynb") and resolved.startswith(NOTEBOOK_ROOTS):
+        return site_path(resolved) + suffix
+    if resolved.endswith("README.md") and folder in sections:
+        return site_path(resolved) + suffix
+    if resolved in sections:
+        return site_path(resolved + "/") + suffix
+    if re.fullmatch(r"docs/[^/]+\.md", resolved):
+        return site_path(resolved) + suffix
+    if resolved.startswith("ray_patterns/images/"):
+        return BASE_PATH + resolved + suffix
+    return github_url(resolved, (ROOT / resolved).is_dir()) + suffix
+
+
+def rewrite_links(text: str, from_repo_path: str, sections: set[str]) -> str:
+    """The Markdown links, images and HTML ``href``/``src`` of a text pointed at the site,
+    outside fenced code and code spans."""
+
+    def link(match: re.Match) -> str:
+        target = match.group(2)
+        bare = target[1:-1] if target.startswith("<") else target
+        return f"{match.group(1)}{resolve(from_repo_path, bare, sections)}{match.group(3)}"
+
+    def html(match: re.Match) -> str:
+        return f"{match.group(1)}{resolve(from_repo_path, match.group(2), sections)}{match.group(3)}"
+
+    out, fence = [], None
+    for line in text.split("\n"):
+        opened = FENCE_LINE.match(line)
+        if fence:
+            if opened and opened.group(1)[0] == fence[0] and len(opened.group(1)) >= len(fence):
+                fence = None
+            out.append(line)
+            continue
+        if opened:
+            fence = opened.group(1)
+            out.append(line)
+            continue
+        pieces = re.split(r"(`+[^`]*?`+)", line)
+        for i in range(0, len(pieces), 2):
+            pieces[i] = HTML_LINK.sub(html, MD_LINK.sub(link, pieces[i]))
+        out.append("".join(pieces))
+    return "\n".join(out)
+
+
+def drop_first_h1(text: str) -> tuple[str, bool]:
+    """A Markdown text without its first level-one heading outside fenced code (the site
+    shows the page's title above the text), and whether there was one."""
+    lines, fence = text.split("\n"), None
+    for index, line in enumerate(lines):
+        opened = FENCE_LINE.match(line)
+        if fence:
+            if opened and opened.group(1)[0] == fence[0] and len(opened.group(1)) >= len(fence):
+                fence = None
+            continue
+        if opened:
+            fence = opened.group(1)
+            continue
+        if H1_LINE.match(line):
+            return "\n".join(lines[:index] + lines[index + 1:]).strip("\n"), True
+    return text, False
+
+
+ATX_HEADING = re.compile(r"^( {0,3}#{1,6}[ \t]+)(.*?)([ \t]+#+)?[ \t]*$")
+
+
+def mkdocs_slug(text: str) -> str:
+    """The id MkDocs gave a heading (Python-Markdown's toc): runs of spaces and hyphens become
+    one hyphen."""
+    text = re.sub(r"[^\w\s-]", "", text).strip().lower()
+    return re.sub(r"[-\s]+", "-", text)
+
+
+def site_slug(text: str) -> str:
+    """The id Astro gives a heading (github-slugger): each space becomes a hyphen, nothing is
+    collapsed."""
+    return re.sub(r" ", "-", re.sub(r"[^\w\- ]", "", text.lower()))
+
+
+class LegacyIds:
+    """Keeps the heading ids of the MkDocs site working: a heading whose id on this site differs
+    from the one MkDocs gave it carries the old id too, on an empty span at its start. Repeated
+    headings are numbered as each generator numbers them (MkDocs ``_1``, Astro ``-1``)."""
+
+    def __init__(self, title: str):
+        self.old: dict[str, int] = {}
+        self.new: dict[str, int] = {}
+        self._take(self.old, mkdocs_slug(strip_markdown(title)), "_")  # the title kept its id on MkDocs
+
+    @staticmethod
+    def _take(seen: dict[str, int], slug: str, joiner: str) -> str:
+        if slug in seen:
+            seen[slug] += 1
+            return f"{slug}{joiner}{seen[slug]}"
+        seen[slug] = 0
+        return slug
+
+    def heading(self, line: str) -> str:
+        match = ATX_HEADING.match(line)
+        if not match:
+            return line
+        text = strip_markdown(match.group(2)).replace("\u201c", "").replace("\u201d", "")
+        old = self._take(self.old, mkdocs_slug(text), "_")
+        new = self._take(self.new, site_slug(text), "-")
+        if not old or old == new:
+            return line
+        return f'{match.group(1)}<span id="{old}"></span>{match.group(2)}{match.group(3) or ""}'
+
+    def text(self, text: str) -> str:
+        """Every heading of a Markdown text outside fenced code, with its old id where it changed."""
+        out, fence = [], None
+        for line in text.split("\n"):
+            opened = FENCE_LINE.match(line)
+            if fence:
+                if opened and opened.group(1)[0] == fence[0] and len(opened.group(1)) >= len(fence):
+                    fence = None
+                out.append(line)
+            elif opened:
+                fence = opened.group(1)
+                out.append(line)
+            else:
+                out.append(self.heading(line))
+        return "\n".join(out)
+
+
+def fenced(text: str, info: str) -> str:
+    """A fenced code block holding ``text`` exactly, its fence longer than any run of
+    backticks inside it."""
+    longest = max((len(run) for run in re.findall(r"`+", text)), default=0)
+    fence = "`" * max(3, longest + 1)
+    return f"{fence}{info}\n{text.rstrip(chr(10))}\n{fence}"
+
+
+def joined(value) -> str:
+    return value if isinstance(value, str) else "".join(value)
+
+
+def ray_images() -> dict[str, str]:
+    """The sha256 of each image in ray_patterns/images/, with the image's repository path."""
+    return {hashlib.sha256(p.read_bytes()).hexdigest(): p.relative_to(ROOT).as_posix()
+            for p in sorted((ROOT / "ray_patterns" / "images").glob("*.png"))}
+
+
+def html_output(html: str) -> str:
+    """A table a notebook printed, as one HTML block: blank lines would end the block early
+    and turn the rest into Markdown (the indented CSS of a pandas table into a code block)."""
+    body = "\n".join(line for line in html.strip("\n").split("\n") if line.strip())
+    return f'<div class="gn-output gn-html">\n{body}\n</div>'
+
+
+def png_output(data: bytes, metadata: dict, src: str, alt: str) -> str:
+    """A figure a notebook drew: the image at the size the notebook shows it (the width its
+    metadata gives, else the image's own), on a white backing (ganymede.css)."""
+    width, height = struct.unpack(">II", dict(png_chunks(data))[b"IHDR"][:8])
+    shown = metadata.get("width")
+    if isinstance(shown, (int, float)) and 0 < shown < width:
+        width, height = int(shown), max(1, round(height * shown / width))
+    return (f'<figure class="gn-output"><img src="{src}" width="{width}" height="{height}" '
+            f'alt="{alt}" loading="lazy" decoding="async"></figure>')
+
+
+@dataclass
+class NotebookPage:
+    repo_path: str
+    front: dict          # front matter: title, description, slug, github, download, kind, legacyTitleId
+    body: str            # Markdown
+    files: dict[str, bytes] = field(default_factory=dict)  # path under the base -> bytes
+
+
+def notebook_page(repo_path: str, sections: set[str], images: dict[str, str]) -> NotebookPage:
+    """One notebook as a Markdown page: its Markdown cells (without the first level-one heading,
+    which becomes the page's title, links pointed at the site, attachments as files), its code
+    cells as Python blocks and its outputs (text as blocks titled Output, figures as images,
+    tables as HTML), plus the files the page serves: its figures and the notebook itself.
+    An output the page cannot show (an error, standard error, another kind of data) is refused."""
+    path = ROOT / repo_path
+    raw = path.read_bytes()
+    nb = json.loads(raw)
+    info = notebook_info(path)
+    slug = repo_path[: -len(".ipynb")]
+    page = site_path(repo_path)
+    stem = Path(repo_path).stem
+    result = NotebookPage(repo_path, {
+        "title": info.title,
+        "description": info.description,
+        "slug": slug,
+        "github": github_url(repo_path),
+        "download": f"{page}{stem}.ipynb",
+        "kind": "notebook",
+        "legacyTitleId": mkdocs_slug(strip_markdown(info.title).replace("\u201c", "").replace("\u201d", "")),
+    }, "")
+    result.files[f"{slug}/{stem}.ipynb"] = raw
+    blocks: list[str] = []
+    legacy = LegacyIds(info.title)
+    dropped = False
+    code_number = 0
+    for index, cell in enumerate(nb.get("cells", [])):
+        kind = cell.get("cell_type")
+        source = joined(cell.get("source", ""))
+        if kind == "markdown":
+            if not dropped:
+                source, dropped = drop_first_h1(source)
+            attachments = cell.get("attachments") or {}
+
+            def attachment(match: re.Match) -> str:
+                name = match.group(1)
+                bundle = attachments.get(name)
+                if not bundle or "image/png" not in bundle:
+                    raise SiteError(f"{repo_path}: cell {index + 1} names attachment:{name}, which it does not hold as PNG")
+                data = base64.b64decode(joined(bundle["image/png"]))
+                known = images.get(hashlib.sha256(data).hexdigest())
+                if known:
+                    return BASE_PATH + known
+                result.files[f"{slug}/{name}"] = png_bytes([c for c in png_chunks(data) if c[0] in KEEP_CHUNKS])
+                return f"{page}{name}"
+
+            source = re.sub(r"attachment:([^)\s\"]+)", attachment, source)
+            source = legacy.text(rewrite_links(source, repo_path, sections))
+            if source.strip():
+                blocks.append(source.strip("\n"))
+        elif kind == "code":
+            if source.strip():
+                code_number += 1
+                blocks.append(fenced(source, "python"))
+            stream: list[str] = []
+
+            def flush() -> None:
+                if stream:
+                    blocks.append(fenced("".join(stream), 'text title="Output"'))
+                    stream.clear()
+
+            for k, output in enumerate(cell.get("outputs", [])):
+                otype = output.get("output_type")
+                if otype == "stream" and output.get("name") == "stdout":
+                    stream.append(joined(output.get("text", "")))
+                    continue
+                flush()
+                if otype not in ("execute_result", "display_data"):
+                    what = f"{otype} ({output.get('name')})" if otype == "stream" else otype
+                    raise SiteError(f"{repo_path}: cell {index + 1} has an output the site cannot show: {what}")
+                data = output.get("data", {})
+                chosen = next((mime for mime in OUTPUT_PREFERENCE if mime in data), None)
+                if chosen is None:
+                    raise SiteError(f"{repo_path}: cell {index + 1} has an output of a kind the site cannot "
+                                    f"show: {', '.join(sorted(data)) or 'no data'}")
+                if chosen == "text/html":
+                    blocks.append(html_output(joined(data[chosen])))
+                elif chosen == "image/png":
+                    raw_png = base64.b64decode(joined(data[chosen]))
+                    clean = png_bytes([c for c in png_chunks(raw_png) if c[0] in KEEP_CHUNKS])
+                    name = f"output-{index + 1}-{k + 1}.png"
+                    result.files[f"{slug}/{name}"] = clean
+                    meta = (output.get("metadata") or {}).get("image/png") or {}
+                    blocks.append(png_output(clean, meta, f"{page}{name}",
+                                             f"Figure drawn by code cell {code_number}"))
+                else:
+                    blocks.append(fenced(joined(data[chosen]), 'text title="Output"'))
+            flush()
+        elif kind == "raw":
+            raise SiteError(f"{repo_path}: cell {index + 1} is a raw cell, which the site cannot show")
+    if not dropped:
+        raise SiteError(f"{repo_path}: no level-one heading to take the page's title from")
+    result.body = "\n\n".join(blocks) + "\n"
+    return result
+
+
+def page_text(front: dict, body: str) -> str:
+    """A page as Starlight reads it: JSON front matter (JSON is YAML), then the body."""
+    return f"---\n{json.dumps(front, ensure_ascii=False)}\n---\n\n{body}"
 
 
 # --------------------------------------------------------------------------------------------

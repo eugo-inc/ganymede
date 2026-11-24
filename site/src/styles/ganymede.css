@@ -41,6 +41,11 @@
 }
 .sl-markdown-content .gn-html table {
 	font-size: var(--sl-text-sm);
+	border-collapse: collapse;
+}
+.sl-markdown-content .gn-html :is(th, td) {
+	border: 1px solid var(--sl-color-hairline);
+	white-space: nowrap;
 }
 
 /* The home page's gallery: images of one height, whole card clickable through its links, the
