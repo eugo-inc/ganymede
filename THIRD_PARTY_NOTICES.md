@@ -175,7 +175,7 @@ scripts, Pagefind's search, and the Inter font files.
 
 | Project | Version | Source | Copyright | License |
 | --- | --- | --- | --- | --- |
-| Astro | 7.4.4 | <https://github.com/withastro/astro> | Copyright (c) 2021 Fred K. Schott; parts: Copyright (c) 2020 the SvelteKit contributors | MIT |
+| Astro | 7.4.4 | <https://github.com/withastro/astro> | Copyright (c) 2021 Fred K. Schott; parts: Copyright (c) 2020 the SvelteKit contributors, Copyright (c) 2019-present Yuxi (Evan) You and Vite contributors | MIT |
 | Starlight | 0.42.8 | <https://github.com/withastro/starlight> | Copyright (c) 2023 Astro contributors | MIT |
 | Expressive Code | 0.44.3 | <https://github.com/expressive-code/expressive-code> | Copyright (c) 2023 Tibor Schiemann | MIT |
 | Pagefind | 1.6.0 | <https://github.com/Pagefind/pagefind> | Copyright (c) Pagefind | MIT |
