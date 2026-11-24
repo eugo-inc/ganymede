@@ -53,11 +53,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE_URL = "https://eugo-inc.github.io/ganymede/"
 REPO_URL = "https://github.com/eugo-inc/ganymede"
 BRANCH = "main"
 NOTEBOOK_ROOTS = ("demo_notebooks", "ray_patterns")
-MARKER = ".ganymede-site"  # marks an --out folder this script created and may clear
 
 # Notebooks whose first PNG figure appears in the home page gallery, with a short caption.
 GALLERY = (
@@ -201,16 +199,6 @@ def md_escape(text: str) -> str:
     return re.sub(r"([\[\]\\*_`<>])", r"\\\1", text)
 
 
-def yaml_str(text: str) -> str:
-    """A YAML double-quoted scalar (JSON strings are valid YAML)."""
-    return json.dumps(text, ensure_ascii=False)
-
-
-def front_matter(**fields: str) -> str:
-    lines = ["---"] + [f"{key}: {yaml_str(value)}" for key, value in fields.items()] + ["---", ""]
-    return "\n".join(lines) + "\n"
-
-
 def read_front_matter(path: Path) -> dict[str, str]:
     """The ``key: value`` lines of a Markdown file's front matter (plain or double-quoted)."""
     text = path.read_text(encoding="utf-8")
@@ -226,13 +214,6 @@ def read_front_matter(path: Path) -> dict[str, str]:
 
 def github_url(repo_path: str, is_dir: bool = False) -> str:
     return f"{REPO_URL}/{'tree' if is_dir else 'blob'}/{BRANCH}/{repo_path}".rstrip("/")
-
-
-def page_url(src: str) -> str:
-    """Absolute site URL of a page, given its path inside the docs folder."""
-    path = re.sub(r"(^|/)index\.md$", r"\1", src)
-    path = re.sub(r"\.(md|ipynb)$", "/", path)
-    return SITE_URL + path
 
 
 # --------------------------------------------------------------------------------------------
@@ -356,108 +337,6 @@ def walk(folder: Folder):
 # Generated pages
 
 
-def rewrite_readme_links(text: str, folder_rel: str, sections: set[str]) -> str:
-    """Point a README's relative links at site pages, or at GitHub for files the site lacks."""
-
-    def fix(match: re.Match) -> str:
-        prefix, target, suffix = match.group(1), match.group(2), match.group(3)
-        if re.match(r"[a-z][a-z0-9+.-]*:|#|/", target):
-            return match.group(0)
-        resolved = (Path(folder_rel) / target).as_posix()
-        parts = []
-        for part in resolved.split("/"):
-            if part == "..":
-                if parts:
-                    parts.pop()
-            elif part not in ("", "."):
-                parts.append(part)
-        resolved = "/".join(parts)
-        if resolved in sections:
-            new = f"{target.rstrip('/')}/index.md"
-        elif resolved.startswith(NOTEBOOK_ROOTS) and (ROOT / resolved).is_file() and (
-            resolved.endswith(".ipynb") or "/images/" in resolved
-        ):
-            new = target
-        else:
-            new = github_url(resolved, (ROOT / resolved).is_dir())
-        return f"{prefix}{new}{suffix}"
-
-    text = re.sub(r"(\]\()([^)\s]+)(\))", fix, text)
-    return re.sub(r'((?:href|src)=")([^"]+)(")', fix, text)
-
-
-def folder_page(folder: Folder, sections: set[str]) -> str:
-    readme = ROOT / folder.path / "README.md"
-    titles = [nb.title for nb in folder.notebooks] + [c.title for c in folder.children]
-    if readme.is_file():
-        body = rewrite_readme_links(readme.read_text(encoding="utf-8"), folder.path, sections)
-        first = re.split(r"\n\s*\n", body.split("\n", 1)[1].strip())[0]
-        description = trim(strip_markdown(first))
-    else:
-        if len(folder.notebooks) == 1 and not folder.children:
-            description = trim(f"{folder.title} in ganymede, one notebook: {folder.notebooks[0].description}")
-        elif folder.intro:
-            description = trim(f"{folder.title} in ganymede. {folder.intro} Notebooks: {', '.join(titles)}.")
-        else:
-            description = trim(f"{folder.title} notebooks in ganymede: {', '.join(titles)}. "
-                               "Python demos with code you can download and run.")
-        n = folder.count()
-        body = f"# {folder.title}\n\n"
-        if folder.intro:
-            body += f"{folder.intro}\n\n"
-        body += (
-            f"This section holds {n} notebook{'s' if n != 1 else ''} from "
-            f"[`{folder.path}/`]({github_url(folder.path, True)}) in the ganymede repository. "
-            "Each page shows the notebook as committed; use the buttons at the top right of a page "
-            "to download the `.ipynb` or open it on GitHub.\n"
-        )
-    page_title = folder.title
-    if any(t.casefold() == folder.title.casefold() for t in titles):
-        # A section named like a notebook inside it (dask/ holding dask.ipynb) would share that
-        # page's <title>; search engines and assistants may merge the two or show the wrong one.
-        page_title = f"{folder.title} section"
-    lines = [front_matter(title=page_title, description=description), body.rstrip(), ""]
-    if folder.notebooks and not readme.is_file():
-        lines += ["## Notebooks", ""]
-        for nb in folder.notebooks:
-            name = Path(nb.path).name
-            lines.append(f"- [{md_escape(nb.title)}]({name}): {nb.description}")
-        lines.append("")
-    if folder.children:
-        lines += ["## Sections", ""]
-        for child in folder.children:
-            n = child.count()
-            name = child.path.rsplit("/", 1)[-1]
-            text = f"- [{md_escape(child.title)}]({name}/index.md): {n} notebook{'s' if n != 1 else ''}"
-            if child.intro:
-                text += f". {child.intro}"
-            lines.append(text)
-        lines.append("")
-    return "\n".join(lines)
-
-
-def gallery_block() -> str:
-    """The home page gallery: one card per GALLERY notebook, linking to its page."""
-    cards = ['<div class="grid cards gallery" markdown>', ""]
-    for rel, caption in GALLERY:
-        png = GALLERY_DIR / f"{Path(rel).stem}.png"
-        if not png.is_file():
-            sys.exit(f"missing {png.relative_to(ROOT)}: run python tools/build_site.py --refresh-gallery")
-        width, height = struct.unpack(">II", png.read_bytes()[16:24])
-        title = notebook_info(ROOT / rel).title
-        image = f"assets/gallery/{png.name}"
-        cards += [
-            f"-   [![{md_escape(caption)}]({image}){{ width=\"{width}\" height=\"{height}\" "
-            f"loading=lazy }}]({rel})",
-            "",
-            f"    **[{md_escape(title)}]({rel})**",
-            "",
-            f"    {caption}",
-            "",
-        ]
-    return "\n".join(cards + ["</div>"])
-
-
 def package_list() -> str:
     """The package lists of the package-tests page."""
     python = sorted((p.stem for p in (ROOT / "package_tests" / "python").glob("*.ipynb")), key=str.lower)
@@ -471,7 +350,7 @@ def package_list() -> str:
         f"[`package_tests/python/`]({github_url('package_tests/python', True)}). "
         "Each name links to its notebook on GitHub.",
         "",
-        '<div class="pkg-list" markdown>',
+        '<div class="gn-pkg-list">',
         "",
     ]
     out += [f"- [{md_escape(name)}]({github_url(f'package_tests/python/{name}.ipynb')})" for name in python]
@@ -484,7 +363,7 @@ def package_list() -> str:
         f"{len(native):,} packages in [`package_tests/native/`]({github_url('package_tests/native', True)}), "
         "each a folder with a `testspec.json` and its test programs. Each name links to its folder on GitHub.",
         "",
-        '<div class="pkg-list" markdown>',
+        '<div class="gn-pkg-list">',
         "",
     ]
     out += [f"- [{md_escape(name)}]({github_url(f'package_tests/native/{name}', True)})" for name in native]
@@ -493,190 +372,7 @@ def package_list() -> str:
 
 
 # --------------------------------------------------------------------------------------------
-# Assembling the site source
-
-
-@dataclass
-class Page:
-    src: str             # path inside the docs folder
-    title: str
-    description: str
-    github: str          # where the page's source lives on GitHub
-    kind: str            # "doc", "section" or "notebook"
-
-
-def nav_yaml(items: list, indent: int = 2) -> list[str]:
-    """YAML lines for a nav list of ("title", src) pages and ("title", [items]) sections."""
-    pad = " " * indent
-    lines = []
-    for title, value in items:
-        if isinstance(value, list):
-            lines.append(f"{pad}- {yaml_str(title)}:")
-            lines += nav_yaml(value, indent + 4)
-        elif title is None:
-            lines.append(f"{pad}- {yaml_str(value)}")
-        else:
-            lines.append(f"{pad}- {yaml_str(title)}: {yaml_str(value)}")
-    return lines
-
-
-def folder_nav(folder: Folder, pages: dict[str, Page]) -> list:
-    """Nav items of a folder: its index page, its notebooks, then its sub-folders."""
-    items: list = [(None, f"{folder.path}/index.md")]
-    items += [(pages[nb.path].title, nb.path) for nb in folder.notebooks]
-    items += [(child.title, folder_nav(child, pages)) for child in folder.children if child.path not in PROMOTED]
-    return items
-
-
-def llms_txt(nav: list, pages: dict[str, Page]) -> str:
-    """llms.txt (https://llmstxt.org/): a summary, then one link line per page, grouped as in the nav."""
-
-    def flatten(items: list) -> list[str]:
-        srcs = []
-        for _title, value in items:
-            srcs += flatten(value) if isinstance(value, list) else [value]
-        return srcs
-
-    def line(src: str) -> str:
-        page = pages[src]
-        return f"- [{md_escape(page.title)}]({page_url(src)}): {page.description}"
-
-    out = [
-        "# ganymede",
-        "",
-        "> Open Jupyter notebooks from Eugo, Inc. (https://eugo.io): case studies on public NOAA and "
-        "Copernicus data (GOES-16, the National Water Model, Sentinel-2), Ray patterns for Ray Core, "
-        "Data, Serve, Train and Tune, short demos of popular Python libraries, and smoke tests for "
-        "Python packages and native libraries. BSD 3-Clause License.",
-        "",
-        f"Source repository: {REPO_URL}. Every notebook page below shows the notebook as committed, "
-        "with its outputs where the repository keeps them, and links to the .ipynb file. "
-        "Citable archive on Zenodo: https://doi.org/10.5281/zenodo.24117548 (all versions).",
-        "",
-        "## Overview",
-        "",
-    ]
-    singles = [value for _title, value in nav if not isinstance(value, list)]
-    out += [line(src) for src in singles] + [""]
-    for title, value in nav:
-        if isinstance(value, list):
-            out += [f"## {title}", ""] + [line(src) for src in flatten(value)] + [""]
-    return "\n".join(out)
-
-
-COPIED_ROOTS = ("docs", "overrides", "demo_notebooks", "ray_patterns")
-
-
-def check_tracked() -> None:
-    """Stop when the folders copied into the site hold files git does not track (untracked or ignored), so a local
-    build publishes exactly what the repository holds. Python byte-code caches are allowed."""
-    try:
-        res = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain=v1", "-z", "--untracked-files=all",
-                              "--ignored", "--", *COPIED_ROOTS], capture_output=True, check=True)
-    except (OSError, subprocess.CalledProcessError):
-        print("build_site: not a git checkout; cannot check for untracked files", file=sys.stderr)
-        return
-    stray = []
-    for entry in res.stdout.decode("utf-8", "replace").split("\0"):
-        if entry[:2] in ("??", "!!"):
-            path = entry[3:]
-            if "__pycache__/" in path or path.endswith(".pyc"):
-                continue
-            stray.append(path)
-    if stray:
-        sys.exit("build_site: files git does not track would be copied into the site (move them, or pass "
-                 f"--allow-untracked): {', '.join(stray[:10])}" + (" ..." if len(stray) > 10 else ""))
-
-
-def assemble(out: Path, allow_untracked: bool = False) -> None:
-    if not allow_untracked:
-        check_tracked()
-    out = out.resolve()
-    if out == ROOT or ROOT.is_relative_to(out):
-        sys.exit(f"--out must not be the repository or one of its parents: {out}")
-    if out.exists():
-        if any(out.iterdir()) and not (out / MARKER).is_file():
-            sys.exit(f"{out} is not empty and was not created by this script; choose another --out")
-        shutil.rmtree(out)
-    docs = out / "docs"
-    out.mkdir(parents=True)
-    (out / MARKER).write_text("Created by tools/build_site.py; safe to delete.\n", encoding="utf-8")
-    shutil.copytree(ROOT / "docs", docs)
-    shutil.copytree(ROOT / "overrides", out / "overrides")
-
-    intros = readme_intros()
-    roots = [f for f in (scan_folder(r, intros) for r in NOTEBOOK_ROOTS) if f]
-    folders = [f for root in roots for f in walk(root)]
-    sections = {f.path for f in folders}
-    pages: dict[str, Page] = {}
-
-    for folder in folders:
-        for nb in folder.notebooks:
-            target = docs / nb.path
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(ROOT / nb.path, target)
-            pages[nb.path] = Page(nb.path, nb.title, nb.description, github_url(nb.path), "notebook")
-        src = f"{folder.path}/index.md"
-        text = folder_page(folder, sections)
-        (docs / src).parent.mkdir(parents=True, exist_ok=True)
-        (docs / src).write_text(text, encoding="utf-8")
-        fm = read_front_matter(docs / src)
-        readme = ROOT / folder.path / "README.md"
-        source = github_url(readme.relative_to(ROOT).as_posix()) if readme.is_file() else github_url(folder.path, True)
-        pages[src] = Page(src, fm["title"], fm["description"], source, "section")
-    shutil.copytree(ROOT / "ray_patterns" / "images", docs / "ray_patterns" / "images")
-
-    # Hand-written pages, with the generated parts filled in.
-    index = docs / "index.md"
-    index.write_text(index.read_text(encoding="utf-8").replace("<!-- gallery -->", gallery_block()), encoding="utf-8")
-    tests = docs / "package_tests.md"
-    tests.write_text(tests.read_text(encoding="utf-8").replace("<!-- package-list -->", package_list()), encoding="utf-8")
-    for md in sorted(docs.glob("*.md")):
-        fm = read_front_matter(md)
-        if "description" not in fm:
-            sys.exit(f"docs/{md.name} needs a description in its front matter")
-        title = fm.get("nav_title") or fm.get("title") or md.stem
-        pages[md.name] = Page(md.name, title, fm["description"], github_url(f"docs/{md.name}"), "doc")
-
-    by_path = {f.path: f for f in folders}
-    nav = [("Home", "index.md")]
-    for rel in PROMOTED:
-        if rel in by_path:
-            nav.append((by_path[rel].title, folder_nav(by_path[rel], pages)))
-    for root in sorted(roots, key=lambda f: f.path != "ray_patterns"):
-        nav.append((root.title, folder_nav(root, pages)))
-    nav += [(pages["package_tests.md"].title, "package_tests.md"), ("FAQ", "faq.md")]
-    pages["index.md"].title = "ganymede"
-
-    listed = {value for _t, value in _flat_nav(nav)}
-    missing = sorted(set(pages) - listed)
-    if missing:
-        sys.exit(f"pages missing from the nav: {missing}")
-
-    (docs / "llms.txt").write_text(llms_txt(nav, pages), encoding="utf-8")
-    config = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
-    if re.search(r"^nav:", config, re.M):
-        sys.exit("mkdocs.yml must not define nav: this script generates it")
-    config = config.rstrip() + "\n\n# Generated by tools/build_site.py\nnav:\n" + "\n".join(nav_yaml(nav)) + "\n"
-    (out / "mkdocs.yml").write_text(config, encoding="utf-8")
-    meta = {src: {"title": p.title, "description": p.description, "github": p.github, "kind": p.kind}
-            for src, p in pages.items()}
-    (out / "pages.json").write_text(json.dumps({"pages": meta}, indent=1, ensure_ascii=False), encoding="utf-8")
-    notebooks = sum(p.kind == "notebook" for p in pages.values())
-    print(f"assembled {len(pages)} pages ({notebooks} notebooks, {len(folders)} section indexes) in {out}")
-    print(f"next: mkdocs build --strict -f {out / 'mkdocs.yml'}")
-
-
-def _flat_nav(items: list):
-    for title, value in items:
-        if isinstance(value, list):
-            yield from _flat_nav(value)
-        else:
-            yield title, value
-
-
-# --------------------------------------------------------------------------------------------
-# Notebook pages for the Starlight site: each notebook becomes one Markdown page
+# Notebook pages: each notebook becomes one Markdown page
 
 
 class SiteError(Exception):
@@ -1022,7 +718,7 @@ ASTRO_CACHE = SITE / ".astro"
 MANIFEST = SITE / "legacy-urls.txt"
 REDIRECTS = ROOT / "build" / "redirects"
 NEW_ROOT = NEW_SITE + BASE_PATH         # https://eugo.io/docs/ganymede/
-OLD_ROOT = SITE_URL                     # https://eugo-inc.github.io/ganymede/
+OLD_ROOT = "https://eugo-inc.github.io/ganymede/"   # the address of the MkDocs site this one replaces
 OLD_BASE = "/ganymede/"
 TITLE = "ganymede"
 SUMMARY = ("Open Jupyter notebooks from Eugo: case studies on public NOAA and Copernicus data, Ray "
@@ -1144,12 +840,6 @@ def body_text(text: str, heading: str) -> str:
     return LegacyIds(heading).text(text).strip("\n") + "\n"
 
 
-def site_package_list() -> str:
-    """The package lists of the package-tests page, each in a block of columns."""
-    text = package_list().replace('<div class="pkg-list" markdown>', '<div class="gn-pkg-list">')
-    return text
-
-
 def sections_list(folder: Folder) -> str:
     """The list of a folder's sub-folders, each with its number of notebooks ("" when it has none)."""
     if not folder.children:
@@ -1235,7 +925,7 @@ def hand_page(name: str, sections: set[str]) -> SitePage:
     text = re.sub(r"\A---\n.*?\n---\n", "", path.read_text(encoding="utf-8"), flags=re.S)
     text, heading = take_first_h1(text)
     if name == "package_tests.md":
-        text = text.replace("<!-- package-list -->", site_package_list())
+        text = text.replace("<!-- package-list -->", package_list())
     body = rewrite_hand_links(text, sections, f"docs/{name}")
     page_id = name[: -len(".md")]
     kind = "home" if name == "index.md" else "doc"
@@ -2273,9 +1963,6 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_argument("--against", type=Path, metavar="PATH",
                      help="also compare it with another copy of the shared stylesheet")
     commands.add_parser("refresh-gallery", help="rewrite docs/assets/gallery/*.png from the notebooks' figures")
-    sub = commands.add_parser("mkdocs", help="assemble the MkDocs project of the old site")
-    sub.add_argument("--out", type=Path, required=True)
-    sub.add_argument("--allow-untracked", action="store_true")
     args = parser.parse_args(argv)
     try:
         if args.command == "build":
@@ -2303,8 +1990,6 @@ def main(argv: list[str] | None = None) -> int:
             print(f"brand.css: sha256 {BRAND_SHA256} without its licence lines")
         elif args.command == "refresh-gallery":
             refresh_gallery()
-        elif args.command == "mkdocs":
-            assemble(args.out, args.allow_untracked)
     except SiteError as error:
         print(f"build_site: {error}", file=sys.stderr)
         return 1
