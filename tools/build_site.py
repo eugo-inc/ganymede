@@ -1,29 +1,40 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2026, Eugo, Inc.
-"""Assemble the MkDocs source of the ganymede website, and refresh its gallery images.
+"""Build the ganymede website (Astro and Starlight) from the repository's notebooks and pages.
 
-    python tools/build_site.py --out build/site
-    mkdocs build --strict -f build/site/mkdocs.yml      # the site lands in build/site/site
+    python3 tools/build_site.py build       # prepare, npm ci when needed, astro build, finish
+    python3 tools/build_site.py prepare     # write the pages, settings and files Astro reads
+    python3 tools/build_site.py finish      # Markdown copies, sitemap.xml, then check
+    python3 tools/build_site.py check       # check site/dist/ again
+    python3 tools/build_site.py redirects   # the redirect site for the old address, in build/redirects/
+    python3 tools/build_site.py clean       # remove everything the build writes (run it before a push)
+    python3 tools/build_site.py check-brand [--against PATH]
+    python3 tools/build_site.py refresh-gallery
 
-    python tools/build_site.py --refresh-gallery        # rewrite docs/assets/gallery/*.png
+``prepare`` checks the sources first (no file git does not track in the source folders, the
+shared brand stylesheet, the share image and the marks) and writes nothing until every check has
+passed. It then writes:
 
-``--out DIR`` writes a MkDocs project that mirrors the repository layout:
+- ``site/src/content/docs/``: one page per notebook of ``demo_notebooks/`` and ``ray_patterns/``
+  (converted to Markdown at its repository path, so addresses mirror repository paths), an index
+  page per notebook folder (its README.md, or a generated list), and the pages of ``docs/``;
+- ``site/src/generated/site.json``: the title, description, sidebar and share-image tags;
+- ``site/.public/``: ``site/public/`` plus the gallery, the Ray pattern images, each notebook's
+  figures and ``.ipynb`` download, and ``llms.txt``;
+- ``site/src/generated/markdown/``: each page's Markdown copy, which ``finish`` puts beside the
+  page in ``site/dist/``.
 
-- ``DIR/mkdocs.yml``: the repository's ``mkdocs.yml`` plus a generated ``nav:`` section;
-- ``DIR/overrides/``: the theme overrides;
-- ``DIR/docs/``: ``docs/`` plus every notebook of ``demo_notebooks/`` and ``ray_patterns/`` at its
-  repository path (so page URLs mirror repository paths), ``ray_patterns/images/``, an index page
-  per notebook folder, ``package_tests.md`` with the package lists filled in, the home page
-  gallery, and ``llms.txt``;
-- ``DIR/pages.json``: title, description and GitHub link of every page, read by ``docs/hooks.py``.
+``check`` refuses a broken link, anchor or asset, anything fetched from another host, an id used
+twice, a page without one canonical link or its Markdown copy, a file the host could not serve,
+and any address or heading id of the old MkDocs site (``site/legacy-urls.txt``) that is gone.
+Notebooks are never executed. ``refresh-gallery`` takes the first PNG figure of each notebook in
+``GALLERY``, drops every PNG chunk except image data and colour information (so no text or EXIF
+chunks remain), scales it to at most ``GALLERY_MAX_WIDTH`` pixels wide and writes it to
+``docs/assets/gallery/<notebook stem>.png``.
 
-Notebooks are copied unchanged and never executed. ``--refresh-gallery`` takes the first PNG
-figure of each notebook in ``GALLERY``, drops every PNG chunk except image data and colour
-information (so no text or EXIF chunks remain), scales it to at most ``GALLERY_MAX_WIDTH`` pixels
-wide and writes it to ``docs/assets/gallery/<notebook stem>.png``.
-
-Only the standard library is used.
+Only the standard library is used; the site itself needs Node.js 22 and the packages that
+``site/package-lock.json`` pins.
 """
 from __future__ import annotations
 
@@ -140,7 +151,7 @@ DESCRIPTION_LIMIT = 160
 # The palette, type and gradient the website shares with Eugo's other documentation sites: a copy
 # of their brand.css under this repository's two licence lines. BRAND_SHA256 is the sha256 of the
 # file without those two lines; when the shared stylesheet changes, copy it again (keeping the
-# licence lines), check it with --check-brand PATH, and update the digest here.
+# licence lines), check it with check-brand --against PATH, and update the digest here.
 BRAND_CSS = ROOT / "site" / "src" / "styles" / "brand.css"
 BRAND_SHA256 = "18892f2b603cfdb58912003af37c0a7eaa3d2c2829e6fc8cf0ddb4fcc7035bc2"
 BRAND_HEADER_LINES = 2
@@ -998,6 +1009,945 @@ def page_text(front: dict, body: str) -> str:
 
 
 # --------------------------------------------------------------------------------------------
+# The Starlight site: every page, the sidebar, the head of each page and the served files
+
+SITE = ROOT / "site"
+CONTENT = SITE / "src" / "content" / "docs"
+GENERATED = SITE / "src" / "generated"
+COPIES = GENERATED / "markdown"         # each page's Markdown copy, moved into dist/ by finish
+PUBLIC = SITE / "public"
+SERVED = SITE / ".public"               # what Astro serves as it is: public/ plus the generated files
+DIST = SITE / "dist"
+ASTRO_CACHE = SITE / ".astro"
+MANIFEST = SITE / "legacy-urls.txt"
+REDIRECTS = ROOT / "build" / "redirects"
+NEW_ROOT = NEW_SITE + BASE_PATH         # https://eugo.io/docs/ganymede/
+OLD_ROOT = SITE_URL                     # https://eugo-inc.github.io/ganymede/
+OLD_BASE = "/ganymede/"
+TITLE = "ganymede"
+SUMMARY = ("Open Jupyter notebooks from Eugo: case studies on public NOAA and Copernicus data, Ray "
+           "patterns, demos of popular Python libraries, and smoke tests for Python packages and "
+           "native libraries.")
+DOI_ALL = "https://doi.org/10.5281/zenodo.24117548"
+LICENSE_URL = "https://opensource.org/license/bsd-3-clause"
+PUBLISHER = "Eugo, Inc."
+KEYWORDS = ("high-performance computing", "HPC", "Ray", "Ray Core", "Ray Data", "Ray Serve",
+            "Ray Train", "Ray Tune", "Jupyter notebooks", "scientific Python", "geospatial Python",
+            "xarray", "NetCDF", "GOES-16", "National Water Model", "Sentinel-2", "STAC",
+            "Cloud-Optimized GeoTIFF", "package smoke tests")
+SCRIPT_SAFE = str.maketrans({"<": "\\u003c", ">": "\\u003e", "&": "\\u0026"})
+HAND_PAGES = ("index.md", "faq.md", "package_tests.md")
+# Generated folders under site/ that git ignores: the tracked-files check skips them.
+GENERATED_DIRS = ("site/node_modules/", "site/.astro/", "site/dist/", "site/.public/",
+                  "site/src/content/docs/", "site/src/generated/")
+SITE_ROOTS = ("docs", "demo_notebooks", "ray_patterns", "site")
+# Heading ids of the MkDocs site that no page of this site carries, each with the reason.
+ANCHOR_EXCEPTIONS: dict[str, dict[str, str]] = {}
+
+
+@dataclass
+class SitePage:
+    id: str                  # the page's path under the content folder, without .md: "faq", "ray_patterns/core"
+    source: str              # the repository file the page is made from
+    title: str
+    description: str
+    kind: str                # "home", "doc", "section" or "notebook"
+    github: str
+    body: str                # Markdown, as Astro reads it
+    label: str = ""          # the sidebar's name for the page, when it is not the title
+    front: dict = field(default_factory=dict)    # further front matter: download, legacyTitleId, hero
+    files: dict[str, bytes] = field(default_factory=dict)
+    mdx: bool = False
+    trail: list[tuple[str, str]] = field(default_factory=list)  # breadcrumbs: (name, address)
+
+    @property
+    def path(self) -> str:
+        """The page's address under the host: /docs/ganymede/faq/."""
+        return BASE_PATH if self.id == "index" else f"{BASE_PATH}{self.id}/"
+
+    @property
+    def url(self) -> str:
+        return NEW_SITE + self.path
+
+
+def hand_link(target: str) -> str:
+    """A link written in a page of docs/, as a link relative to docs/: the pages of docs/ were
+    written for a site whose root mirrors the repository (a folder's page is ``folder/index.md``,
+    ``llms.txt`` is the site's own list)."""
+    if SCHEME_OR_ANCHOR.match(target):
+        return target
+    path, hash_, anchor = target.partition("#")
+    suffix = hash_ + anchor
+    if path == "llms.txt":
+        return f"{BASE_PATH}llms.txt{suffix}"
+    if (ROOT / "docs" / path).is_file():
+        return target
+    if path.endswith("index.md"):
+        folder = path[: -len("index.md")].rstrip("/")
+        readme = f"{folder}/README.md"
+        return f"../{readme if (ROOT / readme).is_file() else folder + '/'}{suffix}"
+    return f"../{target}"
+
+
+def rewrite_hand_links(text: str, sections: set[str], repo_path: str) -> str:
+    """The links of a page of docs/ pointed at the site."""
+    def link(match: re.Match) -> str:
+        target = match.group(2)
+        bare = target[1:-1] if target.startswith("<") else target
+        return f"{match.group(1)}{hand_link(bare)}{match.group(3)}"
+
+    out, fence = [], None
+    for line in text.split("\n"):
+        opened = FENCE_LINE.match(line)
+        if fence:
+            if opened and opened.group(1)[0] == fence[0] and len(opened.group(1)) >= len(fence):
+                fence = None
+            out.append(line)
+            continue
+        if opened:
+            fence = opened.group(1)
+            out.append(line)
+            continue
+        pieces = re.split(r"(`+[^`]*?`+)", line)
+        for i in range(0, len(pieces), 2):
+            pieces[i] = MD_LINK.sub(link, pieces[i])
+        out.append("".join(pieces))
+    return rewrite_links("\n".join(out), repo_path, sections)
+
+
+def take_first_h1(text: str) -> tuple[str, str]:
+    """A Markdown text without its first level-one heading, and that heading's text ("" when
+    there is none)."""
+    lines, fence = text.split("\n"), None
+    for index, line in enumerate(lines):
+        opened = FENCE_LINE.match(line)
+        if fence:
+            if opened and opened.group(1)[0] == fence[0] and len(opened.group(1)) >= len(fence):
+                fence = None
+            continue
+        if opened:
+            fence = opened.group(1)
+            continue
+        if H1_LINE.match(line):
+            heading = re.sub(r"^ {0,3}#[ \t]+|[ \t]+#+[ \t]*$", "", line).strip()
+            return "\n".join(lines[:index] + lines[index + 1:]).strip("\n"), heading
+    return text, ""
+
+
+def old_id(heading: str) -> str:
+    return mkdocs_slug(strip_markdown(heading).replace("“", "").replace("”", ""))
+
+
+def body_text(text: str, heading: str) -> str:
+    """A page's Markdown with the old heading ids kept where Astro gives new ones."""
+    return LegacyIds(heading).text(text).strip("\n") + "\n"
+
+
+def site_package_list() -> str:
+    """The package lists of the package-tests page, each in a block of columns."""
+    text = package_list().replace('<div class="pkg-list" markdown>', '<div class="gn-pkg-list">')
+    return text
+
+
+def sections_list(folder: Folder) -> str:
+    """The list of a folder's sub-folders, each with its number of notebooks ("" when it has none)."""
+    if not folder.children:
+        return ""
+    lines = ["## Sections", ""]
+    for child in folder.children:
+        count = child.count()
+        item = (f"- [{md_escape(child.title)}]({site_path(child.path + '/')}): "
+                f"{count} notebook{'s' if count != 1 else ''}")
+        if child.intro:
+            item += f". {child.intro}"
+        lines.append(item)
+    return "\n".join(lines) + "\n"
+
+
+def site_folder_page(folder: Folder, sections: set[str]) -> SitePage:
+    """A folder's page: its README.md when it has one, else a generated list of its notebooks
+    and sub-folders."""
+    readme = ROOT / folder.path / "README.md"
+    titles = [nb.title for nb in folder.notebooks] + [c.title for c in folder.children]
+    if readme.is_file():
+        source = f"{folder.path}/README.md"
+        text, heading = take_first_h1(readme.read_text(encoding="utf-8"))
+        first = re.split(r"\n\s*\n", text.strip())[0]
+        description = trim(strip_markdown(first))
+        body = rewrite_links(text, source, sections).rstrip("\n") + "\n\n" + sections_list(folder)
+        github = github_url(source)
+    else:
+        source = f"{folder.path}/"
+        heading = folder.title
+        if len(folder.notebooks) == 1 and not folder.children:
+            description = trim(f"{folder.title} in ganymede, one notebook: {folder.notebooks[0].description}")
+        elif folder.intro:
+            description = trim(f"{folder.title} in ganymede. {folder.intro} Notebooks: {', '.join(titles)}.")
+        else:
+            description = trim(f"{folder.title} notebooks in ganymede: {', '.join(titles)}. "
+                               "Python demos with code you can download and run.")
+        n = folder.count()
+        lines = []
+        if folder.intro:
+            lines += [folder.intro, ""]
+        lines += [
+            f"This section holds {n} notebook{'s' if n != 1 else ''} from "
+            f"[`{folder.path}/`]({github_url(folder.path, True)}) in the ganymede repository. "
+            "Each page shows the notebook as committed; the links under a page's title download "
+            "the `.ipynb` or open it on GitHub.",
+            "",
+        ]
+        if folder.notebooks:
+            lines += ["## Notebooks", ""]
+            for nb in folder.notebooks:
+                lines.append(f"- [{md_escape(nb.title)}]({site_path(nb.path)}): {nb.description}")
+            lines.append("")
+        body = "\n".join(lines) + "\n" + sections_list(folder)
+        github = github_url(folder.path, True)
+    title = folder.title
+    if any(t.casefold() == folder.title.casefold() for t in titles):
+        # A section named like a notebook inside it (dask/ holding dask.ipynb) would share that
+        # page's <title>; search engines and assistants may merge the two or show the wrong one.
+        title = f"{folder.title} section"
+    return SitePage(folder.path, source, title, description, "section", github, body_text(body, heading),
+                    label="Overview", front={"legacyTitleId": old_id(heading)})
+
+
+def site_notebook_page(nb: Notebook, sections: set[str], images: dict[str, str]) -> SitePage:
+    converted = notebook_page(nb.path, sections, images)
+    front = {key: converted.front[key] for key in ("download", "legacyTitleId")}
+    return SitePage(converted.front["slug"], nb.path, converted.front["title"], converted.front["description"],
+                    "notebook", converted.front["github"], converted.body, front=front, files=converted.files)
+
+
+def gallery_html() -> str:
+    """The home page's gallery as plain HTML: one card per GALLERY notebook, its figure and
+    title linking to the notebook's page."""
+    cards = ['<div class="gn-gallery not-content">']
+    for rel, caption in GALLERY:
+        png = GALLERY_DIR / f"{Path(rel).stem}.png"
+        if not png.is_file():
+            raise SiteError(f"missing {png.relative_to(ROOT)}: run python3 tools/build_site.py refresh-gallery")
+        width, height = struct.unpack(">II", png.read_bytes()[16:24])
+        href = site_path(rel)
+        cards.append(
+            f'<figure class="gn-gallery-card"><a href="{href}" tabindex="-1" aria-hidden="true">'
+            f'<img src="{BASE_PATH}assets/gallery/{png.name}" width="{width}" height="{height}" alt="" '
+            f'loading="lazy" decoding="async"></a><figcaption><a href="{href}">'
+            f"{html_escape(notebook_info(ROOT / rel).title)}</a><span>{html_escape(caption)}</span>"
+            "</figcaption></figure>")
+    return "\n".join(cards + ["</div>"])
+
+
+def html_escape(text: str) -> str:
+    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+
+
+def hand_page(name: str, sections: set[str]) -> SitePage:
+    """A page of docs/: its front matter's title and description, its first level-one heading
+    dropped (the site shows the title), its links pointed at the site."""
+    path = ROOT / "docs" / name
+    fm = read_front_matter(path)
+    if not fm.get("description"):
+        raise SiteError(f"docs/{name} needs a description in its front matter")
+    text = re.sub(r"\A---\n.*?\n---\n", "", path.read_text(encoding="utf-8"), flags=re.S)
+    text, heading = take_first_h1(text)
+    if name == "package_tests.md":
+        text = text.replace("<!-- package-list -->", site_package_list())
+    if name == "index.md":
+        text = text.replace("<!-- gallery -->", gallery_html())
+    body = rewrite_hand_links(text, sections, f"docs/{name}")
+    page_id = name[: -len(".md")]
+    kind = "home" if name == "index.md" else "doc"
+    title = fm.get("title") or heading
+    page = SitePage(page_id, f"docs/{name}", title, fm["description"], kind, github_url(f"docs/{name}"),
+                    body_text(body, heading), label=fm.get("nav_title", ""))
+    if kind == "home":
+        # A page with a hero has no page title of its own: the old id of the home page's heading
+        # is kept on an empty element at the start of its text.
+        page.body = f'<span id="{old_id(heading)}"></span>\n\n{page.body}'
+    else:
+        page.front["legacyTitleId"] = old_id(heading)
+    return page
+
+
+@dataclass
+class Site:
+    pages: dict[str, SitePage]          # by id
+    sidebar: list[dict]
+    roots: list[Folder]
+
+
+def collect_site() -> Site:
+    """Every page of the site, with its sidebar and its breadcrumbs. Nothing is written."""
+    intros = readme_intros()
+    roots = [f for f in (scan_folder(r, intros) for r in NOTEBOOK_ROOTS) if f]
+    folders = [f for root in roots for f in walk(root)]
+    sections = {f.path for f in folders}
+    images = ray_images()
+    pages: dict[str, SitePage] = {}
+    for folder in folders:
+        page = site_folder_page(folder, sections)
+        pages[page.id] = page
+        for nb in folder.notebooks:
+            page = site_notebook_page(nb, sections, images)
+            pages[page.id] = page
+    for name in HAND_PAGES:
+        page = hand_page(name, sections)
+        pages[page.id] = page
+
+    by_path = {f.path: f for f in folders}
+
+    def group(folder: Folder, collapsed: bool) -> dict:
+        items: list[dict] = [{"label": "Overview", "slug": folder.path}]
+        items += [{"label": pages[nb.path[: -len(".ipynb")]].title, "slug": nb.path[: -len(".ipynb")]}
+                  for nb in folder.notebooks]
+        items += [group(child, True) for child in folder.children if child.path not in PROMOTED]
+        return {"label": folder.title, "collapsed": collapsed, "items": items}
+
+    sidebar: list[dict] = [{"label": "Home", "link": "/"}]
+    for rel in PROMOTED:
+        if rel in by_path:
+            sidebar.append(group(by_path[rel], False))
+    for root in sorted(roots, key=lambda f: f.path != "ray_patterns"):
+        sidebar.append(group(root, True))
+    sidebar += [{"label": pages["package_tests"].title, "slug": "package_tests"},
+                {"label": pages["faq"].label or pages["faq"].title, "slug": "faq"}]
+
+    listed = set()
+
+    def gather(items: list[dict]) -> None:
+        for item in items:
+            if "items" in item:
+                gather(item["items"])
+            elif "slug" in item:
+                listed.add(item["slug"])
+    gather(sidebar)
+    listed.add("index")
+    missing = sorted(set(pages) - listed)
+    if missing:
+        raise SiteError(f"pages missing from the sidebar: {missing}")
+
+    # Breadcrumbs follow the sidebar: the home page, the folders above the page (a promoted
+    # folder starts its own trail), then the page.
+    home = pages["index"]
+    for page in pages.values():
+        trail = [(TITLE, home.url)]
+        if page.kind in ("section", "notebook"):
+            parts = page.id.split("/")
+            upto = len(parts) - (1 if page.kind == "section" else 1)
+            chain = ["/".join(parts[:i]) for i in range(1, upto + 1)]
+            chain = [c for c in chain if c in by_path]
+            for promoted in PROMOTED:
+                if promoted in chain:
+                    chain = chain[chain.index(promoted):]
+            trail += [(by_path[c].title, pages[c].url) for c in chain if c != page.id]
+        if page.kind != "home":
+            trail.append((page.label if page.kind == "doc" and page.label else page.title, page.url))
+        page.trail = trail
+    return Site(pages, sidebar, roots)
+
+
+def share_head() -> list[dict]:
+    """The tags every page names the share image with: its address, size and alt text."""
+    tool = share_tool()
+    image = f"{NEW_ROOT}assets/social-preview.png"
+    tags = [("property", "og:image", image), ("property", "og:image:width", str(tool.WIDTH)),
+            ("property", "og:image:height", str(tool.HEIGHT)), ("property", "og:image:alt", tool.ALT),
+            ("name", "twitter:image", image), ("name", "twitter:image:alt", tool.ALT)]
+    return [{"tag": "meta", "attrs": {key: name, "content": value}} for key, name, value in tags]
+
+
+def share_tool():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("share_image", ROOT / "tools" / "share_image.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules.setdefault("share_image", module)
+    spec.loader.exec_module(module)
+    return module
+
+
+def structured_data(page: SitePage, home: SitePage) -> dict:
+    """What a page says of itself in schema.org terms: the home page describes the notebooks'
+    source code and the organisation that publishes them; a notebook's page is a technical
+    article whose notebook can be downloaded; every page carries its breadcrumbs."""
+    organization = {"@type": "Organization", "@id": f"{NEW_SITE}/#organization", "name": PUBLISHER,
+                    "url": f"{NEW_SITE}/"}
+    source = f"{home.url}#source"
+    publisher = {"@id": organization["@id"]}
+    nodes: list[dict] = []
+    if page.kind == "home":
+        nodes = [{
+            "@type": "SoftwareSourceCode", "@id": source, "name": TITLE, "description": SUMMARY,
+            "url": home.url, "codeRepository": REPO_URL, "identifier": DOI_ALL, "license": LICENSE_URL,
+            "programmingLanguage": "Python", "author": publisher, "publisher": publisher,
+            "image": f"{NEW_ROOT}assets/social-preview.png", "keywords": list(KEYWORDS),
+        }, organization]
+    elif page.kind == "notebook":
+        nodes = [{
+            "@type": "TechArticle", "@id": f"{page.url}#article", "headline": page.title,
+            "description": page.description, "url": page.url, "mainEntityOfPage": page.url, "inLanguage": "en",
+            "author": publisher, "publisher": publisher, "isPartOf": {"@id": source}, "sameAs": page.github,
+            "encoding": {"@type": "MediaObject", "encodingFormat": "application/x-ipynb+json",
+                         "contentUrl": NEW_SITE + page.front["download"]},
+        }]
+    else:
+        nodes = [{
+            "@type": "TechArticle", "@id": f"{page.url}#article", "headline": page.title,
+            "description": page.description, "url": page.url, "inLanguage": "en",
+            "publisher": publisher, "isPartOf": {"@id": source},
+        }]
+    if page.kind != "home":
+        nodes.append(organization)
+    trail = {"@type": "BreadcrumbList", "@id": f"{page.url}#breadcrumb", "itemListElement": [
+        {"@type": "ListItem", "position": n, "name": name, "item": item}
+        for n, (name, item) in enumerate(page.trail, start=1)]}
+    return {"@context": "https://schema.org", "@graph": [*nodes, trail]}
+
+
+def page_head(page: SitePage, home: SitePage) -> list[dict]:
+    data = json.dumps(structured_data(page, home), ensure_ascii=False, separators=(",", ":"))
+    return [
+        {"tag": "link", "attrs": {"rel": "alternate", "type": "text/markdown", "href": f"{page.path}index.md"}},
+        {"tag": "script", "attrs": {"type": "application/ld+json"}, "content": data.translate(SCRIPT_SAFE)},
+    ]
+
+
+def site_page_text(page: SitePage, home: SitePage) -> str:
+    front = {"title": page.title, "description": page.description}
+    if page.kind == "notebook":
+        front["slug"] = page.id
+    front["github"] = page.github
+    front["kind"] = "doc" if page.kind == "home" else page.kind
+    front.update(page.front)
+    front["head"] = page_head(page, home)
+    return page_text(front, page.body)
+
+
+def absolute(text: str) -> str:
+    """A text whose site addresses (/docs/ganymede/...) are written in full, for its Markdown copy."""
+    text = re.sub(r"(\]\()" + re.escape(BASE_PATH), r"\1" + NEW_ROOT, text)
+    return re.sub(r'((?:href|src)=")' + re.escape(BASE_PATH), r"\1" + NEW_ROOT, text)
+
+
+def markdown_copy(page: SitePage) -> str:
+    """A page as Markdown, for readers that ask for it: where the list of pages is, the title,
+    the description and the page's address, then the text with every address in full."""
+    lines = [f"> Every page of the ganymede website is listed in {NEW_ROOT}llms.txt.", "",
+             f"# {page.title}", "", f"> {page.description}", "", f"Web page: {page.url}"]
+    if page.kind == "notebook":
+        lines.append(f"Notebook: {NEW_SITE}{page.front['download']} (source: {page.github})")
+    body = re.sub(r'<span id="[^"]*"></span>', "", page.body)
+    return "\n".join(lines) + "\n\n" + absolute(body).strip("\n") + "\n"
+
+
+def site_llms(site: Site) -> str:
+    """llms.txt (https://llmstxt.org/): a summary, then one line per page in the sidebar's order,
+    each linking the page's Markdown copy."""
+    pages = site.pages
+
+    def line(page_id: str) -> str:
+        page = pages[page_id]
+        return f"- [{md_escape(page.title)}]({page.url}index.md): {page.description}"
+
+    def ids(items: list[dict]) -> list[str]:
+        out = []
+        for item in items:
+            if "items" in item:
+                out += ids(item["items"])
+            elif "slug" in item:
+                out.append(item["slug"])
+        return out
+
+    out = [
+        "# ganymede", "",
+        "> Open Jupyter notebooks from Eugo, Inc. (https://eugo.io): case studies on public NOAA and "
+        "Copernicus data (GOES-16, the National Water Model, Sentinel-2), Ray patterns for Ray Core, "
+        "Data, Serve, Train and Tune, short demos of popular Python libraries, and smoke tests for "
+        "Python packages and native libraries. BSD 3-Clause License.", "",
+        f"Source repository: {REPO_URL}. Every notebook page below shows the notebook as committed, "
+        "with its outputs where the repository keeps them, and links to the .ipynb file. Each link "
+        "below is the Markdown copy of a page; the web page is the same address without index.md. "
+        f"Citable archive on Zenodo: {DOI_ALL} (all versions).", "",
+        "## Overview", "", line("index"),
+    ]
+    singles = [item["slug"] for item in site.sidebar if "slug" in item]
+    out += [line(s) for s in singles] + [""]
+    for item in site.sidebar:
+        if "items" in item:
+            out += [f"## {item['label']}", ""] + [line(s) for s in ids(item["items"])] + [""]
+    return "\n".join(out).rstrip("\n") + "\n"
+
+
+def check_tracked_site() -> None:
+    """Stop when the folders the site is made from hold files git does not track (untracked or
+    ignored), other than the generated folders, so a local build publishes what the repository
+    holds. Python byte-code caches are allowed."""
+    try:
+        res = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain=v1", "-z", "--untracked-files=all",
+                              "--ignored", "--", *SITE_ROOTS], capture_output=True, check=True)
+    except (OSError, subprocess.CalledProcessError):
+        print("build_site: not a git checkout; cannot check for untracked files", file=sys.stderr)
+        return
+    stray = []
+    for entry in res.stdout.decode("utf-8", "replace").split("\0"):
+        if entry[:2] in ("??", "!!"):
+            path = entry[3:]
+            if "__pycache__/" in path or path.endswith(".pyc") or path.startswith(GENERATED_DIRS):
+                continue
+            stray.append(path)
+    if stray:
+        raise SiteError("files git does not track would go into the site (move them, or pass --allow-untracked): "
+                        + ", ".join(stray[:10]) + (" ..." if len(stray) > 10 else ""))
+
+
+def prepare(allow_untracked: bool = False) -> Site:
+    """Check the sources, then write the pages Astro reads, the generated settings, the files the
+    site serves as they are and each page's Markdown copy. Nothing is removed or written before
+    every check has passed."""
+    if not allow_untracked:
+        check_tracked_site()
+    cause = brand_refusal()
+    if cause:
+        raise SiteError(cause)
+    tool = share_tool()
+    cause = tool.refusal(ROOT / tool.OUTPUT) or tool.mark_refusal(ROOT)
+    if cause:
+        raise SiteError(f"the share image or the mark: {cause}: run python3 tools/share_image.py")
+    site = collect_site()
+    home = site.pages["index"]
+    texts = {page.id: site_page_text(page, home) for page in site.pages.values()}
+    llms = site_llms(site)
+    for folder in (CONTENT, GENERATED, SERVED):
+        if folder.exists():
+            shutil.rmtree(folder)
+    for page in site.pages.values():
+        name = {"home": "index", "section": f"{page.id}/index"}.get(page.kind, page.id)
+        target = CONTENT / f"{name}.{'mdx' if page.mdx else 'md'}"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(texts[page.id], encoding="utf-8")
+        copy = COPIES / (page.path[len(BASE_PATH):]) / "index.md"
+        copy.parent.mkdir(parents=True, exist_ok=True)
+        copy.write_text(markdown_copy(page), encoding="utf-8")
+    shutil.copytree(PUBLIC, SERVED)
+    shutil.copytree(GALLERY_DIR, SERVED / "assets" / "gallery")
+    shutil.copytree(ROOT / "ray_patterns" / "images", SERVED / "ray_patterns" / "images")
+    for page in site.pages.values():
+        for rel, data in page.files.items():
+            target = SERVED / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(data)
+    (SERVED / "llms.txt").write_text(llms, encoding="utf-8")
+    settings = {"title": TITLE, "description": SUMMARY, "sidebar": site.sidebar, "head": share_head()}
+    (GENERATED / "site.json").write_text(json.dumps(settings, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    kinds = {}
+    for page in site.pages.values():
+        kinds[page.kind] = kinds.get(page.kind, 0) + 1
+    print(f"prepared {len(site.pages)} pages ({', '.join(f'{n} {k}' for k, n in sorted(kinds.items()))})")
+    return site
+
+
+# --------------------------------------------------------------------------------------------
+# Astro
+
+WARNING = re.compile(r"\[(WARN|ERROR)\]|^\s*\(!\)|\bwarning\b", re.IGNORECASE | re.MULTILINE)
+
+
+def node_environment() -> dict[str, str]:
+    import os
+    env = dict(os.environ)
+    env.update(ASTRO_TELEMETRY_DISABLED="1", npm_config_update_notifier="false", npm_config_fund="false",
+               npm_config_audit="false")
+    env.setdefault("NO_COLOR", "1")
+    return env
+
+
+def install() -> None:
+    """Install the site's packages exactly as the lockfile pins them."""
+    npm = shutil.which("npm")
+    if npm is None:
+        raise SiteError("npm is needed to install the site's packages; install Node.js 22")
+    done = subprocess.run([npm, "ci"], cwd=SITE, env=node_environment(), check=False)
+    if done.returncode != 0:
+        raise SiteError(f"npm ci in site/ failed with exit code {done.returncode}: fix what npm printed above, "
+                        "then run python3 tools/build_site.py build again")
+
+
+def astro_build() -> str:
+    """Run ``astro build``; a warning or an error in its output fails the build."""
+    binary = SITE / "node_modules" / ".bin" / "astro"
+    if not binary.exists():
+        raise SiteError(f"{binary.relative_to(ROOT)} is missing: run npm ci in site/")
+    if DIST.exists():
+        shutil.rmtree(DIST)
+    done = subprocess.run([str(binary), "build"], cwd=SITE, env=node_environment(), capture_output=True,
+                          text=True, check=False)
+    log = done.stdout + done.stderr
+    if done.returncode != 0:
+        raise SiteError(f"astro build failed (exit {done.returncode}):\n{log}")
+    flagged = [line for line in log.splitlines() if WARNING.search(line)]
+    if flagged:
+        raise SiteError("astro build printed warnings:\n" + "\n".join(flagged))
+    return log
+
+
+OWN_ADDRESS = re.compile(r'<link rel="canonical"[^>]*>|<meta property="og:url"[^>]*>')
+
+
+def finish() -> None:
+    """Write what Astro does not (each page's Markdown copy, sitemap.xml and its gzip copy, the
+    old addresses' files), then check the whole site."""
+    if not (DIST / "index.html").is_file():
+        raise SiteError(f"no built site in {DIST.relative_to(ROOT)}: run python3 tools/build_site.py build")
+    if not COPIES.is_dir():
+        raise SiteError("no Markdown copies: run python3 tools/build_site.py prepare first")
+    for copy in sorted(COPIES.rglob("index.md")):
+        target = DIST / copy.relative_to(COPIES)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(copy, target)
+    sitemap = DIST / "sitemap-0.xml"
+    if not sitemap.is_file():
+        raise SiteError("Astro wrote no sitemap-0.xml")
+    data = sitemap.read_bytes()
+    (DIST / "sitemap.xml").write_bytes(data)
+    (DIST / "sitemap.xml.gz").write_bytes(gzip_bytes(data))
+    missing = DIST / "404.html"
+    if missing.is_file():
+        # The page a host serves for any missing address has no address of its own.
+        missing.write_text(OWN_ADDRESS.sub("", missing.read_text(encoding="utf-8")), encoding="utf-8")
+    problems = check_site()
+    if problems:
+        raise SiteError(f"the built site has {len(problems)} problem(s):\n" + "\n".join(problems[:200]))
+
+
+def gzip_bytes(data: bytes) -> bytes:
+    """``data`` compressed with gzip, with no name and no time in its header, so the bytes
+    depend on ``data`` alone."""
+    import gzip
+    import io
+    buffer = io.BytesIO()
+    with gzip.GzipFile(filename="", mode="wb", fileobj=buffer, mtime=0, compresslevel=9) as out:
+        out.write(data)
+    return buffer.getvalue()
+
+
+def build(allow_untracked: bool = False) -> None:
+    prepare(allow_untracked)
+    if not (SITE / "node_modules").is_dir():
+        install()
+    log = astro_build()
+    print("\n".join(log.splitlines()[-3:]))
+    finish()
+    print(f"built and checked {DIST.relative_to(ROOT)}")
+
+
+# --------------------------------------------------------------------------------------------
+# Checking the built site
+
+import html.parser  # noqa: E402
+from urllib.parse import urljoin, urlsplit  # noqa: E402
+
+RESOURCE_TAGS = {"script": "src", "img": "src", "source": "src", "iframe": "src", "audio": "src",
+                 "video": "src", "embed": "src"}
+FETCHED_RELS = {"stylesheet", "preload", "modulepreload", "prefetch", "preconnect", "dns-prefetch", "icon",
+                "shortcut", "manifest"}
+IMAGE_META = frozenset({"og:image", "og:image:url", "og:image:secure_url", "twitter:image"})
+TRACKERS = re.compile(
+    r"googletagmanager|google-analytics|fonts\.googleapis|fonts\.gstatic|plausible\.io|"
+    r"cdn\.jsdelivr|unpkg\.com|cdnjs\.|segment\.(com|io)|hotjar|clarity\.ms|intercom", re.IGNORECASE)
+# The host's address function treats a last path part with a dot, a letter, then letters, digits
+# or underscores as a file; any other address is sent to its slash form.
+EXTENSION = re.compile(r"\.[A-Za-z][A-Za-z0-9_]*$")
+
+
+class ParsedPage(html.parser.HTMLParser):
+    """The ids of a page and every address it names, with the tag and whether it is fetched."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.ids: list[str] = []
+        self.refs: list[tuple[str, str, bool]] = []
+        self.canonical: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        values = {name: value or "" for name, value in attrs}
+        if "id" in values:
+            self.ids.append(values["id"])
+        if tag == "a" and "href" in values:
+            self.refs.append((tag, values["href"], False))
+        if tag == "link" and "href" in values:
+            rels = set(values.get("rel", "").lower().split())
+            if "canonical" in rels:
+                self.canonical.append(values["href"])
+            self.refs.append((tag, values["href"], bool(rels & FETCHED_RELS)))
+        attribute = RESOURCE_TAGS.get(tag)
+        if attribute and attribute in values:
+            self.refs.append((tag, values[attribute], True))
+        if "srcset" in values:
+            for part in values["srcset"].split(","):
+                if part.strip():
+                    self.refs.append((tag, part.split()[0], True))
+        named = values.get("property") or values.get("name")
+        if tag == "meta" and named in IMAGE_META and values.get("content"):
+            self.refs.append((tag, values["content"], True))
+
+
+def parse_page(path: Path) -> ParsedPage:
+    parser = ParsedPage()
+    parser.feed(path.read_text(encoding="utf-8"))
+    parser.close()
+    return parser
+
+
+def built_file(dist: Path, path: str) -> Path | None:
+    """The built file an address path names, or None."""
+    if not path.startswith(BASE_PATH):
+        return None
+    rest = path[len(BASE_PATH):]
+    if rest == "" or rest.endswith("/"):
+        rest += "index.html"
+    candidate = dist / rest
+    return candidate if candidate.is_file() else None
+
+
+def read_manifest() -> tuple[list[tuple[str, str, list[str]]], list[str]]:
+    """The pages (address, title id, other ids) and the files of the MkDocs site."""
+    pages, files = [], []
+    for line in MANIFEST.read_text(encoding="utf-8").splitlines():
+        if not line or line.startswith("#"):
+            continue
+        fields = line.split("\t")
+        if fields[0] == "page":
+            pages.append((fields[1], fields[2], fields[3].split() if len(fields) > 3 else []))
+        elif fields[0] == "file":
+            files.append(fields[1])
+        else:
+            raise SiteError(f"{MANIFEST.relative_to(ROOT)}: a line of an unknown kind: {line!r}")
+    return pages, files
+
+
+def check_site(dist: Path = DIST) -> list[str]:
+    """Every problem of a built site: a link, anchor or asset that does not resolve; an address
+    outside the base folder; anything fetched from another host; a page without exactly one
+    canonical link or without its Markdown copy; an id used twice; a file the host's address
+    function could not serve; and any address or heading id of the MkDocs site that the site no
+    longer serves."""
+    problems: list[str] = []
+    parsed: dict[Path, ParsedPage] = {}
+
+    def page(path: Path) -> ParsedPage:
+        if path not in parsed:
+            parsed[path] = parse_page(path)
+        return parsed[path]
+
+    exists: dict[str, Path | None] = {}
+
+    def target(path: str) -> Path | None:
+        if path not in exists:
+            exists[path] = built_file(dist, path)
+        return exists[path]
+
+    def check_ref(base_url: str, tag: str, ref: str, fetched: bool) -> str | None:
+        if ref.startswith("//"):
+            return f"an address without a scheme: {ref}"
+        if ref.startswith(("mailto:", "data:")):
+            return None
+        parts = urlsplit(urljoin(base_url, ref))
+        if parts.scheme not in ("http", "https"):
+            return f"an address of another kind: {ref}"
+        if f"{parts.scheme}://{parts.netloc}" != NEW_SITE:
+            if fetched or tag not in ("a", "md"):
+                return f"fetches from another host: {ref}"
+            return None
+        if not fetched and tag in ("a", "md") and parts.path in ("", "/") and not parts.query:
+            return None  # the home page of Eugo, which makes the notebooks
+        if not parts.path.startswith(BASE_PATH):
+            return f"an address outside {BASE_PATH}: {ref}"
+        found = target(parts.path)
+        if found is None:
+            return f"a link to nothing: {ref}"
+        if parts.fragment and found.suffix == ".html" and parts.fragment not in page(found).ids:
+            return f"a link to an anchor that does not exist: {ref}"
+        return None
+
+    for path in sorted(dist.rglob("*.html")):
+        name = path.relative_to(dist).as_posix()
+        here = page(path)
+        twice = sorted({i for i in here.ids if here.ids.count(i) > 1})
+        if twice:
+            problems.append(f"{name}: ids used twice: {', '.join(twice)}")
+        if name != "404.html":
+            if len(here.canonical) != 1:
+                problems.append(f"{name}: {len(here.canonical)} canonical links")
+            if name.endswith("index.html") and not (path.parent / "index.md").is_file():
+                problems.append(f"{name}: no Markdown copy beside it (index.md)")
+        rel = name[: -len("index.html")] if name.endswith("index.html") else name
+        base_url = NEW_ROOT + rel
+        for tag, ref, fetched in here.refs:
+            problem = check_ref(base_url, tag, ref, fetched)
+            if problem:
+                problems.append(f"{name}: {problem}")
+    for path in sorted(dist.rglob("*")):
+        if not path.is_file():
+            continue
+        name = path.relative_to(dist).as_posix()
+        if not EXTENSION.search(path.name):
+            problems.append(f"{name}: a file without an extension, which the host would never serve")
+        if path.suffix not in (".html", ".css", ".js", ".md", ".txt", ".xml", ".json"):
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if TRACKERS.search(text):
+            problems.append(f"{name}: names a host of scripts, fonts or counters")
+        if path.suffix == ".css":
+            for url in re.findall(r"url\(\s*['\"]?([^'\")]+)", text):
+                if url.startswith(("http:", "https:", "//")):
+                    problems.append(f"{name}: a style loads {url}")
+        if path.suffix in (".md", ".txt"):
+            for ref in re.findall(r"\]\((https?://[^)\s]+)\)", text):
+                problem = check_ref(NEW_ROOT, "md", ref, False)
+                if problem:
+                    problems.append(f"{name}: {problem}")
+    for folder in sorted(p for p in dist.rglob("*") if p.is_dir()):
+        if EXTENSION.search(folder.name) and (folder / "index.html").is_file():
+            problems.append(f"{folder.relative_to(dist).as_posix()}/: a page whose address looks like a file's")
+    problems += check_parity(dist, page)
+    return problems
+
+
+def check_parity(dist: Path, page) -> list[str]:
+    """Every address of the MkDocs site (site/legacy-urls.txt) is served, and every heading id
+    it had is on the same page, unless ANCHOR_EXCEPTIONS gives the reason it is not."""
+    problems = []
+    pages, files = read_manifest()
+    for address, title_id, ids in pages:
+        built = dist / address.lstrip("/") / "index.html"
+        if not built.is_file():
+            problems.append(f"old address not served: {address}")
+            continue
+        have = set(page(built).ids)
+        excused = ANCHOR_EXCEPTIONS.get(address, {})
+        for wanted in [title_id, *ids]:
+            if wanted not in have and wanted not in excused:
+                problems.append(f"{address}: the old heading id #{wanted} is gone")
+    for address in files:
+        if not (dist / address.lstrip("/")).is_file():
+            problems.append(f"old file not served: {address}")
+    return problems
+
+
+# --------------------------------------------------------------------------------------------
+# The old address: redirect pages for GitHub Pages
+
+REDIRECT_PAGE = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{title}</title>
+<script>location.replace({target_js} + location.search + location.hash);</script>
+<meta http-equiv="refresh" content="0; url={target}">
+<link rel="canonical" href="{target}">
+</head>
+<body>
+<p>This page has moved to <a href="{target}">{target}</a>.</p>
+</body>
+</html>
+"""
+
+REDIRECT_404 = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ganymede has moved</title>
+<meta name="robots" content="noindex">
+<script>
+(function () {{
+  var prefix = {old_base_js};
+  var path = location.pathname;
+  var rest = path.indexOf(prefix) === 0 ? path.slice(prefix.length) : "";
+  location.replace({new_root_js} + rest + location.search + location.hash);
+}})();
+</script>
+</head>
+<body>
+<p>The ganymede website has moved to <a href="{new_root}">{new_root}</a>.</p>
+</body>
+</html>
+"""
+
+
+def redirect_file_source(address: str) -> Path | bytes:
+    """Where the redirect site takes a file of the old site from: the repository's own copy."""
+    rel = address.lstrip("/")
+    if rel.endswith(".ipynb"):
+        folder, _, name = rel.rpartition("/")
+        repo = f"{folder}.ipynb"
+        if Path(repo).name != name or not (ROOT / repo).is_file():
+            raise SiteError(f"{address}: no notebook {repo} in the repository")
+        return ROOT / repo
+    if rel.startswith("ray_patterns/images/"):
+        return ROOT / rel
+    if rel.startswith("assets/gallery/"):
+        return GALLERY_DIR / rel.rsplit("/", 1)[1]
+    if rel == "assets/social-preview.png":
+        return PUBLIC / rel
+    raise SiteError(f"{address}: the redirect site does not know where this file comes from")
+
+
+def redirects(out: Path = REDIRECTS) -> int:
+    """Write the site that replaces the MkDocs site at its old address: a page per old page
+    that sends the reader to the same page on the new site (keeping the query and the anchor),
+    a 404 page that does the same for any other address, the files the old site served (a
+    redirect cannot move a download), llms.txt and a sitemap of the old addresses. Every entry
+    of site/legacy-urls.txt is checked to be in it."""
+    out = out.resolve()
+    if out == ROOT or ROOT.is_relative_to(out) or not out.is_relative_to(ROOT / "build"):
+        raise SiteError(f"the redirect site goes under build/ of the repository, not {out}")
+    pages, files = read_manifest()
+    if out.exists():
+        shutil.rmtree(out)
+    out.mkdir(parents=True)
+    for address, _title, _ids in pages:
+        new = NEW_ROOT + address.lstrip("/")
+        target = out / address.lstrip("/") / "index.html"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(REDIRECT_PAGE.format(title="ganymede: this page has moved", target=html_escape(new),
+                                               target_js=json.dumps(new)), encoding="utf-8")
+    for address in files:
+        if address in ("/404.html", "/llms.txt", "/sitemap.xml", "/sitemap.xml.gz"):
+            continue
+        target = out / address.lstrip("/")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(redirect_file_source(address), target)
+    (out / "404.html").write_text(REDIRECT_404.format(old_base_js=json.dumps(OLD_BASE), new_root=NEW_ROOT,
+                                                      new_root_js=json.dumps(NEW_ROOT)), encoding="utf-8")
+    (out / "llms.txt").write_text(
+        "# ganymede\n\n> The ganymede website has moved. Every page is now under "
+        f"{NEW_ROOT}, and its list of pages is {NEW_ROOT}llms.txt.\n", encoding="utf-8")
+    urls = "".join(f"<url><loc>{html_escape(OLD_ROOT + a.lstrip('/'))}</loc></url>" for a, _t, _i in pages)
+    sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+               f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n').encode()
+    (out / "sitemap.xml").write_bytes(sitemap)
+    (out / "sitemap.xml.gz").write_bytes(gzip_bytes(sitemap))
+    missing = [a for a, _t, _i in pages if not (out / a.lstrip("/") / "index.html").is_file()]
+    missing += [a for a in files if not (out / a.lstrip("/")).is_file()]
+    if missing:
+        raise SiteError(f"the redirect site lacks {len(missing)} old address(es): {missing[:10]}")
+    print(f"redirect site: {len(pages)} pages and {len(files)} files of the old site, in {out.relative_to(ROOT)}")
+    return 0
+
+
+def clean() -> None:
+    """Remove everything the build writes; the installed packages stay."""
+    for folder in (DIST, ASTRO_CACHE, SERVED, CONTENT, GENERATED, REDIRECTS):
+        if folder.exists():
+            shutil.rmtree(folder)
+            print(f"removed {folder.relative_to(ROOT)}")
+    build_dir = ROOT / "build"
+    if build_dir.is_dir() and not any(build_dir.iterdir()):
+        build_dir.rmdir()
+
+
+# --------------------------------------------------------------------------------------------
 # Gallery images (PNG, standard library only)
 
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
@@ -1200,31 +2150,58 @@ def brand_refusal(against: Path | None = None) -> str | None:
     return None
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    parser.add_argument("--out", type=Path, help="folder to assemble the MkDocs project in")
-    parser.add_argument("--refresh-gallery", action="store_true",
-                        help="rewrite docs/assets/gallery/*.png from the notebooks' figures")
-    parser.add_argument("--allow-untracked", action="store_true",
-                        help="build even when the copied folders hold files git does not track")
-    parser.add_argument("--check-brand", nargs="?", const=True, metavar="PATH",
-                        help="check site/src/styles/brand.css against its digest and, given PATH, "
-                             "against another copy of the shared stylesheet")
-    args = parser.parse_args()
-    if args.check_brand:
-        cause = brand_refusal(None if args.check_brand is True else Path(args.check_brand))
-        if cause:
-            print(f"build_site: {cause}", file=sys.stderr)
-            return 1
-        print(f"brand.css: sha256 {BRAND_SHA256} without its licence lines")
-        if not args.out and not args.refresh_gallery:
-            return 0
-    if not args.out and not args.refresh_gallery:
-        parser.error("give --out DIR, --refresh-gallery, --check-brand, or a combination")
-    if args.refresh_gallery:
-        refresh_gallery()
-    if args.out:
-        assemble(args.out, args.allow_untracked)
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="build_site.py", description=__doc__.split("\n\n")[0])
+    commands = parser.add_subparsers(dest="command", required=True)
+    for name, text in (("build", "prepare, install the packages if needed, run Astro, finish"),
+                       ("prepare", "write the pages, settings and files Astro reads")):
+        sub = commands.add_parser(name, help=text)
+        sub.add_argument("--allow-untracked", action="store_true",
+                         help="build even when the source folders hold files git does not track")
+    commands.add_parser("finish", help="write the Markdown copies and the sitemap, then check the site")
+    commands.add_parser("check", help="check a site already built in site/dist/")
+    sub = commands.add_parser("redirects", help="write the redirect site for the old address")
+    sub.add_argument("--out", type=Path, default=REDIRECTS, help="its folder, under build/ (default build/redirects)")
+    commands.add_parser("clean", help="remove everything the build writes (not site/node_modules/)")
+    sub = commands.add_parser("check-brand", help="check site/src/styles/brand.css against its digest")
+    sub.add_argument("--against", type=Path, metavar="PATH",
+                     help="also compare it with another copy of the shared stylesheet")
+    commands.add_parser("refresh-gallery", help="rewrite docs/assets/gallery/*.png from the notebooks' figures")
+    sub = commands.add_parser("mkdocs", help="assemble the MkDocs project of the old site")
+    sub.add_argument("--out", type=Path, required=True)
+    sub.add_argument("--allow-untracked", action="store_true")
+    args = parser.parse_args(argv)
+    try:
+        if args.command == "build":
+            build(args.allow_untracked)
+        elif args.command == "prepare":
+            prepare(args.allow_untracked)
+        elif args.command == "finish":
+            finish()
+            print(f"checked {DIST.relative_to(ROOT)}")
+        elif args.command == "check":
+            problems = check_site()
+            for problem in problems:
+                print(problem, file=sys.stderr)
+            if problems:
+                return 1
+            print(f"{DIST.relative_to(ROOT)}: no problems")
+        elif args.command == "redirects":
+            redirects(args.out)
+        elif args.command == "clean":
+            clean()
+        elif args.command == "check-brand":
+            cause = brand_refusal(args.against)
+            if cause:
+                raise SiteError(cause)
+            print(f"brand.css: sha256 {BRAND_SHA256} without its licence lines")
+        elif args.command == "refresh-gallery":
+            refresh_gallery()
+        elif args.command == "mkdocs":
+            assemble(args.out, args.allow_untracked)
+    except SiteError as error:
+        print(f"build_site: {error}", file=sys.stderr)
+        return 1
     return 0
 
 

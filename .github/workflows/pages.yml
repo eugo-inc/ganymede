@@ -32,7 +32,7 @@ jobs:
       - name: Install the site toolchain
         run: pip install -r docs/requirements.txt
       - name: Assemble the site source
-        run: python tools/build_site.py --out build/site
+        run: python tools/build_site.py mkdocs --out build/site
       - name: Build the site
         run: mkdocs build --strict -f build/site/mkdocs.yml
       - uses: actions/configure-pages@v6.0.0
