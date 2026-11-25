@@ -1,9 +1,45 @@
 ---
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2026, Eugo, Inc.
-// Starlight's footer of every page, followed by one line that names the maker of ganymede.
+// Starlight's footer of every page, followed by one line that names the maker of ganymede, led by
+// the maker's logo: indigo on the light theme, white on the dark one, both linked to its home page.
 import Default from '@astrojs/starlight/components/Footer.astro';
+import indigo from '../assets/eugo-logo-indigo.png';
+import white from '../assets/eugo-logo-white.png';
 ---
 
 <Default><slot /></Default>
-<p class="pb-maker">ganymede is made by <a href="https://eugo.io/">Eugo</a></p>
+<p class="pb-maker">
+	<a class="pb-maker-logo" href="https://eugo.io/"
+		><img class="pb-logo-light" src={indigo.src} width={indigo.width} height={indigo.height} alt="Eugo" /><img
+			class="pb-logo-dark"
+			src={white.src}
+			width={white.width}
+			height={white.height}
+			alt="Eugo"
+		/></a
+	>
+	ganymede is made by <a href="https://eugo.io/">Eugo</a>
+</p>
+
+<style>
+	.pb-maker {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.pb-maker-logo {
+		display: inline-flex;
+	}
+	.pb-maker-logo img {
+		display: block;
+		height: 1.125rem;
+		width: auto;
+	}
+	:global(:root[data-theme='light']) .pb-logo-dark,
+	:global(:root:not([data-theme='light'])) .pb-logo-light {
+		display: none;
+	}
+</style>
