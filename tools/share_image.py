@@ -2,8 +2,8 @@
 # Copyright (c) 2026, Eugo, Inc.
 """Draw the ganymede mark, the favicon, the README's banner and the share image of the website.
 
-The mark is Ganymede as a moon in its phase, its lit side teal and its night side violet, inside
-a thick arc of its orbit in the site's violet-to-teal gradient, on a 64-unit square, with a soft
+The mark is Ganymede as a moon in its phase, its lit side azure and its night side violet, inside
+a thick arc of its orbit in the site's violet-to-azure gradient, on a 64-unit square, with a soft
 shadow under it. This script writes it, for the light and the dark theme, to
 ``site/src/assets/mark-light.svg`` and ``mark-dark.svg`` (the header's logo and the home page's
 picture), ``site/public/favicon.svg``, which follows the reader's colour scheme, and the README's
@@ -11,13 +11,14 @@ banner, ``docs/readme/banner-light.svg`` and ``banner-dark.svg``.
 
 The share image, ``site/public/assets/social-preview.png``, is what a page shared on a social site
 or in a chat shows beside its title. It holds a band of the site's accent gradient along its top,
-a faint violet glow, the mark in its dark colours beside the name ganymede, and one line on what
+a faint indigo glow, the mark in its dark colours beside the name ganymede, and one line on what
 the site holds, on the dark ground of the site.
 
-The name and the line are set in Inter, the site's font: the name at weight 700 with its letters
-0.03 of its size closer together, the mark 1.1 times the size high and 0.3 of the size before
-the name, as the site's header sets them; the line at weight 400. Their outlines, shaped by
-HarfBuzz from the Inter file the site installs, are kept in ``tools/share_image_letters.json``,
+The name and the line are set in Red Hat Display, the font of the site's headings: the name at
+weight 800 with its letters 0.03 of its size closer together, the mark 1.1 times the size high
+and 0.3 of the size before the name, as the site's header sets them; the line at weight 400.
+Their outlines, shaped by HarfBuzz from the Red Hat Display file the site installs, are kept in
+``tools/share_image_letters.json``,
 so neither the banner nor this script needs a font: ``--letters`` shapes them again (it needs
 ``pip install uharfbuzz fonttools brotli`` and ``npm ci`` in ``site/``).
 
@@ -60,9 +61,9 @@ HEIGHT = 630
 NAME = "ganymede"
 LINE = "Open notebooks for HPC, Ray and geospatial Python"
 ALT = (
-    f"The name {NAME} in white beside its mark, a moon lit teal on one side and violet on its "
+    f"The name {NAME} in white beside its mark, a moon lit blue on one side and violet on its "
     f"night side inside an arc of its orbit, above the line “{LINE}”, on a dark background "
-    "under a violet-to-teal band."
+    "under a violet-to-blue band."
 )
 
 Point = tuple[float, float]
@@ -72,23 +73,21 @@ Paint = Callable[[int, int], Colour]
 
 # The two themes: the moon's night side and lit side, each shaded from its top colour to its
 # bottom one; the orbit's gradient, from its lower left to its upper right; the shadow's colour
-# and opacity; and the README banner's ground, frame, name, line and band.
+# and opacity; and the README banner's ground, frame, name and line.
 THEMES: dict[str, dict] = {
     "light": {
-        "violet": ("#8f56f0", "#7631ec"),
-        "teal": ("#059bb4", "#04788c"),
-        "orbit": ("#7c3aed", "#048196"),
-        "shadow": ("#1b1035", 0.22),
-        "ground": "#ffffff", "border": "#e4e1ee", "ink": "#0b1020", "muted": "#4a4f63",
-        "rule": ("#7c3aed", "#048196"),
+        "violet": ("#8e45ff", "#7a36ec"),
+        "azure": ("#2aa6ff", "#1a86dd"),
+        "orbit": ("#7a36ec", "#1a86dd"),
+        "shadow": ("#160f3d", 0.22),
+        "ground": "#ffffff", "border": "#e6e4f0", "ink": "#160f3d", "muted": "#55566b",
     },
     "dark": {
-        "violet": ("#b061ff", "#9c38ff"),
-        "teal": ("#3dcee4", "#1ec1d9"),
-        "orbit": ("#a142ff", "#22c7e0"),
+        "violet": ("#b26bff", "#a24bff"),
+        "azure": ("#4db6ff", "#2aa6ff"),
+        "orbit": ("#a24bff", "#2aa6ff"),
         "shadow": ("#000000", 0.55),
-        "ground": "#080d17", "border": "#232a3b", "ink": "#f2f3f8", "muted": "#a9b0c3",
-        "rule": ("#a03fff", "#008294"),
+        "ground": "#160f3d", "border": "#352a7f", "ink": "#ffffff", "muted": "#d6d3ee",
     },
 }
 
@@ -115,14 +114,20 @@ SHADOW_OFFSET = 1.2
 SHADOW_DEVIATION = 1.1
 SHADOW_REGION = (-4.0, -4.0, 72.0, 72.0)
 
-# The share image: the dark palette's ground, name, line and band, the band's height, and a
-# glow of violet that fades to the ground, round a point a little above the middle.
-BACKGROUND: Colour = (0x08, 0x0D, 0x17)
-NAME_COLOUR: Colour = (0xF2, 0xF3, 0xF8)
-LINE_COLOUR: Colour = (0xA9, 0xB0, 0xC3)
-GRADIENT: tuple[Colour, Colour] = ((0xA0, 0x3F, 0xFF), (0x00, 0x82, 0x94))
+# The share image: the dark palette's ground, name and line; the band's gradient, each stop a
+# colour and its place in hundredths of the width, which the README banner's band uses too; the
+# band's height; and a glow of indigo that fades to the ground, round a point a little above the
+# middle.
+BACKGROUND: Colour = (0x16, 0x0F, 0x3D)
+NAME_COLOUR: Colour = (0xFF, 0xFF, 0xFF)
+LINE_COLOUR: Colour = (0xD6, 0xD3, 0xEE)
+GRADIENT: tuple[tuple[Colour, int], ...] = (
+    ((0x8E, 0x45, 0xFF), 0),
+    ((0x6A, 0x5C, 0xFF), 45),
+    ((0x2A, 0xA6, 0xFF), 100),
+)
 BAND_HEIGHT = 10
-GLOW: Colour = (0x1A, 0x14, 0x40)
+GLOW: Colour = (0x35, 0x2A, 0x7F)
 GLOW_OPACITY = 0.55
 # The glow's middle and its reach across and down, as shares of the image's width and height.
 GLOW_MIDDLE: Point = (0.5, 0.42)
@@ -149,10 +154,10 @@ def _rgb(text: str) -> Colour:
 # highest and lowest ink of the name too, so that the mark can be centred on its letters.
 
 LETTERS = "tools/share_image_letters.json"
-FONT_PACKAGE = "site/node_modules/@fontsource-variable/inter"
-FONT = f"{FONT_PACKAGE}/files/inter-latin-wght-normal.woff2"
+FONT_PACKAGE = "site/node_modules/@fontsource-variable/red-hat-display"
+FONT = f"{FONT_PACKAGE}/files/red-hat-display-latin-wght-normal.woff2"
 # Each text the letters file holds: its key, the text and the weight it is set at.
-TEXTS = (("name", NAME, 700), ("line", LINE, 400))
+TEXTS = (("name", NAME, 800), ("line", LINE, 400))
 
 
 @functools.cache
@@ -265,7 +270,7 @@ def wordmark(cx: float, baseline: float, size: float) -> tuple[float, float, flo
 
 
 def shape_letters() -> dict:
-    """The letters file's data, shaped by HarfBuzz from the Inter file the site installs."""
+    """The letters file's data, shaped by HarfBuzz from the Red Hat Display file the site installs."""
     try:
         import uharfbuzz as hb
         from fontTools.ttLib import woff2
@@ -326,7 +331,8 @@ def shape_letters() -> dict:
         texts[key] = {"text": text, "weight": weight, "ink": [max(tops), min(bottoms)],
                       "run": run, "glyphs": glyphs}
     return {
-        "font": f"Inter {version} (@fontsource-variable/inter, OFL-1.1), {Path(FONT).name}",
+        "font": (f"Red Hat Display {version} (@fontsource-variable/red-hat-display, OFL-1.1), "
+                 f"{Path(FONT).name}"),
         "upem": face.upem,
         "texts": texts,
     }
@@ -534,14 +540,23 @@ def shade(ends: tuple[Colour, Colour], top: float, height: float) -> Paint:
 
 
 def gradient(x: int, width: int = WIDTH) -> Colour:
-    """The colour of the gradient at a column: each channel goes from the first end to the
-    second in a straight line, rounded to the nearest whole value, the same on every machine."""
-    (r0, g0, b0), (r1, g1, b1) = GRADIENT
+    """The colour of the gradient at a column: between the two stops around the column, each
+    channel goes from the first stop's to the second's in a straight line, rounded to the
+    nearest whole value. Only whole numbers are used, so it is the same on every machine."""
     last = width - 1
+    # The pair of stops whose columns, as hundredths of the last column, hold the column: the
+    # last pair when the column is past the end of every other.
+    pairs = list(itertools.pairwise(GRADIENT))
+    (start, at), (end, until) = next(
+        (pair for pair in pairs if x * 100 <= pair[1][1] * last), pairs[-1]
+    )
+    left, right = at * last, until * last
+    span = right - left
+    step = x * 100 - left
     return (
-        (r0 * (last - x) + r1 * x + last // 2) // last,
-        (g0 * (last - x) + g1 * x + last // 2) // last,
-        (b0 * (last - x) + b1 * x + last // 2) // last,
+        (start[0] * (span - step) + end[0] * step + span // 2) // span,
+        (start[1] * (span - step) + end[1] * step + span // 2) // span,
+        (start[2] * (span - step) + end[2] * step + span // 2) // span,
     )
 
 
@@ -678,7 +693,7 @@ def mark_layers(left: float, top: float, side: float) -> list[tuple[Layer, Colou
     for amount, paint in (
         (orbit, linear(_ends(look["orbit"]), at(ORBIT_GRADIENT[0]), at(ORBIT_GRADIENT[1]))),
         (moon, shade(_ends(look["violet"]), moon_top, moon_height)),
-        (lit, shade(_ends(look["teal"]), moon_top, moon_height)),
+        (lit, shade(_ends(look["azure"]), moon_top, moon_height)),
     ):
         layer = Layer(WIDTH, HEIGHT)
         layer.shape(box, amount)
@@ -954,7 +969,7 @@ def _mark_body(theme: str, prefix: str = "") -> str:
     n = _number
     defs = (
         _gradient(f"{p}n", look["violet"], (0, my - mr), (0, my + mr))
-        + _gradient(f"{p}l", look["teal"], (0, my - mr), (0, my + mr))
+        + _gradient(f"{p}l", look["azure"], (0, my - mr), (0, my + mr))
         + _gradient(f"{p}o", look["orbit"], *ORBIT_GRADIENT)
         + f'<filter id="{p}s" filterUnits="userSpaceOnUse" x="{n(x)}" y="{n(y)}" width="{n(w)}" '
         f'height="{n(h)}" color-interpolation-filters="sRGB"><feDropShadow dx="0" '
@@ -1005,6 +1020,14 @@ BANNER_NAME = (BANNER_WIDTH / 2, 128.0, 88.0)
 BANNER_LINE = (196.0, 30.0)
 
 
+def _band_stops() -> str:
+    """The stops of the band's gradient, as an SVG gradient writes them."""
+    return "".join(
+        f'<stop offset="{_number(at / 100)}" stop-color="#{r:02x}{g:02x}{b:02x}"/>'
+        for (r, g, b), at in GRADIENT
+    )
+
+
 def banner_svg(theme: str) -> str:
     """The README's banner in one theme."""
     look = THEMES[theme]
@@ -1016,7 +1039,7 @@ def banner_svg(theme: str) -> str:
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
         f'role="img" aria-label="{NAME}: {LINE}">'
         '<defs><linearGradient id="gnBannerRule" x1="0" y1="0" x2="1" y2="0">'
-        f'<stop offset="0" stop-color="{look["rule"][0]}"/><stop offset="1" stop-color="{look["rule"][1]}"/>'
+        f"{_band_stops()}"
         f'</linearGradient><clipPath id="gnBannerFrame"><rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="18"/>'
         "</clipPath></defs>"
         f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="18" fill="{look["ground"]}" '

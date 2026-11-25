@@ -53,7 +53,7 @@ any address or heading id of the old site (listed in `site/legacy-urls.txt`, whi
 that the new site no longer serves. To look at the result, run `npx astro preview` in `site/`.
 `tools/share_image.py` draws the mark, the favicon, the share image and the README's banner;
 `python3 tools/share_image.py --check` says whether they are current. The letters of the name and
-the line are Inter's outlines, kept in `tools/share_image_letters.json`; `--letters` shapes them
+the line are Red Hat Display's outlines, kept in `tools/share_image_letters.json`; `--letters` shapes them
 again from `site/node_modules` (it needs `pip install uharfbuzz fonttools brotli`). The palette in
 `site/src/styles/brand.css` is shared with Eugo's other documentation sites:
 `python3 tools/build_site.py check-brand --against PATH` compares it with another copy.

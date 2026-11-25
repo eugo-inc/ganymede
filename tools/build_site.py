@@ -151,7 +151,7 @@ DESCRIPTION_LIMIT = 160
 # file without those two lines; when the shared stylesheet changes, copy it again (keeping the
 # licence lines), check it with check-brand --against PATH, and update the digest here.
 BRAND_CSS = ROOT / "site" / "src" / "styles" / "brand.css"
-BRAND_SHA256 = "18892f2b603cfdb58912003af37c0a7eaa3d2c2829e6fc8cf0ddb4fcc7035bc2"
+BRAND_SHA256 = "9652f5465498f8201d9dafd6ca23dcb647479c00f2795ae0504f7e7ed833e113"
 BRAND_HEADER_LINES = 2
 
 
