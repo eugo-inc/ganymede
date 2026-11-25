@@ -171,7 +171,8 @@ Notes:
 The website, <https://eugo.io/docs/ganymede/>, is built with these packages, installed exactly as
 `site/package-lock.json` pins them. The built site serves the parts of them that run in a reader's
 browser: Astro's and Starlight's scripts and styles, Expressive Code's code-block styles and
-scripts, Pagefind's search, and the Inter font files.
+scripts, Pagefind's search, and the Inter font files. The README's banner and the share image
+draw the outlines of Inter's letters, which `tools/share_image_letters.json` holds.
 
 | Project | Version | Source | Copyright | License |
 | --- | --- | --- | --- | --- |
@@ -446,7 +447,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ### SIL Open Font License 1.1
 
-Applies to the Inter font that the website serves.
+Applies to the Inter font that the website serves, and to the outlines of its letters in
+`tools/share_image_letters.json`, the README's banner and the share image.
 
 ```text
 -----------------------------------------------------------

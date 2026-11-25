@@ -1,46 +1,56 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2026, Eugo, Inc.
-"""Draw the ganymede mark and the share image of the website.
+"""Draw the ganymede mark, the favicon, the README's banner and the share image of the website.
 
-The mark is a set of rounded tiles in violet and teal on a 64-unit grid, in the style of Eugo's
-other documentation sites: three notebook cells and a moon. ``MARKS`` holds each proposal as data
-(``MARK`` names the one in use), and this script writes it, for the light and the dark theme, to
-``site/src/assets/mark-light.svg`` and ``mark-dark.svg``, the other proposals beside them, and
-``site/public/favicon.svg``, which follows the reader's colour scheme, and the README's banner,
-``docs/readme/banner-light.svg`` and ``banner-dark.svg``.
+The mark is Ganymede as a moon in its phase, its lit side teal and its night side violet, inside
+a thick arc of its orbit in the site's violet-to-teal gradient, on a 64-unit square, with a soft
+shadow under it. This script writes it, for the light and the dark theme, to
+``site/src/assets/mark-light.svg`` and ``mark-dark.svg`` (the header's logo and the home page's
+picture), ``site/public/favicon.svg``, which follows the reader's colour scheme, and the README's
+banner, ``docs/readme/banner-light.svg`` and ``banner-dark.svg``.
 
 The share image, ``site/public/assets/social-preview.png``, is what a page shared on a social site
 or in a chat shows beside its title. It holds a band of the site's accent gradient along its top,
-the mark in its dark colours, the name ganymede and one line on what it holds, on the dark ground
-of the site. The mark is drawn as its file draws it: a soft shadow straight down under the tiles,
-each tile shaded from its top to its bottom in its own colour, and a faint white line just inside
-each tile's edge that fades out before the middle of the tile.
+a faint violet glow, the mark in its dark colours beside the name ganymede, and one line on what
+the site holds, on the dark ground of the site.
 
-The drawing uses only the standard library and arithmetic that gives the same result on
-every machine: the letters are strokes of a small built-in font, made of straight pieces
-and of arcs whose points come from square roots, never from the system's fonts or its
-trigonometry. The shadow is blurred by three passes of a box filter, whose widths come
-from a square root and whose sums are whole numbers, never by the exponential of a Gaussian.
-The build copies the committed files as they are, once ``refusal`` finds the image is the file
-this script writes, up to how its rows are compressed, and ``mark_refusal`` finds the SVG files
-are the ones it writes; ``is_current`` says exactly what is accepted and refused.
+The name and the line are set in Inter, the site's font: the name at weight 700 with its letters
+0.03 of its size closer together, the mark 1.1 times the size high and 0.3 of the size before
+the name, as the site's header sets them; the line at weight 400. Their outlines, shaped by
+HarfBuzz from the Inter file the site installs, are kept in ``tools/share_image_letters.json``,
+so neither the banner nor this script needs a font: ``--letters`` shapes them again (it needs
+``pip install uharfbuzz fonttools brotli`` and ``npm ci`` in ``site/``).
+
+The drawing uses only the standard library and arithmetic that gives the same result on every
+machine: sums, products, quotients and square roots, never the system's fonts or its
+trigonometry. A shape covers each pixel by its distance from the pixel's middle; a letter covers
+it by the crossings of its outline with 16 lines across each row of pixels. The shadow is
+blurred by three passes of a box filter, whose widths come from a square root and whose sums are
+whole numbers, never by the exponential of a Gaussian. The build copies the committed files as
+they are, once ``refusal`` finds the image is the file this script writes, up to how its rows are
+compressed, and ``mark_refusal`` finds the SVG files are the ones it writes; ``is_current`` says
+exactly what is accepted and refused.
 
 Usage::
 
-    python3 tools/share_image.py          # write the marks, the favicon, the banner and the share image
-    python3 tools/share_image.py --check  # exit 1, naming the cause, when a file differs
+    python3 tools/share_image.py            # write the marks, the favicon, the banner and the share image
+    python3 tools/share_image.py --check    # exit 1, naming the cause, when a file differs
+    python3 tools/share_image.py --letters  # shape the letters again, then write every file
 """
 
 from __future__ import annotations
 
 import argparse
+import functools
+import io
 import itertools
+import json
 import math
 import struct
 import sys
 import zlib
 from array import array
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Callable, Sequence
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -50,253 +60,297 @@ HEIGHT = 630
 NAME = "ganymede"
 LINE = "Open notebooks for HPC, Ray and geospatial Python"
 ALT = (
-    f"The name {NAME} in white beside its mark of rounded tiles and a circle in violet and teal, "
-    f"above the line “{LINE}”, on a dark background under a violet-to-teal band."
+    f"The name {NAME} in white beside its mark, a moon lit teal on one side and violet on its "
+    f"night side inside an arc of its orbit, above the line “{LINE}”, on a dark background "
+    "under a violet-to-teal band."
 )
 
 Point = tuple[float, float]
-Stroke = list[Point]
 Colour = tuple[int, int, int]
 # The colour of a layer at a pixel, given its column and its row.
 Paint = Callable[[int, int], Colour]
 
-# The dark palette of the site: its ground, its text, a softer text, and the two ends of its
-# gradient.
+# The two themes: the moon's night side and lit side, each shaded from its top colour to its
+# bottom one; the orbit's gradient, from its lower left to its upper right; the shadow's colour
+# and opacity; and the README banner's ground, frame, name, line and band.
+THEMES: dict[str, dict] = {
+    "light": {
+        "violet": ("#8f56f0", "#7631ec"),
+        "teal": ("#059bb4", "#04788c"),
+        "orbit": ("#7c3aed", "#048196"),
+        "shadow": ("#1b1035", 0.22),
+        "ground": "#ffffff", "border": "#e4e1ee", "ink": "#0b1020", "muted": "#4a4f63",
+        "rule": ("#7c3aed", "#048196"),
+    },
+    "dark": {
+        "violet": ("#b061ff", "#9c38ff"),
+        "teal": ("#3dcee4", "#1ec1d9"),
+        "orbit": ("#a142ff", "#22c7e0"),
+        "shadow": ("#000000", 0.55),
+        "ground": "#080d17", "border": "#232a3b", "ink": "#f2f3f8", "muted": "#a9b0c3",
+        "rule": ("#a03fff", "#008294"),
+    },
+}
+
+# The mark, in its 64-unit square. The drawing is moved by OFFSET to sit in the middle of the
+# square; every other place below is before that move.
+MARK_UNITS = 64.0
+OFFSET: Point = (6.0, -2.5)
+# The moon: its centre and radius. Its lit side is the part of a second disc, of the same
+# radius, that lies inside it.
+MOON = (35.0, 29.0, 15.0)
+LIT = (42.0, 22.0, 15.0)
+# The orbit: a stroke ORBIT_WIDTH wide with round ends along a circle round ORBIT_CENTRE, from
+# its first end clockwise to its second (95 and 235 degrees, written to two places, so that no
+# cosine is ever taken), with a clear ring GAP wide cut out of it round the moon.
+ORBIT_CENTRE: Point = (32.0, 32.0)
+ORBIT_RADIUS = 26.0
+ORBIT_WIDTH = 8.0
+ORBIT_ENDS: tuple[Point, Point] = ((29.73, 57.9), (17.09, 10.7))
+ORBIT_GRADIENT: tuple[Point, Point] = ((4.0, 30.0), (40.0, 62.0))
+GAP = 4.5
+# The shadow: straight down by its offset, blurred with its standard deviation, inside the
+# filter's region (left, top, width, height), all in the square's units.
+SHADOW_OFFSET = 1.2
+SHADOW_DEVIATION = 1.1
+SHADOW_REGION = (-4.0, -4.0, 72.0, 72.0)
+
+# The share image: the dark palette's ground, name, line and band, the band's height, and a
+# glow of violet that fades to the ground, round a point a little above the middle.
 BACKGROUND: Colour = (0x08, 0x0D, 0x17)
 NAME_COLOUR: Colour = (0xF2, 0xF3, 0xF8)
 LINE_COLOUR: Colour = (0xA9, 0xB0, 0xC3)
 GRADIENT: tuple[Colour, Colour] = ((0xA0, 0x3F, 0xFF), (0x00, 0x82, 0x94))
 BAND_HEIGHT = 10
-
-# The mark, in its 64-unit space: each tile is a box (left, top, width, height), its corner
-# radius (half its width makes a circle) and its colour. Proposal A: two violet cells above a
-# teal cell and a teal moon. Proposal B: one tall violet cell beside a teal cell and a teal moon.
-# Every tile is shaded from its top colour to its bottom one, over its own height.
-Tile = tuple[float, float, float, float, float, str]
-MARKS: dict[str, tuple[Tile, ...]] = {
-    "a": (
-        (4, 4, 26, 26, 7, "violet"),
-        (34, 4, 26, 26, 7, "violet"),
-        (4, 34, 26, 26, 7, "teal"),
-        (34, 34, 26, 26, 13, "teal"),
-    ),
-    "b": (
-        (4, 4, 26, 56, 7, "violet"),
-        (34, 4, 26, 26, 7, "teal"),
-        (34, 34, 26, 26, 13, "teal"),
-    ),
-}
-# The proposal in use: the files mark-light.svg, mark-dark.svg and favicon.svg and the share
-# image draw it; each other proposal is written as mark-<name>-light.svg and -dark.svg.
-MARK = "a"
-# The colours of the tiles in the dark theme, top and bottom (the share image is dark), and in
-# the light theme.
-DARK: dict[str, tuple[Colour, Colour]] = {
-    "violet": ((0xB0, 0x61, 0xFF), (0x9C, 0x38, 0xFF)),
-    "teal": ((0x3D, 0xCE, 0xE4), (0x1E, 0xC1, 0xD9)),
-}
-LIGHT: dict[str, tuple[Colour, Colour]] = {
-    "violet": ((0x8F, 0x56, 0xF0), (0x76, 0x31, 0xEC)),
-    "teal": ((0x05, 0x9B, 0xB4), (0x04, 0x78, 0x8C)),
-}
-MARK_UNITS = 64.0
-# The shadow: black, straight down by its offset, blurred with its standard deviation, and
-# cut to the mark's 64 units, the region of the file's filter.
-SHADOW: Colour = (0x00, 0x00, 0x00)
-SHADOW_OPACITY = 0.55
-SHADOW_OFFSET = 1.2
-SHADOW_DEVIATION = 1.2
-# The highlight: a white line one unit wide, half a unit inside each tile's edge, at its
-# opacity at the top, fading to nothing over its share of the line's height.
-HIGHLIGHT: Colour = (0xFF, 0xFF, 0xFF)
-HIGHLIGHT_OPACITY = 0.22
-HIGHLIGHT_WIDTH = 1.0
-HIGHLIGHT_REACH = 0.45
+GLOW: Colour = (0x1A, 0x14, 0x40)
+GLOW_OPACITY = 0.55
+# The glow's middle and its reach across and down, as shares of the image's width and height.
+GLOW_MIDDLE: Point = (0.5, 0.42)
+GLOW_REACH = 0.6
+# The opacity of the share image's shadow: the dark theme's.
+SHADOW_OPACITY = THEMES["dark"]["shadow"][1]
 # The box passes that blur the shadow, and the whole steps of coverage the blur sums.
 BLUR_PASSES = 3
 COVER_STEPS = 1024
-
-# --- directions without trigonometry -------------------------------------------------------
-
-_R2 = math.sqrt(2.0)
-_R3 = math.sqrt(3.0)
-_R6 = math.sqrt(6.0)
-# The cosine and sine of 0, 15, 30, 45, 60, 75 and 90 degrees, from square roots alone.
-_FIRST_QUADRANT: tuple[Point, ...] = (
-    (1.0, 0.0),
-    ((_R6 + _R2) / 4.0, (_R6 - _R2) / 4.0),
-    (_R3 / 2.0, 0.5),
-    (_R2 / 2.0, _R2 / 2.0),
-    (0.5, _R3 / 2.0),
-    ((_R6 - _R2) / 4.0, (_R6 + _R2) / 4.0),
-    (0.0, 1.0),
-)
-STEP_DEGREES = 15
-PIECES_PER_STEP = 4
+# The lines across each row of pixels that a letter's outline is crossed with, and the straight
+# pieces each curve of an outline is drawn as.
+SAMPLES = 16
+CURVE_PIECES = 8
 
 
-def direction(degrees: int) -> Point:
-    """The unit vector at an angle that is a multiple of 15 degrees, counter-clockwise."""
-    if degrees % STEP_DEGREES:
-        raise ValueError(f"an angle must be a multiple of {STEP_DEGREES} degrees: {degrees}")
-    turn = degrees % 360
-    quadrant, rest = divmod(turn, 90)
-    x, y = _FIRST_QUADRANT[rest // STEP_DEGREES]
-    for _ in range(quadrant):
-        x, y = -y, x
-    return x, y
+def _rgb(text: str) -> Colour:
+    return int(text[1:3], 16), int(text[3:5], 16), int(text[5:7], 16)
 
 
-def _between(a: Point, b: Point, t: float) -> Point:
-    """A point on the unit circle between two unit vectors, by a normalised straight mix."""
-    x = a[0] + (b[0] - a[0]) * t
-    y = a[1] + (b[1] - a[1]) * t
-    length = math.sqrt(x * x + y * y)
-    return x / length, y / length
+# --- the letters ---------------------------------------------------------------------------
+# tools/share_image_letters.json holds, for the name and for the line, the glyphs HarfBuzz
+# shaped them into: each glyph's outline in the font's units (M, L, Q and C commands with their
+# points, and Z), and the run of glyphs with each one's advance and offsets. It holds the
+# highest and lowest ink of the name too, so that the mark can be centred on its letters.
+
+LETTERS = "tools/share_image_letters.json"
+FONT_PACKAGE = "site/node_modules/@fontsource-variable/inter"
+FONT = f"{FONT_PACKAGE}/files/inter-latin-wght-normal.woff2"
+# Each text the letters file holds: its key, the text and the weight it is set at.
+TEXTS = (("name", NAME, 700), ("line", LINE, 400))
 
 
-def arc(cx: float, cy: float, rx: float, ry: float, start: int, end: int) -> Stroke:
-    """The points of an elliptical arc from ``start`` to ``end`` degrees, counter-clockwise
-    when ``end`` is larger, clockwise when it is smaller."""
-    sign = 1 if end >= start else -1
-    angles = list(range(start, end + sign, sign * STEP_DEGREES))
-    points: Stroke = []
-    for first, second in itertools.pairwise(angles):
-        a, b = direction(first), direction(second)
-        for piece in range(PIECES_PER_STEP):
-            ux, uy = _between(a, b, piece / PIECES_PER_STEP)
-            points.append((cx + rx * ux, cy + ry * uy))
-    ux, uy = direction(angles[-1])
-    points.append((cx + rx * ux, cy + ry * uy))
-    return points
+@functools.cache
+def letters() -> dict:
+    """The letters file, read once."""
+    data = json.loads((REPO / LETTERS).read_text(encoding="utf-8"))
+    for key, text, weight in TEXTS:
+        entry = data["texts"][key]
+        if entry["text"] != text or entry["weight"] != weight:
+            raise ValueError(f"{LETTERS} does not hold {text!r} at weight {weight}: "
+                             "run python3 tools/share_image.py --letters")
+    return data
 
 
-def line(*points: Point) -> Stroke:
-    return list(points)
+def _commands(outline: str) -> list[tuple[str, list[Point]]]:
+    """An outline's commands, each its letter and its points."""
+    commands: list[tuple[str, list[float]]] = []
+    for token in outline.split():
+        if token.isalpha():
+            commands.append((token, []))
+        else:
+            commands[-1][1].append(float(token))
+    return [(op, list(zip(values[0::2], values[1::2], strict=True))) for op, values in commands]
 
 
-# --- the font ------------------------------------------------------------------------------
-# Units: the baseline is y = 0, the height of a small letter is 5, of a tall one 7.5, and a
-# descender goes down to -2.5. Each glyph is its width and its strokes.
-
-X = 5.0
-TALL = 7.5
-DOWN = -2.5
-R = X / 2
-
-
-def _bowl() -> Stroke:
-    return arc(R, R, R, R, 0, 360)
-
-
-GLYPHS: dict[str, tuple[float, list[Stroke]]] = {
-    "a": (X, [_bowl(), line((X, 0.0), (X, X))]),
-    "b": (X, [_bowl(), line((0.0, 0.0), (0.0, TALL))]),
-    "c": (X, [arc(R, R, R, R, 45, 315)]),
-    "d": (X, [_bowl(), line((X, 0.0), (X, TALL))]),
-    "e": (X, [line((0.0, R), (X, R)), arc(R, R, R, R, 0, 315)]),
-    "f": (
-        3.5,
-        [
-            line((1.25, 0.0), (1.25, 5.75)),
-            arc(3.0, 5.75, 1.75, 1.75, 180, 45),
-            line((0.0, X), (3.25, X)),
-        ],
-    ),
-    "h": (X, [line((0.0, 0.0), (0.0, TALL)), arc(R, R, R, R, 180, 0), line((X, R), (X, 0.0))]),
-    "i": (0.0, [line((0.0, 0.0), (0.0, X)), line((0.0, 7.0), (0.0, 7.0))]),
-    "k": (
-        4.25,
-        [
-            line((0.0, 0.0), (0.0, TALL)),
-            line((4.0, X), (0.0, 1.5)),
-            line((1.45, 2.7), (4.25, 0.0)),
-        ],
-    ),
-    "l": (0.0, [line((0.0, 0.0), (0.0, TALL))]),
-    "m": (
-        8.0,
-        [
-            line((0.0, 0.0), (0.0, X)),
-            arc(2.0, 3.0, 2.0, 2.0, 180, 0),
-            line((4.0, 3.0), (4.0, 0.0)),
-            arc(6.0, 3.0, 2.0, 2.0, 180, 0),
-            line((8.0, 3.0), (8.0, 0.0)),
-        ],
-    ),
-    "n": (X, [line((0.0, 0.0), (0.0, X)), arc(R, R, R, R, 180, 0), line((X, R), (X, 0.0))]),
-    "o": (X, [_bowl()]),
-    "p": (X, [_bowl(), line((0.0, DOWN), (0.0, X))]),
-    "r": (3.5, [line((0.0, 0.0), (0.0, X)), arc(R, R, R, R, 180, 60)]),
-    "s": (
-        3.9,
-        [
-            arc(1.95, 3.75, 1.95, 1.25, 30, 270),
-            arc(1.95, 1.25, 1.95, 1.25, 90, -150),
-        ],
-    ),
-    "T": (5.5, [line((0.0, TALL), (5.5, TALL)), line((2.75, 0.0), (2.75, TALL))]),
-    " ": (1.0, []),
-    "g": (X, [_bowl(), line((X, X), (X, -0.5)), arc(R, -0.5, R, 2.0, 0, -150)]),
-    "y": (X, [line((0.0, X), (R, 0.0)), line((X, X), (1.25, DOWN))]),
-    "t": (
-        3.5,
-        [
-            line((1.25, 6.75), (1.25, 1.25)),
-            arc(2.75, 1.25, 1.5, 1.25, 180, 315),
-            line((0.0, X), (3.25, X)),
-        ],
-    ),
-    "O": (6.5, [arc(3.25, 3.75, 3.25, 3.75, 0, 360)]),
-    "C": (6.5, [arc(3.25, 3.75, 3.25, 3.75, 45, 315)]),
-    "H": (
-        5.5,
-        [
-            line((0.0, 0.0), (0.0, TALL)),
-            line((5.5, 0.0), (5.5, TALL)),
-            line((0.0, 3.75), (5.5, 3.75)),
-        ],
-    ),
-    "P": (
-        5.0,
-        [
-            line((0.0, 0.0), (0.0, TALL)),
-            line((0.0, TALL), (3.0, TALL)),
-            arc(3.0, 5.5, 2.0, 2.0, 90, -90),
-            line((3.0, 3.5), (0.0, 3.5)),
-        ],
-    ),
-    "R": (
-        5.0,
-        [
-            line((0.0, 0.0), (0.0, TALL)),
-            line((0.0, TALL), (3.0, TALL)),
-            arc(3.0, 5.5, 2.0, 2.0, 90, -90),
-            line((3.0, 3.5), (0.0, 3.5)),
-            line((2.5, 3.5), (5.0, 0.0)),
-        ],
-    ),
-    ",": (0.5, [line((0.5, 0.25), (-0.25, -1.5))]),
-}
-GAP = 1.75
+def _placed(key: str, x: float, baseline: float, size: float, spacing: float):
+    """Each glyph of a text set from ``x`` on ``baseline`` at ``size`` pixels: its commands,
+    and the place and scale that turn its font units into pixels."""
+    data = letters()
+    entry = data["texts"][key]
+    scale = size / data["upem"]
+    pen_x = x
+    for glyph, advance, x_offset, y_offset in entry["run"]:
+        origin = pen_x + x_offset * scale, baseline - y_offset * scale
+        yield _commands(entry["glyphs"][glyph]), *origin, scale
+        pen_x += advance * scale + spacing
 
 
-def text_width(text: str) -> float:
-    """The width of a line of text in font units, from the first stroke to the last."""
-    widths = [GLYPHS[letter][0] for letter in text]
-    return sum(widths) + GAP * (len(text) - 1)
+def text_width(key: str, size: float, spacing: float = 0.0) -> float:
+    """The advance of a text at ``size`` pixels, its letters ``spacing`` apart beyond the font's."""
+    data = letters()
+    entry = data["texts"][key]
+    scale = size / data["upem"]
+    return sum(run[1] for run in entry["run"]) * scale + spacing * (len(entry["text"]) - 1)
 
 
-def text_strokes(text: str, left: float, baseline: float, unit: float) -> list[Stroke]:
-    """The strokes of a line of text in pixels, its first letter at ``left``."""
-    strokes: list[Stroke] = []
-    pen = 0.0
-    for letter in text:
-        width, glyph = GLYPHS[letter]
-        for stroke in glyph:
-            strokes.append([(left + (pen + x) * unit, baseline - y * unit) for x, y in stroke])
-        pen += width + GAP
-    return strokes
+def text_path(key: str, x: float, baseline: float, size: float, spacing: float = 0.0) -> str:
+    """A text's outlines as the commands of one SVG path."""
+    parts = []
+    for commands, ox, oy, scale in _placed(key, x, baseline, size, spacing):
+        for op, points in commands:
+            places = (f"{ox + px * scale:.2f} {oy - py * scale:.2f}" for px, py in points)
+            parts.append(op + " ".join(places))
+    return "".join(parts)
+
+
+def text_contours(
+    key: str, x: float, baseline: float, size: float, spacing: float = 0.0
+) -> list[list[Point]]:
+    """A text's outlines in pixels, each closed contour a list of points, its curves drawn as
+    ``CURVE_PIECES`` straight pieces each."""
+    contours: list[list[Point]] = []
+    for commands, ox, oy, scale in _placed(key, x, baseline, size, spacing):
+        current: list[Point] = []
+        for op, points in commands:
+            pixels_ = [(ox + px * scale, oy - py * scale) for px, py in points]
+            if op == "M":
+                if len(current) > 2:
+                    contours.append(current)
+                current = [pixels_[0]]
+            elif op == "L":
+                current.append(pixels_[0])
+            elif op in ("Q", "C"):
+                ends = [current[-1], *pixels_]
+                for piece in range(1, CURVE_PIECES + 1):
+                    current.append(_bezier(ends, piece / CURVE_PIECES))
+            elif op == "Z":
+                if len(current) > 2:
+                    contours.append(current)
+                current = []
+        if len(current) > 2:
+            contours.append(current)
+    return contours
+
+
+def _bezier(points: Sequence[Point], t: float) -> Point:
+    """The point at ``t`` of a Bézier curve, by de Casteljau's construction."""
+    row = list(points)
+    while len(row) > 1:
+        row = [(a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t) for a, b in itertools.pairwise(row)]
+    return row[0]
+
+
+def name_ink(size: float) -> tuple[float, float]:
+    """The highest and the lowest ink of the name at ``size`` pixels, above the baseline."""
+    data = letters()
+    scale = size / data["upem"]
+    top, bottom = data["texts"]["name"]["ink"]
+    return top * scale, bottom * scale
+
+
+def wordmark(cx: float, baseline: float, size: float) -> tuple[float, float, float, float, float]:
+    """The mark beside the name, centred on ``cx``, as the header sets them: the left and top of
+    the mark's square, its side, where the name starts, and the spacing of its letters."""
+    mark, gap, spacing = 1.1 * size, 0.3 * size, -0.03 * size
+    left = cx - (mark + gap + text_width("name", size, spacing)) / 2
+    top, bottom = name_ink(size)
+    middle = baseline - (top + bottom) / 2
+    return left, middle - mark / 2, mark, left + mark + gap, spacing
+
+
+def shape_letters() -> dict:
+    """The letters file's data, shaped by HarfBuzz from the Inter file the site installs."""
+    try:
+        import uharfbuzz as hb
+        from fontTools.ttLib import woff2
+    except ImportError:
+        raise SystemExit("--letters needs: pip install uharfbuzz fonttools brotli") from None
+    font_file = REPO / FONT
+    if not font_file.is_file():
+        raise SystemExit(f"{FONT} is missing: run npm ci in site/")
+    version = json.loads((REPO / FONT_PACKAGE / "package.json").read_text(encoding="utf-8"))["version"]
+    plain = io.BytesIO()
+    woff2.decompress(io.BytesIO(font_file.read_bytes()), plain)
+    face = hb.Face(plain.getvalue())
+
+    class Recorder:
+        def __init__(self) -> None:
+            self.tokens: list[str] = []
+
+        def _add(self, op: str, points) -> None:
+            self.tokens.append(op)
+            self.tokens.extend(repr(float(value)) for point in points for value in point)
+
+        def moveTo(self, point) -> None:  # noqa: N802 (the pen protocol's names)
+            self._add("M", [point])
+
+        def lineTo(self, point) -> None:  # noqa: N802
+            self._add("L", [point])
+
+        def qCurveTo(self, *points) -> None:  # noqa: N802
+            if len(points) != 2:
+                raise SystemExit("a quadratic curve with more than one control point")
+            self._add("Q", points)
+
+        def curveTo(self, *points) -> None:  # noqa: N802
+            self._add("C", points)
+
+        def closePath(self) -> None:  # noqa: N802
+            self.tokens.append("Z")
+
+    texts = {}
+    for key, text, weight in TEXTS:
+        font = hb.Font(face)
+        font.set_variations({"wght": weight})
+        buffer = hb.Buffer()
+        buffer.add_str(text)
+        buffer.guess_segment_properties()
+        hb.shape(font, buffer, {"kern": True, "liga": True})
+        run, glyphs, tops, bottoms = [], {}, [], []
+        for info, position in zip(buffer.glyph_infos, buffer.glyph_positions, strict=True):
+            glyph = str(info.codepoint)
+            run.append([glyph, position.x_advance, position.x_offset, position.y_offset])
+            if glyph not in glyphs:
+                pen = Recorder()
+                font.draw_glyph_with_pen(info.codepoint, pen)
+                glyphs[glyph] = " ".join(pen.tokens)
+            extents = font.get_glyph_extents(info.codepoint)
+            tops.append(extents.y_bearing)
+            bottoms.append(extents.y_bearing + extents.height)
+        texts[key] = {"text": text, "weight": weight, "ink": [max(tops), min(bottoms)],
+                      "run": run, "glyphs": glyphs}
+    return {
+        "font": f"Inter {version} (@fontsource-variable/inter, OFL-1.1), {Path(FONT).name}",
+        "upem": face.upem,
+        "texts": texts,
+    }
+
+
+def letters_text(data: dict) -> str:
+    """The letters file as it is written: one glyph or one glyph of the run to a line."""
+    out = ["{", f' "font": {json.dumps(data["font"])},', f' "upem": {data["upem"]},', ' "texts": {']
+    keys = list(data["texts"])
+    for k, key in enumerate(keys):
+        entry = data["texts"][key]
+        out.append(f"  {json.dumps(key)}: {{")
+        out.append(f'   "text": {json.dumps(entry["text"])}, "weight": {entry["weight"]}, '
+                   f'"ink": {json.dumps(entry["ink"])},')
+        out.append('   "run": [')
+        out.append(",\n".join(f"    {json.dumps(item)}" for item in entry["run"]))
+        out.append("   ],")
+        out.append('   "glyphs": {')
+        out.append(",\n".join(f"    {json.dumps(g)}: {json.dumps(o)}" for g, o in entry["glyphs"].items()))
+        out.append("   }")
+        out.append("  }" + ("," if k < len(keys) - 1 else ""))
+    out.append(" }")
+    out.append("}")
+    return "\n".join(out) + "\n"
 
 
 # --- drawing -------------------------------------------------------------------------------
@@ -315,86 +369,90 @@ class Layer:
         if amount > self.cover[index]:
             self.cover[index] = amount
 
-    def strokes(self, strokes: Iterable[Stroke], thickness: float) -> None:
-        """Draw strokes with round ends, ``thickness`` pixels wide, smoothed at the edges."""
-        half = thickness / 2
-        for stroke in strokes:
-            pairs = list(itertools.pairwise(stroke)) or [(stroke[0], stroke[0])]
-            for a, b in pairs:
-                self._segment(a, b, half)
+    def box(self, left: int, top: int, right: int, bottom: int) -> None:
+        """Cover the pixels of a box whole: its first column and row, and the ones after its last."""
+        for y in range(max(0, top), min(self.height, bottom)):
+            for x in range(max(0, left), min(self.width, right)):
+                self._put(x, y, 1.0)
 
-    def _segment(self, a: Point, b: Point, half: float) -> None:
-        reach = half + 1.0
-        x0 = max(0, math.floor(min(a[0], b[0]) - reach))
-        x1 = min(self.width - 1, math.ceil(max(a[0], b[0]) + reach))
-        y0 = max(0, math.floor(min(a[1], b[1]) - reach))
-        y1 = min(self.height - 1, math.ceil(max(a[1], b[1]) + reach))
-        dx, dy = b[0] - a[0], b[1] - a[1]
-        length = dx * dx + dy * dy
-        for y in range(y0, y1 + 1):
-            py = y + 0.5
-            for x in range(x0, x1 + 1):
-                px = x + 0.5
-                t = 0.0
-                if length > 0.0:
-                    t = ((px - a[0]) * dx + (py - a[1]) * dy) / length
-                    t = 0.0 if t < 0.0 else 1.0 if t > 1.0 else t
-                ex, ey = px - (a[0] + t * dx), py - (a[1] + t * dy)
-                amount = half + 0.5 - math.sqrt(ex * ex + ey * ey)
-                if amount > 0.0:
-                    self._put(x, y, 1.0 if amount > 1.0 else amount)
+    def shape(self, box: tuple[int, int, int, int], amount: Callable[[float, float], float]) -> None:
+        """Cover each pixel of a box (its first column and row, and the ones after its last) by
+        ``amount`` at the pixel's middle."""
+        x0, y0, x1, y1 = box
+        for y in range(max(0, y0), min(self.height, y1)):
+            for x in range(max(0, x0), min(self.width, x1)):
+                value = amount(x + 0.5, y + 0.5)
+                if value > 0.0:
+                    self._put(x, y, value)
 
-    def rounded_box(
-        self, left: float, top: float, width: float, height: float, radius: float
-    ) -> None:
-        """Fill a box with rounded corners, smoothed at the edges."""
-        cx, cy = left + width / 2, top + height / 2
-        hx, hy = width / 2 - radius, height / 2 - radius
-        for y in range(max(0, int(top) - 1), min(self.height, int(top + height) + 2)):
-            for x in range(max(0, int(left) - 1), min(self.width, int(left + width) + 2)):
-                qx = abs(x + 0.5 - cx) - hx
-                qy = abs(y + 0.5 - cy) - hy
-                ox, oy = max(qx, 0.0), max(qy, 0.0)
-                inside = min(max(qx, qy), 0.0)
-                distance = math.sqrt(ox * ox + oy * oy) + inside - radius
-                amount = 0.5 - distance
-                if amount > 0.0:
-                    self._put(x, y, 1.0 if amount > 1.0 else amount)
+    def fill(self, contours: Sequence[Sequence[Point]]) -> None:
+        """Fill closed outlines by the nonzero rule, smoothed at their edges: each row of pixels
+        is crossed by ``SAMPLES`` lines, and each pixel is covered by the share of those lines'
+        length inside the outlines that lies in it."""
+        edges = []
+        for contour in contours:
+            for (xa, ya), (xb, yb) in itertools.pairwise([*contour, contour[0]]):
+                if ya == yb:
+                    continue
+                winding = 1 if yb > ya else -1
+                if ya > yb:
+                    xa, ya, xb, yb = xb, yb, xa, ya
+                edges.append((ya, yb, xa, (xb - xa) / (yb - ya), winding))
+        if not edges:
+            return
+        edges.sort()
+        xs = [x for contour in contours for x, _y in contour]
+        x0, x1 = max(0, math.floor(min(xs))), min(self.width, math.ceil(max(xs)) + 1)
+        y0 = max(0, math.floor(edges[0][0]))
+        y1 = min(self.height, math.ceil(max(edge[1] for edge in edges)) + 1)
+        start, active = 0, []
+        for y in range(y0, y1):
+            row = [0.0] * (x1 - x0)
+            for sample in range(SAMPLES):
+                line_y = y + (sample + 0.5) / SAMPLES
+                while start < len(edges) and edges[start][0] <= line_y:
+                    active.append(edges[start])
+                    start += 1
+                active = [edge for edge in active if edge[1] > line_y]
+                crossings = sorted((edge[2] + (line_y - edge[0]) * edge[3], edge[4]) for edge in active)
+                winding = 0
+                for (xa, turn), (xb, _turn) in itertools.pairwise(crossings):
+                    winding += turn
+                    if winding:
+                        _span(row, xa - x0, xb - x0)
+            for column, value in enumerate(row):
+                if value > 0.0:
+                    self._put(x0 + column, y, min(1.0, value / SAMPLES))
 
-    def rounded_ring(
-        self, left: float, top: float, width: float, height: float, radius: float, thickness: float
-    ) -> None:
-        """Draw the outline of a box with rounded corners, a line ``thickness`` pixels wide
-        centred on the box's edge, smoothed at its sides."""
-        half = thickness / 2
-        cx, cy = left + width / 2, top + height / 2
-        hx, hy = width / 2 - radius, height / 2 - radius
-        reach = int(half) + 2
-        for y in range(max(0, int(top) - reach), min(self.height, int(top + height) + reach + 1)):
-            for x in range(
-                max(0, int(left) - reach), min(self.width, int(left + width) + reach + 1)
-            ):
-                qx = abs(x + 0.5 - cx) - hx
-                qy = abs(y + 0.5 - cy) - hy
-                ox, oy = max(qx, 0.0), max(qy, 0.0)
-                inside = min(max(qx, qy), 0.0)
-                distance = math.sqrt(ox * ox + oy * oy) + inside - radius
-                amount = half + 0.5 - abs(distance)
-                if amount > 0.0:
-                    self._put(x, y, 1.0 if amount > 1.0 else amount)
 
-    def fade(self, top: float, height: float, opacity: float, reach: float) -> None:
-        """Scale the cover of every row for a line ``height`` pixels high from ``top``: by
-        ``opacity`` down to the top, then in a straight line to nothing at ``reach`` of the
-        height, and nothing below."""
-        end = reach * height
-        for y in range(self.height):
-            down = y + 0.5 - top
-            scale = opacity if down <= 0.0 else opacity * (1.0 - down / end) if down < end else 0.0
-            start = y * self.width
-            for index in range(start, start + self.width):
-                if self.cover[index] > 0.0:
-                    self.cover[index] *= scale
+def _span(row: list[float], left: float, right: float) -> None:
+    """Add to a row of pixels the length of a line from ``left`` to ``right`` in each."""
+    left, right = max(0.0, left), min(float(len(row)), right)
+    if right <= left:
+        return
+    first, last = int(left), int(right)
+    if first == last:
+        row[first] += right - left
+        return
+    row[first] += first + 1 - left
+    for column in range(first + 1, min(last, len(row))):
+        row[column] += 1.0
+    if last < len(row):
+        row[last] += right - last
+
+
+def _clamp(value: float) -> float:
+    return 0.0 if value < 0.0 else 1.0 if value > 1.0 else value
+
+
+def _disc(cx: float, cy: float, radius: float) -> Callable[[float, float], float]:
+    """How much of a pixel a disc covers, given the pixel's middle; all in pixels."""
+
+    def amount(x: float, y: float) -> float:
+        dx, dy = x - cx, y - cy
+        return _clamp(radius + 0.5 - math.sqrt(dx * dx + dy * dy))
+
+    return amount
 
 
 def box_widths(deviation: float, passes: int = BLUR_PASSES) -> list[int]:
@@ -515,60 +573,143 @@ def compose(
     return bytes(rows)
 
 
+
+def linear(ends: tuple[Colour, Colour], start: Point, end: Point) -> Paint:
+    """The paint of a gradient along a line from ``start`` to ``end``, in pixels: at a pixel,
+    its colour mixed from its two ends by how far along the line the pixel's middle lies,
+    rounded to the nearest whole value."""
+    (r0, g0, b0), (r1, g1, b1) = ends
+    dx, dy = end[0] - start[0], end[1] - start[1]
+    length = dx * dx + dy * dy
+
+    def paint(x: int, y: int) -> Colour:
+        t = _clamp(((x + 0.5 - start[0]) * dx + (y + 0.5 - start[1]) * dy) / length)
+        return (
+            int(r0 + (r1 - r0) * t + 0.5),
+            int(g0 + (g1 - g0) * t + 0.5),
+            int(b0 + (b1 - b0) * t + 0.5),
+        )
+
+    return paint
+
+
+def _glow_reach(x: int, y: int) -> float:
+    """How far a pixel's middle lies from the glow's middle, as a share of the glow's reach."""
+    dx = (x + 0.5 - GLOW_MIDDLE[0] * WIDTH) / (GLOW_REACH * WIDTH)
+    dy = (y + 0.5 - GLOW_MIDDLE[1] * HEIGHT) / (GLOW_REACH * HEIGHT)
+    return math.sqrt(dx * dx + dy * dy)
+
+
+def glow() -> tuple[Layer, Paint]:
+    """The glow: its colour at its middle and its opacity both fade in a straight line to the
+    ground's, and to nothing, at its reach."""
+    layer = Layer(WIDTH, HEIGHT)
+    for y in range(HEIGHT):
+        for x in range(WIDTH):
+            t = _glow_reach(x, y)
+            if t < 1.0:
+                layer.cover[y * WIDTH + x] = GLOW_OPACITY * (1.0 - t)
+
+    (r0, g0, b0), (r1, g1, b1) = GLOW, BACKGROUND
+
+    def paint(x: int, y: int) -> Colour:
+        t = min(1.0, _glow_reach(x, y))
+        return (
+            int(r0 + (r1 - r0) * t + 0.5),
+            int(g0 + (g1 - g0) * t + 0.5),
+            int(b0 + (b1 - b0) * t + 0.5),
+        )
+
+    return layer, paint
+
+
+def mark_layers(left: float, top: float, side: float) -> list[tuple[Layer, Colour | Paint]]:
+    """The mark's layers in a square ``side`` pixels wide at ``left`` and ``top``, as the dark
+    theme's file draws it: the shadow cast by the whole drawing, the orbit, the moon's night
+    side and its lit side, each in its own gradient."""
+    look = THEMES["dark"]
+    scale = side / MARK_UNITS
+
+    def at(point: Point) -> Point:
+        return left + (point[0] + OFFSET[0]) * scale, top + (point[1] + OFFSET[1]) * scale
+
+    cx, cy = at(ORBIT_CENTRE)
+    radius, half = ORBIT_RADIUS * scale, ORBIT_WIDTH / 2 * scale
+    (ax, ay), (bx, by) = (at(end) for end in ORBIT_ENDS)
+    mx, my = at(MOON[:2])
+    lx, ly = at(LIT[:2])
+    moon_radius = MOON[2] * scale
+    hole = _disc(mx, my, (MOON[2] + GAP) * scale)
+    moon = _disc(mx, my, moon_radius)
+    lit_disc = _disc(lx, ly, LIT[2] * scale)
+    # The two ends from the orbit's centre: a point lies between them, on the arc's side,
+    # when it is clockwise of the first and anticlockwise of the second (the arc turns less
+    # than half a circle).
+    ux, uy, vx, vy = ax - cx, ay - cy, bx - cx, by - cy
+
+    def orbit(x: float, y: float) -> float:
+        px, py = x - cx, y - cy
+        if ux * py - uy * px >= 0.0 and px * vy - py * vx >= 0.0:
+            distance = abs(math.sqrt(px * px + py * py) - radius)
+        else:
+            ex, ey, fx, fy = x - ax, y - ay, x - bx, y - by
+            distance = min(math.sqrt(ex * ex + ey * ey), math.sqrt(fx * fx + fy * fy))
+        amount = _clamp(half + 0.5 - distance)
+        return amount * (1.0 - hole(x, y)) if amount > 0.0 else 0.0
+
+    def lit(x: float, y: float) -> float:
+        return min(lit_disc(x, y), moon(x, y))
+
+    # The shadow's region, and the box every layer is drawn in: the pixels whose middles lie
+    # inside the filter's region, within the image.
+    x, y, w, h = SHADOW_REGION
+    box = (
+        max(0, math.ceil(left + x * scale - 0.5)),
+        max(0, math.ceil(top + y * scale - 0.5)),
+        min(WIDTH, math.ceil(left + (x + w) * scale - 0.5)),
+        min(HEIGHT, math.ceil(top + (y + h) * scale - 0.5)),
+    )
+    lowered = Layer(WIDTH, HEIGHT)
+    drop = SHADOW_OFFSET * scale
+    lowered.shape(box, lambda x, y: max(orbit(x, y - drop), moon(x, y - drop)))
+    shadow = blurred_shadow(lowered, box, SHADOW_DEVIATION * scale)
+    layers: list[tuple[Layer, Colour | Paint]] = [(shadow, _rgb(look["shadow"][0]))]
+    moon_top, moon_height = my - moon_radius, 2 * moon_radius
+    for amount, paint in (
+        (orbit, linear(_ends(look["orbit"]), at(ORBIT_GRADIENT[0]), at(ORBIT_GRADIENT[1]))),
+        (moon, shade(_ends(look["violet"]), moon_top, moon_height)),
+        (lit, shade(_ends(look["teal"]), moon_top, moon_height)),
+    ):
+        layer = Layer(WIDTH, HEIGHT)
+        layer.shape(box, amount)
+        layers.append((layer, paint))
+    return layers
+
+
+def _ends(ends: tuple[str, str]) -> tuple[Colour, Colour]:
+    return _rgb(ends[0]), _rgb(ends[1])
+
+
+# Where the share image sets the name (its centre, its baseline and its size) and the line
+# (its baseline and its size).
+SHARE_NAME = (WIDTH / 2, 318.0, 128.0)
+SHARE_LINE = (430.0, 34.0)
+
+
 def render() -> bytes:
     """The image as rows of RGB pixels, each row led by its filter byte."""
-    name_unit, line_unit = 13.0, 3.7
-    icon = 168.0
-    gap = 44.0
-    name_width = text_width(NAME) * name_unit
-    row_width = icon + gap + name_width
-    left = (WIDTH - row_width) / 2
-    icon_top = 150.0
-    name_baseline = icon_top + icon / 2 + X * name_unit / 2
-    line_width = text_width(LINE) * line_unit
-    line_baseline = 470.0
-
+    left, top, side, name_left, spacing = wordmark(*SHARE_NAME)
     band = Layer(WIDTH, HEIGHT)
-    band.rounded_box(0, 0, WIDTH, BAND_HEIGHT, 0)
-    # The mark on its 64-unit grid, each tile in its own layer so that it is shaded and
-    # highlighted over its own height; the shadow is cast by all the tiles together.
-    scale = icon / MARK_UNITS
-    lowered = Layer(WIDTH, HEIGHT)
-    tiles: list[tuple[Layer, Paint]] = []
-    highlights: list[Layer] = []
-    inset = HIGHLIGHT_WIDTH / 2 * scale
-    for tx, ty, tw, th, tr, colour in MARKS[MARK]:
-        x, y = left + tx * scale, icon_top + ty * scale
-        w, h, radius = tw * scale, th * scale, tr * scale
-        layer = Layer(WIDTH, HEIGHT)
-        layer.rounded_box(x, y, w, h, radius)
-        tiles.append((layer, shade(DARK[colour], y, h)))
-        lowered.rounded_box(x, y + SHADOW_OFFSET * scale, w, h, radius)
-        highlight = Layer(WIDTH, HEIGHT)
-        highlight.rounded_ring(
-            x + inset, y + inset, w - 2 * inset, h - 2 * inset, radius - inset, HIGHLIGHT_WIDTH * scale
-        )
-        highlight.fade(y + inset, h - 2 * inset, HIGHLIGHT_OPACITY, HIGHLIGHT_REACH)
-        highlights.append(highlight)
-    # The shadow's region is the mark's square: the pixels whose middles lie inside it.
-    region = (
-        math.ceil(left - 0.5),
-        math.ceil(icon_top - 0.5),
-        math.ceil(left + icon - 0.5),
-        math.ceil(icon_top + icon - 0.5),
-    )
-    shadow = blurred_shadow(lowered, region, SHADOW_DEVIATION * scale)
+    band.box(0, 0, WIDTH, BAND_HEIGHT)
     name = Layer(WIDTH, HEIGHT)
-    name.strokes(text_strokes(NAME, left + icon + gap, name_baseline, name_unit), 1.15 * name_unit)
+    name.fill(text_contours("name", name_left, SHARE_NAME[1], SHARE_NAME[2], spacing))
+    baseline, size = SHARE_LINE
     tagline = Layer(WIDTH, HEIGHT)
-    tagline.strokes(
-        text_strokes(LINE, (WIDTH - line_width) / 2, line_baseline, line_unit), 0.85 * line_unit
-    )
+    tagline.fill(text_contours("line", (WIDTH - text_width("line", size)) / 2, baseline, size))
     layers: list[tuple[Layer, Colour | Paint | None]] = [
+        glow(),
         (band, None),
-        (shadow, SHADOW),
-        *tiles,
-        *((highlight, HIGHLIGHT) for highlight in highlights),
+        *mark_layers(left, top, side),
         (name, NAME_COLOUR),
         (tagline, LINE_COLOUR),
     ]
@@ -597,9 +738,6 @@ CHUNK_FRAME = 12
 PLAIN_CHUNKS = (b"IHDR", b"IDAT", b"IEND")
 # What the check prints after a refusal's cause: how to write the file it wants.
 REMEDY = "run python3 tools/share_image.py"
-# Where the mark is written: the header logo in each theme, and the favicon.
-MARK_FILES = {"light": "site/src/assets/mark-light.svg", "dark": "site/src/assets/mark-dark.svg"}
-FAVICON = "site/public/favicon.svg"
 
 
 def _chunk(kind: bytes, data: bytes) -> bytes:
@@ -782,13 +920,13 @@ def is_current(path: Path) -> bool:
     return refusal(path) is None
 
 
+
 # --- the mark as SVG ------------------------------------------------------------------------
-# The shadow and the highlight of each theme: the shadow's blur, colour and opacity, and the
-# highlight's opacity at the top of a tile.
-SVG_THEMES = {
-    "light": {"blur": "1.1", "flood": "#1b1035", "opacity": "0.22", "highlight": "0.35"},
-    "dark": {"blur": "1.2", "flood": "#000000", "opacity": "0.55", "highlight": "0.22"},
-}
+# Where the mark is written: the header logo (and the home page's picture) in each theme, and
+# the favicon; and the README's banner in each theme.
+MARK_FILES = {"light": "site/src/assets/mark-light.svg", "dark": "site/src/assets/mark-dark.svg"}
+FAVICON = "site/public/favicon.svg"
+BANNER_FILES = {"light": "docs/readme/banner-light.svg", "dark": "docs/readme/banner-dark.svg"}
 
 
 def _number(value: float) -> str:
@@ -796,149 +934,109 @@ def _number(value: float) -> str:
     return f"{value:.2f}".rstrip("0").rstrip(".")
 
 
-def _hex(colour: Colour) -> str:
-    return "#{:02x}{:02x}{:02x}".format(*colour)
-
-
-def _tiles_svg(tiles: Sequence[Tile], fill: Callable[[str], str], ring: str) -> tuple[str, str]:
-    """The tiles and, over them, the highlight just inside each tile's edge."""
-    boxes = "".join(
-        f'<rect x="{_number(x)}" y="{_number(y)}" width="{_number(w)}" height="{_number(h)}" '
-        f'rx="{_number(r)}" fill="{fill(colour)}"/>'
-        for x, y, w, h, r, colour in tiles
-    )
-    rings = "".join(
-        f'<rect x="{_number(x + 0.5)}" y="{_number(y + 0.5)}" width="{_number(w - 1)}" '
-        f'height="{_number(h - 1)}" rx="{_number(r - 0.5)}"/>'
-        for x, y, w, h, r, _colour in tiles
-    )
-    return boxes, f'<g fill="none" stroke="{ring}" stroke-width="1">{rings}</g>'
-
-
-def _stops(ends: tuple[Colour, Colour]) -> str:
-    return f'<stop offset="0" stop-color="{_hex(ends[0])}"/><stop offset="1" stop-color="{_hex(ends[1])}"/>'
-
-
-def mark_svg(name: str, theme: str) -> str:
-    """The mark ``name`` in one theme's colours, as the header shows it."""
-    look = SVG_THEMES[theme]
-    colours = LIGHT if theme == "light" else DARK
-    ident = f"gn{name.upper()}{theme[0].upper()}"
-    gradients = "".join(
-        f'<linearGradient id="{ident}{colour[0]}" x1="0" y1="0" x2="0" y2="1">{_stops(ends)}</linearGradient>'
-        for colour, ends in colours.items()
-    )
-    boxes, rings = _tiles_svg(MARKS[name], lambda c: f"url(#{ident}{c[0]})", f"url(#{ident}r)")
+def _gradient(ident: str, ends: tuple[str, str], start: Point, end: Point) -> str:
+    """A gradient from ``start`` to ``end`` in the drawing's own units."""
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="{NAME}">'
-        f'<defs><filter id="{ident}s" filterUnits="userSpaceOnUse" x="0" y="0" width="64" height="64" '
-        'color-interpolation-filters="sRGB">'
-        f'<feDropShadow dx="0" dy="1.2" stdDeviation="{look["blur"]}" flood-color="{look["flood"]}" '
-        f'flood-opacity="{look["opacity"]}"/></filter>{gradients}'
-        f'<linearGradient id="{ident}r" x1="0" y1="0" x2="0" y2="1">'
-        f'<stop offset="0" stop-color="#ffffff" stop-opacity="{look["highlight"]}"/>'
-        f'<stop offset=".45" stop-color="#ffffff" stop-opacity="0"/></linearGradient></defs>'
-        f'<g filter="url(#{ident}s)">{boxes}</g>{rings}</svg>\n'
+        f'<linearGradient id="{ident}" gradientUnits="userSpaceOnUse" x1="{_number(start[0])}" '
+        f'y1="{_number(start[1])}" x2="{_number(end[0])}" y2="{_number(end[1])}">'
+        f'<stop offset="0" stop-color="{ends[0]}"/><stop offset="1" stop-color="{ends[1]}"/></linearGradient>'
     )
 
 
-def favicon_svg(name: str = MARK) -> str:
-    """The mark as the favicon: the light theme's colours, the dark theme's when the reader's
+def _mark_body(theme: str, prefix: str = "") -> str:
+    """The mark's definitions and drawing in one theme, its ids led by ``prefix``."""
+    look = THEMES[theme]
+    p = f"{prefix}gn{theme[0]}"
+    (mx, my, mr), (lx, ly, lr) = MOON, LIT
+    (ax, ay), (bx, by) = ORBIT_ENDS
+    flood, opacity = look["shadow"]
+    x, y, w, h = SHADOW_REGION
+    n = _number
+    defs = (
+        _gradient(f"{p}n", look["violet"], (0, my - mr), (0, my + mr))
+        + _gradient(f"{p}l", look["teal"], (0, my - mr), (0, my + mr))
+        + _gradient(f"{p}o", look["orbit"], *ORBIT_GRADIENT)
+        + f'<filter id="{p}s" filterUnits="userSpaceOnUse" x="{n(x)}" y="{n(y)}" width="{n(w)}" '
+        f'height="{n(h)}" color-interpolation-filters="sRGB"><feDropShadow dx="0" '
+        f'dy="{n(SHADOW_OFFSET)}" stdDeviation="{n(SHADOW_DEVIATION)}" flood-color="{flood}" '
+        f'flood-opacity="{n(opacity)}"/></filter>'
+        f'<clipPath id="{p}c"><circle cx="{n(mx)}" cy="{n(my)}" r="{n(mr)}"/></clipPath>'
+        f'<mask id="{p}k" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">'
+        f'<rect width="64" height="64" fill="#fff"/>'
+        f'<circle cx="{n(mx)}" cy="{n(my)}" r="{n(mr + GAP)}" fill="#000"/></mask>'
+    )
+    r = n(ORBIT_RADIUS)
+    body = (
+        f'<g filter="url(#{p}s)"><g transform="translate({n(OFFSET[0])} {n(OFFSET[1])})">'
+        f'<path d="M{n(ax)} {n(ay)}A{r} {r} 0 0 1 {n(bx)} {n(by)}" fill="none" stroke="url(#{p}o)" '
+        f'stroke-width="{n(ORBIT_WIDTH)}" stroke-linecap="round" mask="url(#{p}k)"/>'
+        f'<circle cx="{n(mx)}" cy="{n(my)}" r="{n(mr)}" fill="url(#{p}n)"/>'
+        f'<g clip-path="url(#{p}c)"><circle cx="{n(lx)}" cy="{n(ly)}" r="{n(lr)}" fill="url(#{p}l)"/></g></g></g>'
+    )
+    return f"<defs>{defs}</defs>{body}"
+
+
+def mark_svg(theme: str) -> str:
+    """The mark in one theme's colours, as the header and the home page show it."""
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" '
+        f'aria-label="{NAME}">{_mark_body(theme)}</svg>\n'
+    )
+
+
+def favicon_svg() -> str:
+    """The mark as the favicon: the light theme's drawing, the dark theme's when the reader's
     system asks for a dark colour scheme."""
-    light, dark = SVG_THEMES["light"], SVG_THEMES["dark"]
-    style = (
-        f".v0{{stop-color:{_hex(LIGHT['violet'][0])}}}.v1{{stop-color:{_hex(LIGHT['violet'][1])}}}"
-        f".t0{{stop-color:{_hex(LIGHT['teal'][0])}}}.t1{{stop-color:{_hex(LIGHT['teal'][1])}}}"
-        f".r0{{stop-color:#fff;stop-opacity:{light['highlight']}}}.r1{{stop-color:#fff;stop-opacity:0}}"
-        f".f{{flood-color:{light['flood']};flood-opacity:{light['opacity']}}}"
-        "@media (prefers-color-scheme:dark){"
-        f".v0{{stop-color:{_hex(DARK['violet'][0])}}}.v1{{stop-color:{_hex(DARK['violet'][1])}}}"
-        f".t0{{stop-color:{_hex(DARK['teal'][0])}}}.t1{{stop-color:{_hex(DARK['teal'][1])}}}"
-        f".r0{{stop-opacity:{dark['highlight']}}}.f{{flood-color:{dark['flood']};flood-opacity:{dark['opacity']}}}}}"
-    )
-    boxes, rings = _tiles_svg(MARKS[name], lambda c: f"url(#{c[0]})", "url(#r)")
+    style = ".d{display:none}@media (prefers-color-scheme:dark){.l{display:none}.d{display:inline}}"
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>{style}</style><defs>'
-        '<linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="v0"/><stop offset="1" class="v1"/></linearGradient>'
-        '<linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="t0"/><stop offset="1" class="t1"/></linearGradient>'
-        '<linearGradient id="r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="r0"/><stop offset=".45" class="r1"/></linearGradient>'
-        '<filter id="s" filterUnits="userSpaceOnUse" x="0" y="0" width="64" height="64" color-interpolation-filters="sRGB">'
-        f'<feDropShadow class="f" dx="0" dy="1.2" stdDeviation="{light["blur"]}"/></filter></defs>'
-        f'<g filter="url(#s)">{boxes}</g>{rings}</svg>\n'
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>{style}</style>'
+        f'<g class="l">{_mark_body("light", "f")}</g><g class="d">{_mark_body("dark", "f")}</g></svg>\n'
     )
 
 
 # --- the README's banner ------------------------------------------------------------------
 # The banner at the top of README.md, for GitHub's light and dark themes: a framed panel with a
-# band of the accent gradient along its top, the mark beside the name, and the share image's line
-# under them. Its letters are the strokes of the share image's font, so it needs no font file.
-BANNER_FILES = {"light": "docs/readme/banner-light.svg", "dark": "docs/readme/banner-dark.svg"}
+# band of the accent gradient along its top, the mark beside the name as the header sets them,
+# and the share image's line under them. Its letters are outlines, so it needs no font.
 BANNER_WIDTH, BANNER_HEIGHT = 1200, 260
-BANNER_THEMES = {
-    "light": {"ground": "#ffffff", "border": "#e4e1ee", "ink": "#0b1020", "muted": "#4a4f63",
-              "rule": ("#7c3aed", "#048196")},
-    "dark": {"ground": "#080d17", "border": "#232a3b", "ink": "#f2f3f8", "muted": "#a9b0c3",
-             "rule": ("#a03fff", "#008294")},
-}
+# Where the banner sets the name (its centre, its baseline and its size) and the line (its
+# baseline and its size).
+BANNER_NAME = (BANNER_WIDTH / 2, 128.0, 88.0)
+BANNER_LINE = (196.0, 30.0)
 
 
-def _stroke_path(strokes: Iterable[Stroke]) -> str:
-    """Strokes as the commands of one SVG path: each a move, then lines."""
-    parts = []
-    for stroke in strokes:
-        head, *rest = stroke
-        parts.append(f"M{_number(head[0])} {_number(head[1])}"
-                     + "".join(f"L{_number(x)} {_number(y)}" for x, y in rest))
-    return "".join(parts)
-
-
-def banner_svg(theme: str, name: str = MARK) -> str:
+def banner_svg(theme: str) -> str:
     """The README's banner in one theme."""
-    look = BANNER_THEMES[theme]
-    name_unit, line_unit = 8.5, 3.2
-    mark = 100.0
-    gap = 26.0
-    name_width = text_width(NAME) * name_unit
-    left = (BANNER_WIDTH - (mark + gap + name_width)) / 2
-    baseline = 128.0
-    middle = baseline - X * name_unit / 2
-    inner = mark_svg(name, theme).split(">", 1)[1].rsplit("</svg>", 1)[0]
-    line_width = text_width(LINE) * line_unit
+    look = THEMES[theme]
     w, h = BANNER_WIDTH, BANNER_HEIGHT
+    left, top, side, name_left, spacing = wordmark(*BANNER_NAME)
+    baseline, size = BANNER_LINE
+    line_left = (w - text_width("line", size)) / 2
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
         f'role="img" aria-label="{NAME}: {LINE}">'
-        f'<defs><linearGradient id="gnBannerRule" x1="0" y1="0" x2="1" y2="0">'
+        '<defs><linearGradient id="gnBannerRule" x1="0" y1="0" x2="1" y2="0">'
         f'<stop offset="0" stop-color="{look["rule"][0]}"/><stop offset="1" stop-color="{look["rule"][1]}"/>'
         f'</linearGradient><clipPath id="gnBannerFrame"><rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="18"/>'
         "</clipPath></defs>"
         f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="18" fill="{look["ground"]}" '
         f'stroke="{look["border"]}" stroke-width="2"/>'
         f'<rect x="0" y="0" width="{w}" height="6" fill="url(#gnBannerRule)" clip-path="url(#gnBannerFrame)"/>'
-        f'<svg x="{_number(left)}" y="{_number(middle - mark / 2)}" width="{_number(mark)}" '
-        f'height="{_number(mark)}" viewBox="0 0 64 64">{inner}</svg>'
-        f'<path fill="none" stroke="{look["ink"]}" stroke-width="{_number(1.15 * name_unit)}" '
-        'stroke-linecap="round" stroke-linejoin="round" '
-        f'd="{_stroke_path(text_strokes(NAME, left + mark + gap, baseline, name_unit))}"/>'
-        f'<path fill="none" stroke="{look["muted"]}" stroke-width="{_number(0.85 * line_unit)}" '
-        'stroke-linecap="round" stroke-linejoin="round" '
-        f'd="{_stroke_path(text_strokes(LINE, (w - line_width) / 2, 206, line_unit))}"/>'
+        f'<svg x="{left:.2f}" y="{top:.2f}" width="{side:.2f}" height="{side:.2f}" viewBox="0 0 64 64">'
+        f"{_mark_body(theme, 'b')}</svg>"
+        f'<path fill="{look["ink"]}" d="{text_path("name", name_left, BANNER_NAME[1], BANNER_NAME[2], spacing)}"/>'
+        f'<path fill="{look["muted"]}" d="{text_path("line", line_left, baseline, size)}"/>'
         "</svg>\n"
     )
 
 
 def mark_files() -> dict[str, str]:
     """Every SVG file this script writes, by its path in the repository, with its text: the
-    mark in use in both themes, the favicon, the README's banner in both themes, and each other
-    proposal in both themes."""
-    files = {MARK_FILES[theme]: mark_svg(MARK, theme) for theme in ("light", "dark")}
-    files[FAVICON] = favicon_svg(MARK)
+    mark in both themes, the favicon and the README's banner in both themes."""
+    files = {MARK_FILES[theme]: mark_svg(theme) for theme in ("light", "dark")}
+    files[FAVICON] = favicon_svg()
     for theme, path in BANNER_FILES.items():
         files[path] = banner_svg(theme)
-    for name in MARKS:
-        if name != MARK:
-            for theme in ("light", "dark"):
-                files[MARK_FILES[theme].replace("mark-", f"mark-{name}-")] = mark_svg(name, theme)
     return files
 
 
@@ -955,7 +1053,10 @@ def mark_refusal(repo: Path = REPO) -> str | None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="share_image.py", description=__doc__.split("\n")[0])
-    parser.add_argument("--check", action="store_true", help="exit 1 when the file differs")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--check", action="store_true", help="exit 1 when a file differs")
+    group.add_argument("--letters", action="store_true",
+                       help=f"shape the letters again into {LETTERS}, then write every file")
     args = parser.parse_args(argv)
     path = REPO / OUTPUT
     if args.check:
@@ -968,6 +1069,9 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{cause}: {REMEDY}", file=sys.stderr)
             return 1
         return 0
+    if args.letters:
+        (REPO / LETTERS).write_text(letters_text(shape_letters()), encoding="utf-8")
+        letters.cache_clear()
     for name, text in mark_files().items():
         (REPO / name).parent.mkdir(parents=True, exist_ok=True)
         (REPO / name).write_text(text, encoding="utf-8")
