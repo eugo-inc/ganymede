@@ -29,5 +29,10 @@ Thumbs.db
 .vscode/
 *.swp
 
-# Website: build output if mkdocs.yml is built in place (use tools/build_site.py --out build/site)
-/site/
+# Website (tools/build_site.py): installed packages, generated pages and files, the built site
+site/node_modules/
+site/dist/
+site/.astro/
+site/.public/
+site/src/content/docs/
+site/src/generated/

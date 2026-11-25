@@ -1,0 +1,66 @@
+name: old-site
+
+# Puts the MkDocs site back at https://eugo-inc.github.io/ganymede/, in place of the redirect
+# pages that site.yml leaves there. Run it by hand, from main, only when
+# https://eugo.io/docs/ganymede/ has to come down: the redirect pages would otherwise send every
+# reader to an address that no longer answers.
+#
+# It builds the last commit of main that still held the MkDocs site, exactly as that commit's own
+# pages.yml did. While eugo.io does not answer with the built site, site.yml's read-back fails and
+# its redirects job does not run, so the old site stays. The first passing publish afterwards
+# replaces it with the redirect pages again.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site
+  cancel-in-progress: false
+
+env:
+  # The last commit of main with mkdocs.yml, docs/requirements.txt and that build_site.py.
+  MKDOCS_COMMIT: 642f8c36252fd68ecfed8c21ae4e6c645bd4af38
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    env:
+      NO_MKDOCS_2_WARNING: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ env.MKDOCS_COMMIT }}
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Install the old site's toolchain
+        run: pip install -r docs/requirements.txt
+      - name: Assemble the old site's source
+        run: python tools/build_site.py --out build/site
+      - name: Build the old site
+        run: mkdocs build --strict -f build/site/mkdocs.yml
+      - uses: actions/configure-pages@v6.0.0
+      - uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: build/site/site
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5.0.1

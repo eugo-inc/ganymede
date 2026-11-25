@@ -1,0 +1,26 @@
+---
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2026, Eugo, Inc.
+// One card of the home page's gallery: a figure from a notebook, linked to the notebook's
+// page, then the notebook's title and a one-line caption.
+interface Props {
+  href: string;
+  src: string;
+  width: number;
+  height: number;
+  title: string;
+  caption: string;
+}
+
+const { href, src, width, height, title, caption } = Astro.props;
+---
+
+<figure class="gn-gallery-card not-content">
+  <a href={href} tabindex="-1" aria-hidden="true">
+    <img src={src} width={width} height={height} alt="" loading="lazy" decoding="async" />
+  </a>
+  <figcaption>
+    <a href={href}>{title}</a>
+    <span>{caption}</span>
+  </figcaption>
+</figure>

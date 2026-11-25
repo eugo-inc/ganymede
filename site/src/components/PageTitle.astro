@@ -1,0 +1,33 @@
+---
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2026, Eugo, Inc.
+// Starlight's page title, followed by the page's links: its source on GitHub and, on a
+// notebook's page, the notebook to download. A page that had another id for its title on the
+// MkDocs site keeps it on an empty element just before the title. The links are left out of the
+// search index, so a result's excerpt starts with the page's own text.
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import { Icon } from '@astrojs/starlight/components';
+
+const { github, download, legacyTitleId } = Astro.locals.starlightRoute.entry.data;
+---
+
+{legacyTitleId && <span id={legacyTitleId} />}
+<Default />
+{
+  (github || download) && (
+    <div class="gn-actions not-content" data-pagefind-ignore>
+      {github && (
+        <a href={github}>
+          <Icon name="github" size="1.1em" />
+          View on GitHub
+        </a>
+      )}
+      {download && (
+        <a href={download} download>
+          <Icon name="download" size="1.1em" />
+          Download notebook (.ipynb)
+        </a>
+      )}
+    </div>
+  )
+}

@@ -19,6 +19,27 @@ jobs:
       - name: Check notebook structure and outputs
         run: python tools/check_notebooks.py
 
+  site:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Build and check the website
+        run: python tools/build_site.py build
+      - name: Build the redirect site for the old address
+        run: python tools/build_site.py redirects
+      - name: Check the share image and the marks
+        run: python tools/share_image.py --check
+
   native-runner:
     runs-on: ubuntu-latest
     steps:

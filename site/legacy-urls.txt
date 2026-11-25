@@ -1,0 +1,503 @@
+# The addresses of the MkDocs site this site replaces, frozen on 2026-11-24 from
+# https://eugo-inc.github.io/ganymede/sitemap.xml and the pages it lists. Do not edit by hand:
+# the new site must serve every address below under its own base (/docs/ganymede/), and the
+# redirect pages left at the old address are written from this list.
+#
+# One entry per line, fields separated by a tab; every path is relative to the site's base and
+# starts with "/":
+#
+#   page <TAB> /path/ <TAB> id of the page's h1 <TAB> ids of its other headings, space-separated
+#   file <TAB> /path        a file the old site served (a notebook download, an image, llms.txt)
+#
+# A notebook page's download link is <page>/<notebook stem>.ipynb, so it is listed as a file.
+page	/	ganymede	who-it-is-for what-is-in-it gallery run-the-notebooks-locally links
+page	/demo_notebooks/	demo-notebooks	running-them where-the-examples-come-from sections
+page	/demo_notebooks/aws/	aws	notebooks
+page	/demo_notebooks/aws/aws_crt/	aws-crt	environment-variables example-1 example-2 example-3
+page	/demo_notebooks/case_studies/	case-studies	notebooks
+page	/demo_notebooks/case_studies/goes16_netcdf/	land-surface-temperature-from-goes-16-netcdf-files	1-open-one-file 2-from-fixed-grid-angles-to-latitude-and-longitude 3-afternoon-map 4-the-per-file-step-regional-statistics 5-the-daily-cycle-every-three-hours scaling-out-with-ray
+page	/demo_notebooks/case_studies/national_water_model/	streamflow-forecasts-from-the-noaa-national-water-model	1-find-the-newest-complete-00-utc-forecast 2-reach-locations-and-gauges 3-the-per-file-step 4-map-one-forecast-hour 5-forecast-flow-at-the-gauges-one-file-per-day scaling-out-with-ray
+page	/demo_notebooks/case_studies/sentinel2_resampling/	resampling-sentinel-2-imagery	1-search-the-catalogue 2-reading-only-what-is-needed 3-the-window-at-native-resolution 4-resampling 4a-downsampling-10-m-to-60-m 4b-upsampling-20-m-to-10-m 4c-categorical-layers 5-the-per-scene-step-cloud-masked-ndvi scaling-out-with-ray
+page	/demo_notebooks/data_analytics/	data-analytics	notebooks
+page	/demo_notebooks/data_analytics/bottleneck/	bottleneck	
+page	/demo_notebooks/data_processing/	data-processing	notebooks sections
+page	/demo_notebooks/data_processing/aws_wrangler/	aws-wrangler	environment-variables example-1 example-2 example-3
+page	/demo_notebooks/data_processing/dask/	dask	notebooks
+page	/demo_notebooks/data_processing/dask/dask/	dask	example-1
+page	/demo_notebooks/data_processing/dask/dask_expr/	dask-expr	example-1
+page	/demo_notebooks/data_processing/dask/dask_sql/	dask-sql	example-1 example-2
+page	/demo_notebooks/data_processing/dask/dask_sql2/	dask-sql-with-fuguesql	example-1
+page	/demo_notebooks/data_processing/flox/	flox	example-1 example-2
+page	/demo_notebooks/data_processing/mpmath/	mpmath	example-1
+page	/demo_notebooks/data_processing/nltk/	nltk	example-1 example-2 example-3 example-4
+page	/demo_notebooks/data_processing/pandas/	pandas	example-1 example-2
+page	/demo_notebooks/data_processing/pandera/	pandera	example-1 example-2 example-3
+page	/demo_notebooks/data_processing/pydantic/	pydantic	example-1
+page	/demo_notebooks/data_processing/ray/	ray-raydp	notebooks
+page	/demo_notebooks/data_processing/ray/raydp/	raydp	example-1
+page	/demo_notebooks/data_processing/scikit_learn/	scikit-learn	example-1 example-2
+page	/demo_notebooks/data_processing/scipy/	scipy	example-1
+page	/demo_notebooks/data_storage/	data-storage	notebooks sections
+page	/demo_notebooks/data_storage/cachey/	cachey	example-1
+page	/demo_notebooks/data_storage/databases/	databases	sections
+page	/demo_notebooks/data_storage/databases/mariadb/	mariadb	notebooks
+page	/demo_notebooks/data_storage/databases/mariadb/mariadb/	mariadb	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/mariadb/sqlalchemy/	sqlalchemy	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/mssql/	microsoft-sql-server	notebooks
+page	/demo_notebooks/data_storage/databases/mssql/aioodbc/	microsoft-sql-mssql-via-aioodbc	environment-variables example-1 example-2 example-3
+page	/demo_notebooks/data_storage/databases/mssql/pymssql/	microsoft-sql-mssql-via-pymssql	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/mssql/pyodbc/	microsoft-sql-mssql-via-pyodbc	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/mysql/	mysql	notebooks
+page	/demo_notebooks/data_storage/databases/mysql/asyncmy/	mysql-via-asyncmy	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/mysql/mysqldb/	mysql-via-mysqldb	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/mysql/sqlalchemy/	mysql-via-sqlalchemy	environment-variables example-1-asyncmy
+page	/demo_notebooks/data_storage/databases/oracle/	oracle-database	notebooks
+page	/demo_notebooks/data_storage/databases/oracle/oracledb/	oracle-via-oracledb	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/oracle/sqlalchemy/	oracle-via-sqlalchemy	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/postgres/	postgresql	notebooks
+page	/demo_notebooks/data_storage/databases/postgres/asyncpg/	postgresql-via-asyncpg	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/postgres/geoalchemy2/	postgresql-via-geoalchemy2	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/postgres/psycopg2/	postgresql-via-psycopg2	environment-variables example-1
+page	/demo_notebooks/data_storage/databases/postgres/sqlalchemy/	postgresql-via-sqlalchemy-with-asyncio	environment-variables example-1-sqlalchemy-with-asyncio example-2-sqlalchemy-with-psycopg2
+page	/demo_notebooks/data_storage/databases/sqllite/	sqlite	notebooks
+page	/demo_notebooks/data_storage/databases/sqllite/aiosqlite/	aiosqlite	example-1 example-2
+page	/demo_notebooks/data_storage/databases/sqllite/sqlalchemy/	sqlite-via-sqlalchemy-with-aiosqlite	example-1-sqlalchemy-with-aiosqlite
+page	/demo_notebooks/data_storage/databases/utilities/	database-utilities	notebooks
+page	/demo_notebooks/data_storage/databases/utilities/sqlalchemy-utils/	sqlalchemy-utils	environment-variables example-1-sqlalchemy-and-sqlalchemy-utils
+page	/demo_notebooks/data_storage/databases/utilities/uvloop/	uvloop	setup example-1 example-2 example-3
+page	/demo_notebooks/data_storage/filesystems/	file-systems	notebooks sections
+page	/demo_notebooks/data_storage/filesystems/aiofile/	aiofile	example-1
+page	/demo_notebooks/data_storage/filesystems/box/	box	notebooks
+page	/demo_notebooks/data_storage/filesystems/box/box_sdk/	box-sdk	environment-variables
+page	/demo_notebooks/data_storage/filesystems/box/boxfs/	box-fs	environment-variables load-your-credentials for-simple-file-access-you-can-use-fsspecopen for-more-control-you-can-use-fsspecfilesystem
+page	/demo_notebooks/data_storage/filesystems/dask/	daskfs	environment-variables example-1 example-2
+page	/demo_notebooks/data_storage/filesystems/dropbox/	dropbox	notebooks
+page	/demo_notebooks/data_storage/filesystems/dropbox/authentication/	dropbox-authentication	environment-variables example-1 example-2
+page	/demo_notebooks/data_storage/filesystems/dropbox/dropbox/	dropbox	environment-variables example-1 example-2 example-3
+page	/demo_notebooks/data_storage/filesystems/dropbox/dropboxdrivefs/	dropboxdrive-fs	environment-variables example-1 example-2 example-3 example-4 example-5
+page	/demo_notebooks/data_storage/filesystems/fsspec/	fsspec	notebooks
+page	/demo_notebooks/data_storage/filesystems/fsspec/adlfs/	adlfs-azure-data-lake-filesystem	environment-variables example-1
+page	/demo_notebooks/data_storage/filesystems/fsspec/arrowfs/	arrowfs	environment-variables example-1 example-2 example-3
+page	/demo_notebooks/data_storage/filesystems/fsspec/asynclocalfs/	asynclocal	example-1
+page	/demo_notebooks/data_storage/filesystems/fsspec/dictfs/	dictfs	example-1
+page	/demo_notebooks/data_storage/filesystems/fsspec/fsspec/	fsspec	example-1 example-2 example-3
+page	/demo_notebooks/data_storage/filesystems/fsspec/gcsfs/	gcsfs-and-gs	environment-variables example-1 example-2
+page	/demo_notebooks/data_storage/filesystems/fsspec/gdrivefs/	gdrivefs	environment-variables example-1 example-2
+page	/demo_notebooks/data_storage/filesystems/fsspec/githubfs/	githubfs	environment-variables example-1 example-2
+page	/demo_notebooks/data_storage/filesystems/fsspec/hdfs/	hdfs	environment-variables example-1 example-2
+page	/demo_notebooks/data_storage/filesystems/fsspec/httpfs/	httpfs	example-1 example-2 example-3
+page	/demo_notebooks/data_storage/filesystems/fsspec/libarchive_fs/	libarchivefs	environment-variables example-1 example-2 example-3 example-4 example-5
+page	/demo_notebooks/data_storage/filesystems/fsspec/memfs/	memfs	example-1
+page	/demo_notebooks/data_storage/filesystems/fsspec/overlayfs/	overlayfs	example-1
+page	/demo_notebooks/data_storage/filesystems/fsspec/s3fs/	s3fs	environment-variables example-1
+page	/demo_notebooks/data_storage/filesystems/fsspec/sftpfs/	sftpfs	environment-variables example-1 example-2
+page	/demo_notebooks/data_storage/filesystems/fsspec/sshfs/	sshfs	environment-variables example-1 example-2 example-3 example-4
+page	/demo_notebooks/data_storage/filesystems/tqdm_callback/	tqdm-callback	example-1
+page	/demo_notebooks/data_storage/filesystems/upath/	upath	environment-variables example-1 example-2
+page	/demo_notebooks/data_storage/filesystems/utilities/	file-system-utilities	notebooks
+page	/demo_notebooks/data_storage/filesystems/utilities/atomicwrites/	atomicwrites	example-1
+page	/demo_notebooks/data_storage/filesystems/zipp/	zipp	environment-variables
+page	/demo_notebooks/data_storage/pyarrow/	pyarrow	example-1
+page	/demo_notebooks/data_structures/	data-structures	notebooks
+page	/demo_notebooks/data_structures/jsonschema/	jsonschema	example-1
+page	/demo_notebooks/data_structures/multidict/	multidict	example-1 example-2
+page	/demo_notebooks/data_structures/multimethod/	multimethod	example-1 example-2
+page	/demo_notebooks/data_structures/orderedmultidict/	orderedmultidict	example-1
+page	/demo_notebooks/data_structures/rpdspy/	rpdspy	example-1 example-2 example-3
+page	/demo_notebooks/data_visualization/	data-visualization	notebooks sections
+page	/demo_notebooks/data_visualization/bokeh/	bokeh	notebooks
+page	/demo_notebooks/data_visualization/bokeh/bokeh/	bokeh	setup example-1 example-2 example-3
+page	/demo_notebooks/data_visualization/branca/	branca	notebooks
+page	/demo_notebooks/data_visualization/branca/branca/	branca	example-1
+page	/demo_notebooks/data_visualization/cartopy/	cartopy	example-1 example-2 example-3 example-4 example-5 example-6
+page	/demo_notebooks/data_visualization/contourpy/	contourpy	notebooks
+page	/demo_notebooks/data_visualization/contourpy/contourpy/	contourpy	example-1 example-2 example-3
+page	/demo_notebooks/data_visualization/folium/	folium	notebooks
+page	/demo_notebooks/data_visualization/folium/folium/	folium	example-1 example-2
+page	/demo_notebooks/data_visualization/geoplot/	geoplot	notebooks
+page	/demo_notebooks/data_visualization/geoplot/geoplot/	geoplot	example-1 example-2
+page	/demo_notebooks/data_visualization/graphviz/	graphviz	notebooks
+page	/demo_notebooks/data_visualization/graphviz/graphviz/	graphviz	example-1 example-2
+page	/demo_notebooks/data_visualization/graphviz/pydot/	pydot	example-1 example-2
+page	/demo_notebooks/data_visualization/graphviz/pygraphviz/	pygraphviz	example-1
+page	/demo_notebooks/data_visualization/holoviews/	holoviz	sections
+page	/demo_notebooks/data_visualization/holoviews/geoviews/	geoviews	notebooks
+page	/demo_notebooks/data_visualization/holoviews/geoviews/geoviews/	geoviews	example-1 example-2 example-3
+page	/demo_notebooks/data_visualization/holoviews/holoviews/	holoviews	notebooks
+page	/demo_notebooks/data_visualization/holoviews/holoviews/holoviews/	holoviews	example-1 example-2
+page	/demo_notebooks/data_visualization/holoviews/hvplot/	hvplot	notebooks
+page	/demo_notebooks/data_visualization/holoviews/hvplot/hvplot/	hvplot	example-1 example-2 example-3 example-4 example-5
+page	/demo_notebooks/data_visualization/holoviews/panel/	panel	notebooks
+page	/demo_notebooks/data_visualization/holoviews/panel/panel/	panel	example-1
+page	/demo_notebooks/data_visualization/matplotlib/	matplotlib	example-1
+page	/demo_notebooks/data_visualization/mplleaflet/	mplleaflet	notebooks
+page	/demo_notebooks/data_visualization/mplleaflet/mplleaflet/	mplleaflet	example-1
+page	/demo_notebooks/data_visualization/plotly/	plotly	notebooks
+page	/demo_notebooks/data_visualization/plotly/plotly/	plotly	example-1 example-2 example-3 example-4 example-5 example-6 example-7 example-8 example-9 example-10 example-11 example-12
+page	/demo_notebooks/data_visualization/railroad/	railroad-diagrams	notebooks
+page	/demo_notebooks/data_visualization/railroad/railroad/	railroad-diagrams	example-1 example-2
+page	/demo_notebooks/data_visualization/seaborn/	seaborn	notebooks
+page	/demo_notebooks/data_visualization/seaborn/seaborn/	seaborn	example-1
+page	/demo_notebooks/geospatial/	geospatial	notebooks sections
+page	/demo_notebooks/geospatial/cftime/	cftime	example-1
+page	/demo_notebooks/geospatial/descartes/	descartes	
+page	/demo_notebooks/geospatial/gdal/	gdal	environment-variables example-1 example-2 example-3
+page	/demo_notebooks/geospatial/geodatasets/	geodatasets	example-1
+page	/demo_notebooks/geospatial/geographiclib/	geographiclib	example-1
+page	/demo_notebooks/geospatial/geojson/	geojson	example-1 example-2
+page	/demo_notebooks/geospatial/geomet/	geomet	example-1
+page	/demo_notebooks/geospatial/geopandas/	geopandas	environment-variables example-1 example-2
+page	/demo_notebooks/geospatial/geopy/	geopy	example-1 example-2
+page	/demo_notebooks/geospatial/google/	google-earth-engine-and-google-cloud	notebooks
+page	/demo_notebooks/geospatial/google/authentication/	authenticating-in-google	environment-variables set-service-account-default-credentials-recommended application-default-credentials using-non-default-creds-option-1 using-non-default-creds-option-2 using-non-default-creds-option-3 impersonated-credentials create-user-credentials-more-advanced-not-recommended create-a-customized-auth-flow-advanced-not-recommended google-earth-engine-service-account-credentials pydata-google-auth
+page	/demo_notebooks/geospatial/google/earth_engine/	google-earth-engine	environment-variables example-1
+page	/demo_notebooks/geospatial/google/google_cloud_api/	google-cloud-api	environment-variables example-1 example-2 example-3
+page	/demo_notebooks/geospatial/h5netcdf/	h5netcdf	example-1
+page	/demo_notebooks/geospatial/h5py/	h5py	example-1
+page	/demo_notebooks/geospatial/mercantile/	mercantile	example-1 example-2
+page	/demo_notebooks/geospatial/microsoft/	microsoft	sections
+page	/demo_notebooks/geospatial/microsoft/azure/	azure	notebooks
+page	/demo_notebooks/geospatial/microsoft/azure/azure_blob_storage_gen_1_and_2/	azure-blob-storage-gen-1-and-gen-2	environment-variables example-1-public-data-sets-no-auth-necessary example-2-public-data-sets-no-auth-necessary example-3-private-data-sets-authentication-with-an-account_key example-4-private-data-sets-authentication-with-an-azure-serviceprincipal example-5-private-data-sets-authentication-with-defaultazurecredential
+page	/demo_notebooks/geospatial/microsoft/azure/azure_storage_api/	azure-storage-api	environment-variables example-1-synchronous-private-data example-2-async-public-data
+page	/demo_notebooks/geospatial/microsoft/azure/msal/	microsoft-authentication-library-msal-for-python	environment-variables example-1
+page	/demo_notebooks/geospatial/microsoft/azure/planetary_computer/	planetary-computer-mpc	example-1 example-2
+page	/demo_notebooks/geospatial/morecantile/	morecantile	example-1 example-2 example-3 example-4
+page	/demo_notebooks/geospatial/pyproj/	pyproj	example-1 example-2
+page	/demo_notebooks/geospatial/pysal/	pysal	notebooks
+page	/demo_notebooks/geospatial/pysal/mapclassify/	mapclassify	example-1 example-2
+page	/demo_notebooks/geospatial/pysal/mgwr/	multiscale-geographically-weighted-regression-mgwr	example-1
+page	/demo_notebooks/geospatial/pysal/spaghetti/	spatial-graphs-networks-topology-inference-spaghetti	example-1
+page	/demo_notebooks/geospatial/pysal/spglm/	spatial-generalized-linear-modeling-spglm	example-1
+page	/demo_notebooks/geospatial/pysal/spopt/	spatial-optimization-spopt	example-1
+page	/demo_notebooks/geospatial/pysal/spreg/	spatial-regression-spreg	example-1
+page	/demo_notebooks/geospatial/pysal/spvcm/	gibbs-sampling-for-spatially-correlated-variance-components-spvcm	example-1
+page	/demo_notebooks/geospatial/pystac/	pystac	example-1
+page	/demo_notebooks/geospatial/xarray/	xarray	example-1
+page	/demo_notebooks/networking/	networking	sections
+page	/demo_notebooks/networking/utilities/	http-and-url-utilities	notebooks
+page	/demo_notebooks/networking/utilities/furl/	furl	example-1 example-2
+page	/demo_notebooks/networking/utilities/httpx/	httpx	example-1 example-2 example-3
+page	/demo_notebooks/security/	security	notebooks
+page	/demo_notebooks/security/python_dotenv/	python-dotenv	example-1
+page	/demo_notebooks/testing/	testing	sections
+page	/demo_notebooks/testing/faker/	faker	notebooks
+page	/demo_notebooks/testing/faker/faker/	faker	example-1 example-2 example-3
+page	/demo_notebooks/testing/faker/faker_airtravel/	faker-airtravel	example-1
+page	/demo_notebooks/testing/faker/faker_creditscore/	faker-creditscore	example-1
+page	/demo_notebooks/testing/faker/faker_datasets/	faker-datasets	example-1 example-2 example-3
+page	/demo_notebooks/testing/faker/faker_education/	faker-education	example-1
+page	/demo_notebooks/testing/faker/faker_file/	faker-file	environment-variables example-1-txtfileprovider-text-files example-2-docxfileprovider-docx-files example-3-zipfileprovider-zip-files example-4-binfileprovider-bin-files example-5-csvfileprovider-csv-files example-6-emlfileprovider-eml-files example-7-epubfileprovider-epub-files example-8-icofileprovider-ico-files example-9-jpegfileprovider-jpeg-files example-10-mp3fileprovider-mp3-files example-11-odsfileprovider-ods-files example-12-odtfileprovider-odt-files example-13-pdffileprovider-pdf-files example-14-pngfileprovider-png-files example-15-pptxfileprovider-pptx-files example-16-rtffileprovider-rtf-files example-17-svgfileprovider-svg-files example-18-webpfileprovider-webp-files example-19-xlsxfileprovider-xlsx-files example-20-googlecloudstorage-google-cloud-files example-21-awss3storage-s3-files example-22-sftpstorage-sftp-files example-23-filesystemstorage example-24-genericfileprovider example-25-graphicicofileprovider example-26-graphicjpegfileprovider example-27-graphicpngfileprovider example-28-graphicwebpfileprovider example-29-gttsmp3generator example-30-basemp3generator example-31-edgettsmp3generator example-32-textaugment_augmenter example-33-nlpaug_augmenter
+page	/demo_notebooks/testing/faker/faker_geoscience/	faker-geoscience	example-1
+page	/demo_notebooks/testing/faker/faker_marketdata/	faker-marketdata	example-1
+page	/demo_notebooks/testing/faker/faker_microservice/	faker-microservice	example-1
+page	/demo_notebooks/testing/faker/faker_music/	faker-music	example-1
+page	/demo_notebooks/testing/faker/faker_optional/	faker-optional	example-1
+page	/demo_notebooks/testing/faker/faker_pyspark/	faker-pyspark	example-1
+page	/demo_notebooks/testing/faker/faker_vehicle/	faker-vehicle	example-1
+page	/demo_notebooks/testing/faker/faker_web/	faker-web	example-1
+page	/demo_notebooks/testing/hypothesis/	hypothesis	notebooks
+page	/demo_notebooks/testing/hypothesis/hypothesis/	hypothesis	example-1
+page	/demo_notebooks/utilities/	utilities	notebooks
+page	/demo_notebooks/utilities/decorator/	decorator	example-1
+page	/demo_notebooks/utilities/devtools/	devtools	example-1 example-2 example-3
+page	/demo_notebooks/utilities/exceptiongroup/	exceptiongroup	example-1
+page	/demo_notebooks/utilities/more_itertools/	more-itertools	example-1 example-2 example-3
+page	/demo_notebooks/utilities/phonenumbers/	phonenumbers	example-1
+page	/demo_notebooks/web_servers/	web-servers	notebooks
+page	/demo_notebooks/web_servers/tornado/	tornado	hello-world sync async-coroutine tornado-and-uvloop-and-asyncio
+page	/faq/	frequently-asked-questions	how-do-i-read-goes-16-netcdf-files-from-public-cloud-storage-in-python how-do-i-work-with-national-water-model-output-in-python how-do-i-resample-sentinel-2-bands-to-a-common-grid how-do-i-run-the-same-analysis-over-many-files-in-parallel-with-ray how-do-i-write-a-ray-data-pipeline how-do-i-deploy-a-model-with-ray-serve how-do-i-tune-hyperparameters-with-ray-tune do-these-notebooks-need-eugo-or-eugos-visual-ray-builder what-do-the-package-smoke-tests-check which-ray-version-do-the-ray-patterns-use what-license-is-ganymede-under how-do-i-cite-ganymede
+page	/package_tests/	package-smoke-tests	python-package-smoke-tests native-library-checks python-packages native-libraries-and-tools
+page	/ray_patterns/	ray-patterns	running-the-notebooks ray-core ray-data ray-serve ray-train ray-tune across-libraries notes sections
+page	/ray_patterns/core/	ray-core	notebooks
+page	/ray_patterns/core/01_map-reduce/	map-and-reduce-with-remote-tasks	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code other-ways-the-builder-can-emit-this-graph the-same-graph-as-a-lazy-dag-with-bind one-cell-per-node as-a-standalone-script-map_reducepy submit-the-script-as-a-ray-job clean-up
+page	/ray_patterns/core/02_parameter-server/	stateful-actor-a-parameter-server	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/core/03_map-over-list/	fan-out-one-task-per-list-item	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code other-ways-the-builder-can-emit-this-graph the-same-graph-as-a-lazy-dag-with-bind clean-up
+page	/ray_patterns/core/04_queue-producer-consumer/	distributed-queue-between-a-producer-and-a-consumer	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/core/05_task-options/	task-resources-retries-and-scheduling-options	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/core/06_multiple-returns-and-streaming/	multiple-return-values-and-streaming-generators	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/core/07_wait-first-ready/	take-the-first-results-with-raywait	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/core/08_cancel-task/	cancel-a-running-task	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/core/09_put-shared-object/	share-one-object-with-rayput	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/core/10_named-actor-lifecycle/	named-actor-create-look-up-call-and-kill	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/core/11_placement-group/	reserve-resources-with-a-placement-group	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/core/12_actor-concurrency-groups/	actor-with-concurrency-groups	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/core/13_input-parameters/	graph-inputs-as-notebook-parameters	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code other-ways-the-builder-can-emit-this-graph one-cell-per-node as-a-standalone-script-input_parameterspy clean-up
+page	/ray_patterns/core/14_bind-dag-inputs/	lazy-dag-with-bind-and-inputnode	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/cross/	across-libraries	notebooks
+page	/ray_patterns/cross/43_core-data-train-tune/	one-program-across-core-data-train-and-tune	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code other-ways-the-builder-can-emit-this-graph as-a-standalone-script-core_data_train_tunepy clean-up
+page	/ray_patterns/cross/44_export-script-and-job/	export-as-a-script-and-submit-it-as-a-ray-job	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code other-ways-the-builder-can-emit-this-graph as-a-standalone-script-export_script_and_jobpy submit-the-script-as-a-ray-job clean-up
+page	/ray_patterns/data/	ray-data	notebooks
+page	/ray_patterns/data/15_data-pipeline/	ray-data-range-map_batches-count	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/16_data-write-parquet/	ray-data-write-parquet	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/17_data-groupby-aggregate/	ray-data-groupby-and-aggregate	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/18_data-expressions/	ray-data-computed-columns-and-expression-filters	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/19_data-join/	ray-data-join-two-datasets	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/20_data-train-test-split/	ray-data-traintest-split	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/21_data-actor-pool-batch-inference/	ray-data-batch-inference-with-an-actor-pool	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/22_data-shuffle-repartition-sort/	ray-data-shuffle-repartition-and-sort	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/23_data-pandas-roundtrip/	ray-data-from-pandas-and-back	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/24_data-preprocessor/	ray-data-fit-a-standardscaler-preprocessor	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/25_data-catalog-table/	ray-data-read-a-catalog-table	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/data/26_data-llm-batch/	ray-data-batch-llm-inference	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/serve/	ray-serve	notebooks
+page	/ray_patterns/serve/27_serve-greeter-driver/	ray-serve-compose-two-deployments	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code other-ways-the-builder-can-emit-this-graph as-a-standalone-script-serve_greeter_driverpy clean-up
+page	/ray_patterns/serve/28_serve-replicas-and-options/	ray-serve-replicas-and-per-replica-resources	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/serve/29_serve-autoscaling/	ray-serve-autoscaling-a-deployment	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/serve/30_serve-fastapi-ingress/	ray-serve-fastapi-ingress-with-a-route-prefix	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/serve/31_serve-dynamic-batching/	ray-serve-dynamic-request-batching	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/serve/32_serve-model-multiplexing/	ray-serve-model-multiplexing	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/serve/33_serve-http-options-and-status/	ray-serve-http-proxy-settings-and-status	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/serve/34_serve-grpc-ingress/	ray-serve-grpc-ingress	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/serve/35_serve-llm-openai-app/	ray-serve-an-openai-compatible-llm-endpoint	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/train/	ray-train	notebooks
+page	/ray_patterns/train/36_train-torch/	ray-train-torchtrainer-over-a-dataset	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/train/37_train-lightgbm/	ray-train-lightgbmtrainer	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/train/38_train-xgboost/	ray-train-xgboosttrainer	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/train/39_train-validation-and-results/	ray-train-validation-data-run-config-and-results	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/tune/	ray-tune	notebooks
+page	/ray_patterns/tune/40_tune-asha/	ray-tune-grid-search-with-asha-early-stopping	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/tune/41_tune-optuna/	ray-tune-optuna-search	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+page	/ray_patterns/tune/42_tune-stopper-and-result-grid/	ray-tune-median-stopping-a-stopper-and-the-resultgrid	setup user-functions generated-code check-the-result how-the-graph-maps-to-the-code clean-up
+file	/404.html
+file	/assets/gallery/geoviews.png
+file	/assets/gallery/goes16_netcdf.png
+file	/assets/gallery/holoviews.png
+file	/assets/gallery/mgwr.png
+file	/assets/gallery/national_water_model.png
+file	/assets/gallery/seaborn.png
+file	/assets/gallery/sentinel2_resampling.png
+file	/assets/gallery/spopt.png
+file	/assets/social-preview.png
+file	/demo_notebooks/aws/aws_crt/aws_crt.ipynb
+file	/demo_notebooks/case_studies/goes16_netcdf/goes16_netcdf.ipynb
+file	/demo_notebooks/case_studies/national_water_model/national_water_model.ipynb
+file	/demo_notebooks/case_studies/sentinel2_resampling/sentinel2_resampling.ipynb
+file	/demo_notebooks/data_analytics/bottleneck/bottleneck.ipynb
+file	/demo_notebooks/data_processing/aws_wrangler/aws_wrangler.ipynb
+file	/demo_notebooks/data_processing/dask/dask/dask.ipynb
+file	/demo_notebooks/data_processing/dask/dask_expr/dask_expr.ipynb
+file	/demo_notebooks/data_processing/dask/dask_sql/dask_sql.ipynb
+file	/demo_notebooks/data_processing/dask/dask_sql2/dask_sql2.ipynb
+file	/demo_notebooks/data_processing/flox/flox.ipynb
+file	/demo_notebooks/data_processing/mpmath/mpmath.ipynb
+file	/demo_notebooks/data_processing/nltk/nltk.ipynb
+file	/demo_notebooks/data_processing/pandas/pandas.ipynb
+file	/demo_notebooks/data_processing/pandera/pandera.ipynb
+file	/demo_notebooks/data_processing/pydantic/pydantic.ipynb
+file	/demo_notebooks/data_processing/ray/raydp/raydp.ipynb
+file	/demo_notebooks/data_processing/scikit_learn/scikit_learn.ipynb
+file	/demo_notebooks/data_processing/scipy/scipy.ipynb
+file	/demo_notebooks/data_storage/cachey/cachey.ipynb
+file	/demo_notebooks/data_storage/databases/mariadb/mariadb/mariadb.ipynb
+file	/demo_notebooks/data_storage/databases/mariadb/sqlalchemy/sqlalchemy.ipynb
+file	/demo_notebooks/data_storage/databases/mssql/aioodbc/aioodbc.ipynb
+file	/demo_notebooks/data_storage/databases/mssql/pymssql/pymssql.ipynb
+file	/demo_notebooks/data_storage/databases/mssql/pyodbc/pyodbc.ipynb
+file	/demo_notebooks/data_storage/databases/mysql/asyncmy/asyncmy.ipynb
+file	/demo_notebooks/data_storage/databases/mysql/mysqldb/mysqldb.ipynb
+file	/demo_notebooks/data_storage/databases/mysql/sqlalchemy/sqlalchemy.ipynb
+file	/demo_notebooks/data_storage/databases/oracle/oracledb/oracledb.ipynb
+file	/demo_notebooks/data_storage/databases/oracle/sqlalchemy/sqlalchemy.ipynb
+file	/demo_notebooks/data_storage/databases/postgres/asyncpg/asyncpg.ipynb
+file	/demo_notebooks/data_storage/databases/postgres/geoalchemy2/geoalchemy2.ipynb
+file	/demo_notebooks/data_storage/databases/postgres/psycopg2/psycopg2.ipynb
+file	/demo_notebooks/data_storage/databases/postgres/sqlalchemy/sqlalchemy.ipynb
+file	/demo_notebooks/data_storage/databases/sqllite/aiosqlite/aiosqlite.ipynb
+file	/demo_notebooks/data_storage/databases/sqllite/sqlalchemy/sqlalchemy.ipynb
+file	/demo_notebooks/data_storage/databases/utilities/sqlalchemy-utils/sqlalchemy-utils.ipynb
+file	/demo_notebooks/data_storage/databases/utilities/uvloop/uvloop.ipynb
+file	/demo_notebooks/data_storage/filesystems/aiofile/aiofile.ipynb
+file	/demo_notebooks/data_storage/filesystems/box/box_sdk/box_sdk.ipynb
+file	/demo_notebooks/data_storage/filesystems/box/boxfs/boxfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/dask/dask.ipynb
+file	/demo_notebooks/data_storage/filesystems/dropbox/authentication/authentication.ipynb
+file	/demo_notebooks/data_storage/filesystems/dropbox/dropbox/dropbox.ipynb
+file	/demo_notebooks/data_storage/filesystems/dropbox/dropboxdrivefs/dropboxdrivefs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/adlfs/adlfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/arrowfs/arrowfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/asynclocalfs/asynclocalfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/dictfs/dictfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/fsspec/fsspec.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/gcsfs/gcsfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/gdrivefs/gdrivefs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/githubfs/githubfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/hdfs/hdfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/httpfs/httpfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/libarchive_fs/libarchive_fs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/memfs/memfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/overlayfs/overlayfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/s3fs/s3fs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/sftpfs/sftpfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/fsspec/sshfs/sshfs.ipynb
+file	/demo_notebooks/data_storage/filesystems/tqdm_callback/tqdm_callback.ipynb
+file	/demo_notebooks/data_storage/filesystems/upath/upath.ipynb
+file	/demo_notebooks/data_storage/filesystems/utilities/atomicwrites/atomicwrites.ipynb
+file	/demo_notebooks/data_storage/filesystems/zipp/zipp.ipynb
+file	/demo_notebooks/data_storage/pyarrow/pyarrow.ipynb
+file	/demo_notebooks/data_structures/jsonschema/jsonschema.ipynb
+file	/demo_notebooks/data_structures/multidict/multidict.ipynb
+file	/demo_notebooks/data_structures/multimethod/multimethod.ipynb
+file	/demo_notebooks/data_structures/orderedmultidict/orderedmultidict.ipynb
+file	/demo_notebooks/data_structures/rpdspy/rpdspy.ipynb
+file	/demo_notebooks/data_visualization/bokeh/bokeh/bokeh.ipynb
+file	/demo_notebooks/data_visualization/branca/branca/branca.ipynb
+file	/demo_notebooks/data_visualization/cartopy/cartopy.ipynb
+file	/demo_notebooks/data_visualization/contourpy/contourpy/contourpy.ipynb
+file	/demo_notebooks/data_visualization/folium/folium/folium.ipynb
+file	/demo_notebooks/data_visualization/geoplot/geoplot/geoplot.ipynb
+file	/demo_notebooks/data_visualization/graphviz/graphviz/graphviz.ipynb
+file	/demo_notebooks/data_visualization/graphviz/pydot/pydot.ipynb
+file	/demo_notebooks/data_visualization/graphviz/pygraphviz/pygraphviz.ipynb
+file	/demo_notebooks/data_visualization/holoviews/geoviews/geoviews/geoviews.ipynb
+file	/demo_notebooks/data_visualization/holoviews/holoviews/holoviews/holoviews.ipynb
+file	/demo_notebooks/data_visualization/holoviews/hvplot/hvplot/hvplot.ipynb
+file	/demo_notebooks/data_visualization/holoviews/panel/panel/panel.ipynb
+file	/demo_notebooks/data_visualization/matplotlib/matplotlib.ipynb
+file	/demo_notebooks/data_visualization/mplleaflet/mplleaflet/mplleaflet.ipynb
+file	/demo_notebooks/data_visualization/plotly/plotly/plotly.ipynb
+file	/demo_notebooks/data_visualization/railroad/railroad/railroad.ipynb
+file	/demo_notebooks/data_visualization/seaborn/seaborn/seaborn.ipynb
+file	/demo_notebooks/geospatial/cftime/cftime.ipynb
+file	/demo_notebooks/geospatial/descartes/descartes.ipynb
+file	/demo_notebooks/geospatial/gdal/gdal.ipynb
+file	/demo_notebooks/geospatial/geodatasets/geodatasets.ipynb
+file	/demo_notebooks/geospatial/geographiclib/geographiclib.ipynb
+file	/demo_notebooks/geospatial/geojson/geojson.ipynb
+file	/demo_notebooks/geospatial/geomet/geomet.ipynb
+file	/demo_notebooks/geospatial/geopandas/geopandas.ipynb
+file	/demo_notebooks/geospatial/geopy/geopy.ipynb
+file	/demo_notebooks/geospatial/google/authentication/authentication.ipynb
+file	/demo_notebooks/geospatial/google/earth_engine/earth_engine.ipynb
+file	/demo_notebooks/geospatial/google/google_cloud_api/google_cloud_api.ipynb
+file	/demo_notebooks/geospatial/h5netcdf/h5netcdf.ipynb
+file	/demo_notebooks/geospatial/h5py/h5py.ipynb
+file	/demo_notebooks/geospatial/mercantile/mercantile.ipynb
+file	/demo_notebooks/geospatial/microsoft/azure/azure_blob_storage_gen_1_and_2/azure_blob_storage_gen_1_and_2.ipynb
+file	/demo_notebooks/geospatial/microsoft/azure/azure_storage_api/azure_storage_api.ipynb
+file	/demo_notebooks/geospatial/microsoft/azure/msal/msal.ipynb
+file	/demo_notebooks/geospatial/microsoft/azure/planetary_computer/planetary_computer.ipynb
+file	/demo_notebooks/geospatial/morecantile/morecantile.ipynb
+file	/demo_notebooks/geospatial/pyproj/pyproj.ipynb
+file	/demo_notebooks/geospatial/pysal/mapclassify/mapclassify.ipynb
+file	/demo_notebooks/geospatial/pysal/mgwr/mgwr.ipynb
+file	/demo_notebooks/geospatial/pysal/spaghetti/spaghetti.ipynb
+file	/demo_notebooks/geospatial/pysal/spglm/spglm.ipynb
+file	/demo_notebooks/geospatial/pysal/spopt/spopt.ipynb
+file	/demo_notebooks/geospatial/pysal/spreg/spreg.ipynb
+file	/demo_notebooks/geospatial/pysal/spvcm/spvcm.ipynb
+file	/demo_notebooks/geospatial/pystac/pystac.ipynb
+file	/demo_notebooks/geospatial/xarray/xarray.ipynb
+file	/demo_notebooks/networking/utilities/furl/furl.ipynb
+file	/demo_notebooks/networking/utilities/httpx/httpx.ipynb
+file	/demo_notebooks/security/python_dotenv/python_dotenv.ipynb
+file	/demo_notebooks/testing/faker/faker/faker.ipynb
+file	/demo_notebooks/testing/faker/faker_airtravel/faker_airtravel.ipynb
+file	/demo_notebooks/testing/faker/faker_creditscore/faker_creditscore.ipynb
+file	/demo_notebooks/testing/faker/faker_datasets/faker_datasets.ipynb
+file	/demo_notebooks/testing/faker/faker_education/faker_education.ipynb
+file	/demo_notebooks/testing/faker/faker_file/faker_file.ipynb
+file	/demo_notebooks/testing/faker/faker_geoscience/faker_geoscience.ipynb
+file	/demo_notebooks/testing/faker/faker_marketdata/faker_marketdata.ipynb
+file	/demo_notebooks/testing/faker/faker_microservice/faker_microservice.ipynb
+file	/demo_notebooks/testing/faker/faker_music/faker_music.ipynb
+file	/demo_notebooks/testing/faker/faker_optional/faker_optional.ipynb
+file	/demo_notebooks/testing/faker/faker_pyspark/faker_pyspark.ipynb
+file	/demo_notebooks/testing/faker/faker_vehicle/faker_vehicle.ipynb
+file	/demo_notebooks/testing/faker/faker_web/faker_web.ipynb
+file	/demo_notebooks/testing/hypothesis/hypothesis/hypothesis.ipynb
+file	/demo_notebooks/utilities/decorator/decorator.ipynb
+file	/demo_notebooks/utilities/devtools/devtools.ipynb
+file	/demo_notebooks/utilities/exceptiongroup/exceptiongroup.ipynb
+file	/demo_notebooks/utilities/more_itertools/more_itertools.ipynb
+file	/demo_notebooks/utilities/phonenumbers/phonenumbers.ipynb
+file	/demo_notebooks/web_servers/tornado/tornado.ipynb
+file	/llms.txt
+file	/ray_patterns/core/01_map-reduce/01_map-reduce.ipynb
+file	/ray_patterns/core/02_parameter-server/02_parameter-server.ipynb
+file	/ray_patterns/core/03_map-over-list/03_map-over-list.ipynb
+file	/ray_patterns/core/04_queue-producer-consumer/04_queue-producer-consumer.ipynb
+file	/ray_patterns/core/05_task-options/05_task-options.ipynb
+file	/ray_patterns/core/06_multiple-returns-and-streaming/06_multiple-returns-and-streaming.ipynb
+file	/ray_patterns/core/07_wait-first-ready/07_wait-first-ready.ipynb
+file	/ray_patterns/core/08_cancel-task/08_cancel-task.ipynb
+file	/ray_patterns/core/09_put-shared-object/09_put-shared-object.ipynb
+file	/ray_patterns/core/10_named-actor-lifecycle/10_named-actor-lifecycle.ipynb
+file	/ray_patterns/core/11_placement-group/11_placement-group.ipynb
+file	/ray_patterns/core/12_actor-concurrency-groups/12_actor-concurrency-groups.ipynb
+file	/ray_patterns/core/13_input-parameters/13_input-parameters.ipynb
+file	/ray_patterns/core/14_bind-dag-inputs/14_bind-dag-inputs.ipynb
+file	/ray_patterns/cross/43_core-data-train-tune/43_core-data-train-tune.ipynb
+file	/ray_patterns/cross/44_export-script-and-job/44_export-script-and-job.ipynb
+file	/ray_patterns/data/15_data-pipeline/15_data-pipeline.ipynb
+file	/ray_patterns/data/16_data-write-parquet/16_data-write-parquet.ipynb
+file	/ray_patterns/data/17_data-groupby-aggregate/17_data-groupby-aggregate.ipynb
+file	/ray_patterns/data/18_data-expressions/18_data-expressions.ipynb
+file	/ray_patterns/data/19_data-join/19_data-join.ipynb
+file	/ray_patterns/data/20_data-train-test-split/20_data-train-test-split.ipynb
+file	/ray_patterns/data/21_data-actor-pool-batch-inference/21_data-actor-pool-batch-inference.ipynb
+file	/ray_patterns/data/22_data-shuffle-repartition-sort/22_data-shuffle-repartition-sort.ipynb
+file	/ray_patterns/data/23_data-pandas-roundtrip/23_data-pandas-roundtrip.ipynb
+file	/ray_patterns/data/24_data-preprocessor/24_data-preprocessor.ipynb
+file	/ray_patterns/data/25_data-catalog-table/25_data-catalog-table.ipynb
+file	/ray_patterns/data/26_data-llm-batch/26_data-llm-batch.ipynb
+file	/ray_patterns/images/actor-concurrency-groups.png
+file	/ray_patterns/images/bind-dag-inputs.png
+file	/ray_patterns/images/cancel-task.png
+file	/ray_patterns/images/core-data-train-tune.png
+file	/ray_patterns/images/data-actor-pool-batch-inference.png
+file	/ray_patterns/images/data-expressions.png
+file	/ray_patterns/images/data-groupby-aggregate.png
+file	/ray_patterns/images/data-join.png
+file	/ray_patterns/images/data-llm-batch.png
+file	/ray_patterns/images/data-pandas-roundtrip.png
+file	/ray_patterns/images/data-pipeline.png
+file	/ray_patterns/images/data-preprocessor.png
+file	/ray_patterns/images/data-shuffle-repartition-sort.png
+file	/ray_patterns/images/data-train-test-split.png
+file	/ray_patterns/images/data-write-parquet.png
+file	/ray_patterns/images/export-script-and-job.png
+file	/ray_patterns/images/input-parameters.png
+file	/ray_patterns/images/map-over-list.png
+file	/ray_patterns/images/map-reduce.png
+file	/ray_patterns/images/multiple-returns-and-streaming.png
+file	/ray_patterns/images/named-actor-lifecycle.png
+file	/ray_patterns/images/parameter-server.png
+file	/ray_patterns/images/placement-group.png
+file	/ray_patterns/images/put-shared-object.png
+file	/ray_patterns/images/queue-producer-consumer.png
+file	/ray_patterns/images/serve-autoscaling.png
+file	/ray_patterns/images/serve-dynamic-batching.png
+file	/ray_patterns/images/serve-fastapi-ingress.png
+file	/ray_patterns/images/serve-greeter-driver.png
+file	/ray_patterns/images/serve-grpc-ingress.png
+file	/ray_patterns/images/serve-http-options-and-status.png
+file	/ray_patterns/images/serve-llm-openai-app.png
+file	/ray_patterns/images/serve-model-multiplexing.png
+file	/ray_patterns/images/serve-replicas-and-options.png
+file	/ray_patterns/images/task-options.png
+file	/ray_patterns/images/train-lightgbm.png
+file	/ray_patterns/images/train-torch.png
+file	/ray_patterns/images/train-validation-and-results.png
+file	/ray_patterns/images/train-xgboost.png
+file	/ray_patterns/images/tune-asha.png
+file	/ray_patterns/images/tune-optuna.png
+file	/ray_patterns/images/tune-stopper-and-result-grid.png
+file	/ray_patterns/images/wait-first-ready.png
+file	/ray_patterns/serve/27_serve-greeter-driver/27_serve-greeter-driver.ipynb
+file	/ray_patterns/serve/28_serve-replicas-and-options/28_serve-replicas-and-options.ipynb
+file	/ray_patterns/serve/29_serve-autoscaling/29_serve-autoscaling.ipynb
+file	/ray_patterns/serve/30_serve-fastapi-ingress/30_serve-fastapi-ingress.ipynb
+file	/ray_patterns/serve/31_serve-dynamic-batching/31_serve-dynamic-batching.ipynb
+file	/ray_patterns/serve/32_serve-model-multiplexing/32_serve-model-multiplexing.ipynb
+file	/ray_patterns/serve/33_serve-http-options-and-status/33_serve-http-options-and-status.ipynb
+file	/ray_patterns/serve/34_serve-grpc-ingress/34_serve-grpc-ingress.ipynb
+file	/ray_patterns/serve/35_serve-llm-openai-app/35_serve-llm-openai-app.ipynb
+file	/ray_patterns/train/36_train-torch/36_train-torch.ipynb
+file	/ray_patterns/train/37_train-lightgbm/37_train-lightgbm.ipynb
+file	/ray_patterns/train/38_train-xgboost/38_train-xgboost.ipynb
+file	/ray_patterns/train/39_train-validation-and-results/39_train-validation-and-results.ipynb
+file	/ray_patterns/tune/40_tune-asha/40_tune-asha.ipynb
+file	/ray_patterns/tune/41_tune-optuna/41_tune-optuna.ipynb
+file	/ray_patterns/tune/42_tune-stopper-and-result-grid/42_tune-stopper-and-result-grid.ipynb
+file	/sitemap.xml
+file	/sitemap.xml.gz

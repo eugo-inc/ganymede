@@ -26,13 +26,13 @@ default for every engineering team. None of these notebooks needs Eugo.
 
 ## What is in it
 
-| Section | What you will find |
-| --- | --- |
-| [Case studies](demo_notebooks/case_studies/index.md) | Longer worked examples on public data: land surface temperature from GOES-16 NetCDF files, streamflow forecasts from the NOAA National Water Model, and resampling Sentinel-2 imagery. Each one ends by running its per-file step in parallel with Ray. |
-| [Ray patterns](ray_patterns/index.md) | One small Ray program per notebook, drawn in Eugo's visual Ray builder and shown with the plain Ray code it generated, run on Ray 2.55.1 with outputs (three that need a GPU, a model-serving engine or a data catalog are code only). |
-| [Demo notebooks](demo_notebooks/index.md) | Short demos of libraries for data storage, geospatial work, visualisation, data processing, testing and more. |
-| [Package tests](package_tests.md) | One smoke-test notebook per Python package, and declarative install checks for native libraries. |
-| [FAQ](faq.md) | Short answers to common questions, each linking the notebook that shows it. |
+<!-- linkcards -->
+- [Case studies](demo_notebooks/case_studies/index.md): Longer worked examples on public data: land surface temperature from GOES-16 NetCDF files, streamflow forecasts from the NOAA National Water Model, and resampling Sentinel-2 imagery. Each one ends by running its per-file step in parallel with Ray.
+- [Ray patterns](ray_patterns/index.md): One small Ray program per notebook, drawn in Eugo's visual Ray builder and shown with the plain Ray code it generated, run on Ray 2.55.1 with outputs (three that need a GPU, a model-serving engine or a data catalog are code only).
+- [Demo notebooks](demo_notebooks/index.md): Short demos of libraries for data storage, geospatial work, visualisation, data processing, testing and more.
+- [Package tests](package_tests.md): One smoke-test notebook per Python package, and declarative install checks for native libraries.
+- [FAQ](faq.md): Short answers to common questions, each linking the notebook that shows it.
+<!-- /linkcards -->
 
 ## Gallery
 
@@ -42,39 +42,44 @@ Figures from the notebooks, as committed in the repository. Select one to open i
 
 ## Run the notebooks locally
 
-```bash
-git clone https://github.com/eugo-inc/ganymede.git
-cd ganymede
-python -m venv .venv && . .venv/bin/activate
-```
+<!-- steps -->
+1. Clone the repository and make a virtual environment:
 
-**Ray patterns**: install Ray and open any notebook.
+   ```bash
+   git clone https://github.com/eugo-inc/ganymede.git
+   cd ganymede
+   python -m venv .venv && . .venv/bin/activate
+   ```
 
-```bash
-pip install "ray[default,data,serve,train,tune]==2.55.1" "protobuf<7" jupyterlab
-jupyter lab ray_patterns/
-```
+2. Install what the notebooks you want need, then run them.
 
-Some patterns need extra libraries (for example `torch`, `lightgbm`, `xgboost` or `optuna`); the
-[Ray patterns](ray_patterns/index.md) page lists what each one needs. Keep `protobuf` below 7:
-Ray Serve 2.55.1 does not work with protobuf 7.
+   **Ray patterns**: install Ray and open any notebook. Some patterns need extra libraries (for
+   example `torch`, `lightgbm`, `xgboost` or `optuna`); the [Ray patterns](ray_patterns/index.md)
+   page lists what each one needs. Keep `protobuf` below 7: Ray Serve 2.55.1 does not work with
+   protobuf 7.
 
-**Package tests**: install the runner and the package you want to test, then run its notebook.
+   ```bash
+   pip install "ray[default,data,serve,train,tune]==2.55.1" "protobuf<7" jupyterlab
+   jupyter lab ray_patterns/
+   ```
 
-```bash
-pip install -r package_tests/python/requirements.txt numpy
-pytest package_tests/python/numpy.ipynb
-```
+   **Package tests**: install the runner and the package you want to test, then run its notebook.
 
-**Native checks**: point the runner at an install prefix.
+   ```bash
+   pip install -r package_tests/python/requirements.txt numpy
+   pytest package_tests/python/numpy.ipynb
+   ```
 
-```bash
-python package_tests/native/run_native_checks.py --prefix /usr/local -k zlib_ng
-```
+   **Native checks**: point the runner at an install prefix.
 
-**Demo notebooks**: notebooks that connect to a database or a cloud service read their connection
-settings from environment variables; the *Environment variables* cell right after the title lists
-them. The case studies need no account: every read is anonymous.
+   ```bash
+   python package_tests/native/run_native_checks.py --prefix /usr/local -k zlib_ng
+   ```
+
+3. For the demo notebooks that connect to a database or a cloud service, set the environment
+   variables that the *Environment variables* cell right after each title lists. The case studies
+   need no account: every read is anonymous.
+<!-- /steps -->
 
 ## Links
 
