@@ -7,7 +7,8 @@ a thick arc of its orbit in the site's violet-to-azure gradient, on a 64-unit sq
 shadow under it. This script writes it, for the light and the dark theme, to
 ``site/src/assets/mark-light.svg`` and ``mark-dark.svg`` (the header's logo and the home page's
 picture), ``site/public/favicon.svg``, which follows the reader's colour scheme, and the README's
-banner, ``docs/readme/banner-light.svg`` and ``banner-dark.svg``.
+banner, ``docs/readme/banner-light.svg`` and ``banner-dark.svg``, which also carries the maker's
+logo (``docs/readme/eugo-logo.svg``, one path, recoloured for the theme) in its top right corner.
 
 The share image, ``site/public/assets/social-preview.png``, is what a page shared on a social site
 or in a chat shows beside its title. It holds a band of the site's accent gradient along its top,
@@ -47,6 +48,7 @@ import io
 import itertools
 import json
 import math
+import re
 import struct
 import sys
 import zlib
@@ -73,7 +75,7 @@ Paint = Callable[[int, int], Colour]
 
 # The two themes: the moon's night side and lit side, each shaded from its top colour to its
 # bottom one; the orbit's gradient, from its lower left to its upper right; the shadow's colour
-# and opacity; and the README banner's ground, frame, name and line.
+# and opacity; and the README banner's ground, frame, name, line and the maker's logo.
 THEMES: dict[str, dict] = {
     "light": {
         "violet": ("#8e45ff", "#7a36ec"),
@@ -81,6 +83,7 @@ THEMES: dict[str, dict] = {
         "orbit": ("#7a36ec", "#1a86dd"),
         "shadow": ("#160f3d", 0.22),
         "ground": "#ffffff", "border": "#e6e4f0", "ink": "#160f3d", "muted": "#55566b",
+        "logo": "#291f66",
     },
     "dark": {
         "violet": ("#b26bff", "#a24bff"),
@@ -88,6 +91,7 @@ THEMES: dict[str, dict] = {
         "orbit": ("#a24bff", "#2aa6ff"),
         "shadow": ("#000000", 0.55),
         "ground": "#160f3d", "border": "#352a7f", "ink": "#ffffff", "muted": "#d6d3ee",
+        "logo": "#ffffff",
     },
 }
 
@@ -1018,6 +1022,24 @@ BANNER_WIDTH, BANNER_HEIGHT = 1200, 260
 # baseline and its size).
 BANNER_NAME = (BANNER_WIDTH / 2, 128.0, 88.0)
 BANNER_LINE = (196.0, 30.0)
+# The maker's logo in the banner's top right corner: the file that holds it as one path, its width,
+# and its distance from the top and from the right edge.
+LOGO = "docs/readme/eugo-logo.svg"
+BANNER_LOGO = (110.0, 26.0, 30.0)
+
+
+def _logo(colour: str) -> str:
+    """The maker's logo, nested in the banner's top right corner and filled with ``colour``."""
+    text = (REPO / LOGO).read_text(encoding="utf-8")
+    view = re.search(r'viewBox="([^"]+)"', text)
+    path = re.search(r' d="([^"]+)"', text)
+    if view is None or path is None:
+        raise SystemExit(f"{LOGO} must have a viewBox and one path")
+    _, _, box_width, box_height = (float(n) for n in view.group(1).split())
+    width, top, right = BANNER_LOGO
+    place = (f'x="{BANNER_WIDTH - right - width:.2f}" y="{top:.2f}" width="{width:.2f}" '
+             f'height="{width * box_height / box_width:.2f}"')
+    return f'<svg {place} viewBox="{view.group(1)}"><path fill="{colour}" d="{path.group(1)}"/></svg>'
 
 
 def _band_stops() -> str:
@@ -1037,7 +1059,7 @@ def banner_svg(theme: str) -> str:
     line_left = (w - text_width("line", size)) / 2
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
-        f'role="img" aria-label="{NAME}: {LINE}">'
+        f'role="img" aria-label="{NAME}: {LINE}. Made by Eugo">'
         '<defs><linearGradient id="gnBannerRule" x1="0" y1="0" x2="1" y2="0">'
         f"{_band_stops()}"
         f'</linearGradient><clipPath id="gnBannerFrame"><rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="18"/>'
@@ -1047,6 +1069,7 @@ def banner_svg(theme: str) -> str:
         f'<rect x="0" y="0" width="{w}" height="6" fill="url(#gnBannerRule)" clip-path="url(#gnBannerFrame)"/>'
         f'<svg x="{left:.2f}" y="{top:.2f}" width="{side:.2f}" height="{side:.2f}" viewBox="0 0 64 64">'
         f"{_mark_body(theme, 'b')}</svg>"
+        f"{_logo(look['logo'])}"
         f'<path fill="{look["ink"]}" d="{text_path("name", name_left, BANNER_NAME[1], BANNER_NAME[2], spacing)}"/>'
         f'<path fill="{look["muted"]}" d="{text_path("line", line_left, baseline, size)}"/>'
         "</svg>\n"
