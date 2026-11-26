@@ -4,7 +4,7 @@
    the primary buttons and the title of the home page. Starlight's dark theme is the default;
    its light theme is the one with data-theme="light". The palette has night and indigo
    grounds and violet, hot violet and azure accents; every text colour reaches 4.5:1 on the
-   ground it sits on (3:1 for large text and borders). */
+   ground it sits on (3:1 for large text). */
 
 :root {
 	/* Red Hat Text for the body, Red Hat Display for headings and the name, each installed from
@@ -16,7 +16,7 @@
 	--pb-violet: #a24bff;
 	--pb-azure: #2aa6ff;
 	--pb-azure-low: #0d2a55;
-	/* The deck's gradient: the rule under the header, and the title of the home page. */
+	/* The brand gradient: the rule under the header, and the title of the home page. */
 	--pb-gradient: linear-gradient(100deg, #8e45ff 0%, #6a5cff 45%, #2aa6ff 100%);
 	--pb-gradient-text: var(--pb-gradient);
 	/* The buttons with white text: the same hues with a darker last stop, and darker again on
@@ -41,7 +41,8 @@
 	--pb-violet: #6a5cff;
 	--pb-azure: #1970bd;
 	--pb-azure-low: #e5f3ff;
-	/* On white, the deck's last stop is too light for text: the title ends on a darker azure. */
+	/* On white, the brand gradient's last stop is too light for text: the title ends on a darker
+	   azure. */
 	--pb-gradient-text: linear-gradient(100deg, #8e45ff, #6a5cff 55%, #1a74c4);
 
 	--sl-color-accent-low: #eeebff;
