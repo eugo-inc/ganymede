@@ -8,12 +8,15 @@ shadow under it. This script writes it, for the light and the dark theme, to
 ``site/src/assets/mark-light.svg`` and ``mark-dark.svg`` (the header's logo and the home page's
 picture), ``site/public/favicon.svg``, which follows the reader's colour scheme, and the README's
 banner, ``docs/readme/banner-light.svg`` and ``banner-dark.svg``, which also carries the maker's
-logo (``docs/readme/eugo-logo.svg``, one path, recoloured for the theme) in its top right corner.
+logo (``docs/readme/eugo-logo.svg``, nested as it is, in its own gradients on either theme) in its
+top right corner. It also copies that logo to ``site/src/assets/eugo-logo.svg``, the website's
+header and footer.
 
 The share image, ``site/public/assets/social-preview.png``, is what a page shared on a social site
 or in a chat shows beside its title. It holds a band of the site's accent gradient along its top,
 a faint indigo glow, the mark in its dark colours beside the name ganymede, and one line on what
-the site holds, on the dark ground of the site.
+the site holds, on the dark ground of the site, with the maker's logo in its top right corner: the
+outlines of ``docs/readme/eugo-logo.svg``, each filled with its own gradient.
 
 The name and the line are set in Red Hat Display, the font of the site's headings: the name at
 weight 800 with its letters 0.03 of its size closer together, the mark 1.1 times the size high
@@ -65,7 +68,7 @@ LINE = "Open notebooks for HPC, Ray and geospatial Python"
 ALT = (
     f"The name {NAME} in white beside its mark, a moon lit blue on one side and violet on its "
     f"night side inside an arc of its orbit, above the line “{LINE}”, on a dark background "
-    "under a violet-to-blue band."
+    "under a violet-to-blue band, with the maker's logo in the top right corner."
 )
 
 Point = tuple[float, float]
@@ -75,7 +78,7 @@ Paint = Callable[[int, int], Colour]
 
 # The two themes: the moon's night side and lit side, each shaded from its top colour to its
 # bottom one; the orbit's gradient, from its lower left to its upper right; the shadow's colour
-# and opacity; and the README banner's ground, frame, name, line and the maker's logo.
+# and opacity; and the README banner's ground, frame, name and line.
 THEMES: dict[str, dict] = {
     "light": {
         "violet": ("#8e45ff", "#7a36ec"),
@@ -83,7 +86,6 @@ THEMES: dict[str, dict] = {
         "orbit": ("#7a36ec", "#1a86dd"),
         "shadow": ("#160f3d", 0.22),
         "ground": "#ffffff", "border": "#e6e4f0", "ink": "#160f3d", "muted": "#55566b",
-        "logo": "#291f66",
     },
     "dark": {
         "violet": ("#b26bff", "#a24bff"),
@@ -91,7 +93,6 @@ THEMES: dict[str, dict] = {
         "orbit": ("#a24bff", "#2aa6ff"),
         "shadow": ("#000000", 0.55),
         "ground": "#160f3d", "border": "#352a7f", "ink": "#ffffff", "muted": "#d6d3ee",
-        "logo": "#ffffff",
     },
 }
 
@@ -145,6 +146,11 @@ COVER_STEPS = 1024
 # pieces each curve of an outline is drawn as.
 SAMPLES = 16
 CURVE_PIECES = 8
+# The maker's logo in the share image's top right corner: the file that draws it (each outline
+# filled with its own gradient), its width, and its distance from the top and from the right
+# edge, in pixels.
+LOGO = "docs/readme/eugo-logo.svg"
+SHARE_LOGO = (160.0, 40.0, 44.0)
 
 
 def _rgb(text: str) -> Colour:
@@ -715,6 +721,112 @@ SHARE_NAME = (WIDTH / 2, 318.0, 128.0)
 SHARE_LINE = (430.0, 34.0)
 
 
+# A gradient of the logo file: its line, from (x1, y1) to (x2, y2) in shares of the box of the
+# outline it fills, and its stops, each its place along that line and its colour.
+LogoGradient = tuple[tuple[float, float, float, float], tuple[tuple[float, Colour], ...]]
+
+
+@functools.cache
+def logo() -> tuple[str, str, tuple[tuple[str, LogoGradient], ...]]:
+    """The logo file, read once: its text, its view box (left, top, width and height), then each
+    of its outlines (the commands of an SVG path, every point given whole) with the gradient that
+    fills it."""
+    text = (REPO / LOGO).read_text(encoding="utf-8")
+    view = re.search(r'viewBox="([^"]+)"', text)
+    gradients: dict[str, LogoGradient] = {}
+    for ident, attributes, body in re.findall(
+        r'<linearGradient id="([^"]+)"([^>]*)>(.*?)</linearGradient>', text
+    ):
+        x1, y1, x2, y2 = (
+            float(re.findall(rf'\b{name}="([^"]+)"', attributes)[0]) for name in ("x1", "y1", "x2", "y2")
+        )
+        stops = tuple(
+            (float(at), _rgb(colour))
+            for at, colour in re.findall(r'<stop offset="([^"]+)" stop-color="(#[0-9a-f]{6})"/>', body)
+        )
+        gradients[ident] = (x1, y1, x2, y2), stops
+    paths = re.findall(r'<path fill="url\(#([^)]+)\)" d="([^"]+)"/>', text)
+    if view is None or not paths or any(ident not in gradients for ident, _ in paths):
+        raise SystemExit(f"{LOGO} must have a viewBox and paths filled with its own gradients")
+    return text, view.group(1), tuple((d, gradients[ident]) for ident, d in paths)
+
+
+def outline_contours(d: str, place: Callable[[float, float], Point]) -> list[list[Point]]:
+    """The closed contours of an SVG path of M, L, Q, C and Z commands with absolute points,
+    each point put in the image by ``place``, its curves drawn as ``CURVE_PIECES`` straight
+    pieces each."""
+    contours: list[list[Point]] = []
+    current: list[Point] = []
+    for op, numbers in re.findall(r"([MLQCZ])([^MLQCZ]*)", d):
+        values = [float(n) for n in numbers.split()]
+        points = [place(x, y) for x, y in zip(values[0::2], values[1::2], strict=True)]
+        if op == "M":
+            if len(current) > 2:
+                contours.append(current)
+            current = [points[0]]
+        elif op == "L":
+            current += points
+        elif op in ("Q", "C"):
+            ends = [current[-1], *points]
+            current += [_bezier(ends, piece / CURVE_PIECES) for piece in range(1, CURVE_PIECES + 1)]
+        else:
+            if len(current) > 2:
+                contours.append(current)
+            current = []
+    if len(current) > 2:
+        contours.append(current)
+    return contours
+
+
+def along(gradient: LogoGradient, box: tuple[float, float, float, float]) -> Paint:
+    """The paint of a logo gradient over the box (left, top, width, height) of the outline it
+    fills, as SVG lays a gradient in the units of that box: at a pixel, how far along the line
+    its middle lies, then the colour mixed from the two stops around that place, rounded to the
+    nearest whole value."""
+    (x1, y1, x2, y2), stops = gradient
+    left, top, width, height = box
+    dx, dy = x2 - x1, y2 - y1
+    length = dx * dx + dy * dy
+
+    def paint(x: int, y: int) -> Colour:
+        u, v = (x + 0.5 - left) / width, (y + 0.5 - top) / height
+        t = min(max(((u - x1) * dx + (v - y1) * dy) / length, stops[0][0]), stops[-1][0])
+        (at, first), (until, second) = next(
+            (pair for pair in itertools.pairwise(stops) if t <= pair[1][0]), (stops[-2], stops[-1])
+        )
+        share = (t - at) / (until - at) if until > at else 0.0
+        return (
+            int(first[0] + (second[0] - first[0]) * share + 0.5),
+            int(first[1] + (second[1] - first[1]) * share + 0.5),
+            int(first[2] + (second[2] - first[2]) * share + 0.5),
+        )
+
+    return paint
+
+
+def logo_layers() -> list[tuple[Layer, Paint]]:
+    """The maker's logo in the share image's top right corner: a layer for each outline of its
+    file, in that outline's gradient."""
+    _, view, outlines = logo()
+    view_left, view_top, view_width, _ = (float(n) for n in view.split())
+    width, top, right = SHARE_LOGO
+    scale = width / view_width
+    left = WIDTH - right - width
+
+    def place(x: float, y: float) -> Point:
+        return left + (x - view_left) * scale, top + (y - view_top) * scale
+
+    layers: list[tuple[Layer, Paint]] = []
+    for d, gradient in outlines:
+        contours = outline_contours(d, place)
+        xs = [x for contour in contours for x, _y in contour]
+        ys = [y for contour in contours for _x, y in contour]
+        layer = Layer(WIDTH, HEIGHT)
+        layer.fill(contours)
+        layers.append((layer, along(gradient, (min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys)))))
+    return layers
+
+
 def render() -> bytes:
     """The image as rows of RGB pixels, each row led by its filter byte."""
     left, top, side, name_left, spacing = wordmark(*SHARE_NAME)
@@ -731,6 +843,7 @@ def render() -> bytes:
         *mark_layers(left, top, side),
         (name, NAME_COLOUR),
         (tagline, LINE_COLOUR),
+        *logo_layers(),
     ]
     return compose(WIDTH, HEIGHT, layers)
 
@@ -946,6 +1059,8 @@ def is_current(path: Path) -> bool:
 MARK_FILES = {"light": "site/src/assets/mark-light.svg", "dark": "site/src/assets/mark-dark.svg"}
 FAVICON = "site/public/favicon.svg"
 BANNER_FILES = {"light": "docs/readme/banner-light.svg", "dark": "docs/readme/banner-dark.svg"}
+# The website's copy of the maker's logo, which its header and footer show.
+SITE_LOGO = "site/src/assets/eugo-logo.svg"
 
 
 def _number(value: float) -> str:
@@ -1022,24 +1137,24 @@ BANNER_WIDTH, BANNER_HEIGHT = 1200, 260
 # baseline and its size).
 BANNER_NAME = (BANNER_WIDTH / 2, 128.0, 88.0)
 BANNER_LINE = (196.0, 30.0)
-# The maker's logo in the banner's top right corner: the file that holds it as one path, its width,
-# and its distance from the top and from the right edge.
-LOGO = "docs/readme/eugo-logo.svg"
+# The maker's logo in the banner's top right corner: its width, and its distance from the top and
+# from the right edge. The ids of its gradients take this prefix, to be the banner's own.
 BANNER_LOGO = (110.0, 26.0, 30.0)
+BANNER_IDS = "gnBanner-"
 
 
-def _logo(colour: str) -> str:
-    """The maker's logo, nested in the banner's top right corner and filled with ``colour``."""
-    text = (REPO / LOGO).read_text(encoding="utf-8")
-    view = re.search(r'viewBox="([^"]+)"', text)
-    path = re.search(r' d="([^"]+)"', text)
-    if view is None or path is None:
-        raise SystemExit(f"{LOGO} must have a viewBox and one path")
-    _, _, box_width, box_height = (float(n) for n in view.group(1).split())
+def _logo() -> str:
+    """The maker's logo file, nested as it is in the banner's top right corner, its ids made the
+    banner's own: the same drawing, in its own gradients, on either theme."""
+    text, view, _ = logo()
+    _, _, box_width, box_height = (float(n) for n in view.split())
+    inner = text.split(">", 1)[1].rsplit("</svg>", 1)[0].strip()
+    inner = re.sub(r'id="([^"]+)"', rf'id="{BANNER_IDS}\1"', inner)
+    inner = re.sub(r"url\(#([^)]+)\)", rf"url(#{BANNER_IDS}\1)", inner)
     width, top, right = BANNER_LOGO
     place = (f'x="{BANNER_WIDTH - right - width:.2f}" y="{top:.2f}" width="{width:.2f}" '
              f'height="{width * box_height / box_width:.2f}"')
-    return f'<svg {place} viewBox="{view.group(1)}"><path fill="{colour}" d="{path.group(1)}"/></svg>'
+    return f'<svg {place} viewBox="{view}">{inner}</svg>'
 
 
 def _band_stops() -> str:
@@ -1069,7 +1184,7 @@ def banner_svg(theme: str) -> str:
         f'<rect x="0" y="0" width="{w}" height="6" fill="url(#gnBannerRule)" clip-path="url(#gnBannerFrame)"/>'
         f'<svg x="{left:.2f}" y="{top:.2f}" width="{side:.2f}" height="{side:.2f}" viewBox="0 0 64 64">'
         f"{_mark_body(theme, 'b')}</svg>"
-        f"{_logo(look['logo'])}"
+        f"{_logo()}"
         f'<path fill="{look["ink"]}" d="{text_path("name", name_left, BANNER_NAME[1], BANNER_NAME[2], spacing)}"/>'
         f'<path fill="{look["muted"]}" d="{text_path("line", line_left, baseline, size)}"/>'
         "</svg>\n"
@@ -1078,11 +1193,13 @@ def banner_svg(theme: str) -> str:
 
 def mark_files() -> dict[str, str]:
     """Every SVG file this script writes, by its path in the repository, with its text: the
-    mark in both themes, the favicon and the README's banner in both themes."""
+    mark in both themes, the favicon, the README's banner in both themes, and the website's copy
+    of the maker's logo, the same bytes as ``docs/readme/eugo-logo.svg``."""
     files = {MARK_FILES[theme]: mark_svg(theme) for theme in ("light", "dark")}
     files[FAVICON] = favicon_svg()
     for theme, path in BANNER_FILES.items():
         files[path] = banner_svg(theme)
+    files[SITE_LOGO] = logo()[0]
     return files
 
 
