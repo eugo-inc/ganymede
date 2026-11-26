@@ -4,8 +4,8 @@
 // root: that command writes the pages (the hand-written pages of docs/, an index page per
 // notebook folder and one Markdown page per notebook) into src/content/docs/, the generated
 // settings into src/generated/site.json and the files the site serves as they are (the
-// notebooks, their figures, the gallery, llms.txt) into .public/, then runs Astro and checks
-// the built site.
+// notebooks, their figures, the gallery, llms.txt and llms-full.txt) into .public/, then runs
+// Astro and checks the built site.
 import { readFileSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';

@@ -100,15 +100,15 @@ jobs:
         # Astro's hashed files go first and nothing of theirs is deleted yet, so a page, old or
         # new, never names a file that is missing; the last step removes the ones no page names.
         # Then one sync per kind of file, each deleting only what its own filter covers: the
-        # pages and other files (cached for five minutes), the notebooks, the gzipped sitemap and
-        # the Markdown copies, each with its own content type. Every file of dist/ matches
-        # exactly one of the five filters.
+        # pages and other files (cached for five minutes), the notebooks, the gzipped sitemap, the
+        # Markdown copies and the text files (llms.txt, llms-full.txt), each with its own content
+        # type. Every file of dist/ matches exactly one of the six filters.
         run: |
           target="s3://$DOCS_S3_BUCKET/docs/ganymede"
           aws s3 sync dist/_astro/ "$target/_astro/" --size-only --no-follow-symlinks --only-show-errors \
             --cache-control 'public, max-age=31536000, immutable'
           aws s3 sync dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
-            --exclude '_astro/*' --exclude '*.md' --exclude '*.ipynb' --exclude '*.gz' \
+            --exclude '_astro/*' --exclude '*.md' --exclude '*.ipynb' --exclude '*.gz' --exclude '*.txt' \
             --cache-control 'public, max-age=300'
           aws s3 sync dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
             --exclude '*' --include '*.ipynb' --content-type 'application/x-ipynb+json' \
@@ -118,6 +118,9 @@ jobs:
             --cache-control 'public, max-age=300'
           aws s3 sync dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
             --exclude '*' --include '*.md' --content-type 'text/markdown; charset=utf-8' \
+            --cache-control 'public, max-age=300'
+          aws s3 sync dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
+            --exclude '*' --include '*.txt' --content-type 'text/plain; charset=utf-8' \
             --cache-control 'public, max-age=300'
       - name: Drop the cached copies of the site's addresses
         if: steps.settings.outputs.ready == 'true'
@@ -145,6 +148,7 @@ jobs:
               && check "$notebook/" "$notebook/index.html" 'text/html' \
               && check "$notebook/goes16_netcdf.ipynb" "$notebook/goes16_netcdf.ipynb" '*/*' \
               && check llms.txt llms.txt '*/*' \
+              && check llms-full.txt llms-full.txt '*/*' \
               && check faq/ faq/index.md 'text/markdown'; then
               ok=yes; break
             fi

@@ -94,7 +94,7 @@ target="s3://$DOCS_S3_BUCKET/docs/ganymede"
 aws s3 sync site/dist/_astro/ "$target/_astro/" --size-only --no-follow-symlinks --only-show-errors \
   --cache-control 'public, max-age=31536000, immutable'
 aws s3 sync site/dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
-  --exclude '_astro/*' --exclude '*.md' --exclude '*.ipynb' --exclude '*.gz' \
+  --exclude '_astro/*' --exclude '*.md' --exclude '*.ipynb' --exclude '*.gz' --exclude '*.txt' \
   --cache-control 'public, max-age=300'
 aws s3 sync site/dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
   --exclude '*' --include '*.ipynb' --content-type 'application/x-ipynb+json' \
@@ -105,11 +105,15 @@ aws s3 sync site/dist/ "$target/" --delete --no-follow-symlinks --only-show-erro
 aws s3 sync site/dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
   --exclude '*' --include '*.md' --content-type 'text/markdown; charset=utf-8' \
   --cache-control 'public, max-age=300'
+aws s3 sync site/dist/ "$target/" --delete --no-follow-symlinks --only-show-errors \
+  --exclude '*' --include '*.txt' --content-type 'text/plain; charset=utf-8' \
+  --cache-control 'public, max-age=300'
 id="$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" \
   --paths '/docs/ganymede' '/docs/ganymede/*' --query Invalidation.Id --output text)"
 aws cloudfront wait invalidation-completed --distribution-id "$DISTRIBUTION_ID" --id "$id"
 curl -sS https://eugo.io/docs/ganymede/ | cmp - site/dist/index.html && echo "HOME AS BUILT"
 curl -sS https://eugo.io/docs/ganymede/llms.txt | cmp - site/dist/llms.txt && echo "LLMS.TXT AS BUILT"
+curl -sS https://eugo.io/docs/ganymede/llms-full.txt | cmp - site/dist/llms-full.txt && echo "LLMS-FULL.TXT AS BUILT"
 curl -sS -H 'Accept: text/markdown' https://eugo.io/docs/ganymede/faq/ | cmp - site/dist/faq/index.md && echo "MARKDOWN AS BUILT"
 site='https://eugo.io/docs/ganymede/'
 curl -sS -o /dev/null -w '%{http_code}\n' "${site}no-such-page/"    # 404
@@ -121,7 +125,7 @@ python3 tools/build_site.py clean
 
 Astro's hashed files go up first, so no page ever names one that is missing, and the old ones
 are removed only at the end. Each `--delete` removes every key under its target and filter that
-the build did not write, so never point these commands at another prefix. The three `AS BUILT` lines and `404` mean the site is live. The
+the build did not write, so never point these commands at another prefix. The four `AS BUILT` lines and `404` mean the site is live. The
 host's one-time setup (the bucket policy, cache behaviours for `/docs/ganymede/*`, `/docs/ganymede`
 and `/docs/404.html`, the role, and `site/hosting/docs-404.html` uploaded once as `docs/404.html`, the
 page for an address under `/docs/` that no documentation site holds) is done by whoever runs eugo.io.

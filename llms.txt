@@ -2,7 +2,7 @@
 
 > Open HPC notebooks from Eugo: Jupyter notebooks for high-performance and scientific Python. Three case studies on public NOAA and Copernicus data, 44 Ray patterns for parallel and distributed computing, demos of popular data, geospatial and visualisation libraries, and smoke tests for 1,200+ Python packages and 240+ native libraries. BSD-3-Clause; the notebooks use ordinary pip-installable packages, and none of them needs an Eugo account.
 
-Rendered website: https://eugo.io/docs/ganymede/ (https://eugo.io/docs/ganymede/llms.txt lists every notebook page).
+Rendered website: https://eugo.io/docs/ganymede/ (https://eugo.io/docs/ganymede/llms.txt lists every notebook page, and https://eugo.io/docs/ganymede/llms-full.txt holds the text of every page in one file).
 
 ## Case studies
 
