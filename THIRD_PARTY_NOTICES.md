@@ -451,7 +451,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Applies to the Red Hat Text and Red Hat Display fonts that the website serves, and to the
 outlines of Red Hat Display's letters in `tools/share_image_letters.json`, the README's banner and
-the share image, and of the ® in Eugo's logo, `docs/readme/eugo-logo.svg`.
+the share image, and of the ® in Eugo's logo, `site/src/assets/eugo-logo.svg` and
+`docs/readme/eugo-logo.svg`.
 
 ```text
 -----------------------------------------------------------
