@@ -2,22 +2,27 @@
 # Copyright (c) 2026, Eugo, Inc.
 """Draw the ganymede mark, the favicon, the README's banner and the share image of the website.
 
-The mark is Ganymede as a moon in its phase, its lit side teal and its night side violet, inside
-a thick arc of its orbit in the site's violet-to-teal gradient, on a 64-unit square, with a soft
+The mark is Ganymede as a moon in its phase, its lit side azure and its night side violet, inside
+a thick arc of its orbit in the site's violet-to-azure gradient, on a 64-unit square, with a soft
 shadow under it. This script writes it, for the light and the dark theme, to
 ``site/src/assets/mark-light.svg`` and ``mark-dark.svg`` (the header's logo and the home page's
 picture), ``site/public/favicon.svg``, which follows the reader's colour scheme, and the README's
-banner, ``docs/readme/banner-light.svg`` and ``banner-dark.svg``.
+banner, ``docs/readme/banner-light.svg`` and ``banner-dark.svg``, which also carries the maker's
+logo (``docs/readme/eugo-logo.svg``, nested as it is, in its own gradients on either theme) in its
+top right corner. It also copies that logo to ``site/src/assets/eugo-logo.svg``, the website's
+header and footer.
 
 The share image, ``site/public/assets/social-preview.png``, is what a page shared on a social site
 or in a chat shows beside its title. It holds a band of the site's accent gradient along its top,
-a faint violet glow, the mark in its dark colours beside the name ganymede, and one line on what
-the site holds, on the dark ground of the site.
+a faint indigo glow, the mark in its dark colours beside the name ganymede, and one line on what
+the site holds, on the dark ground of the site, with the maker's logo in its top right corner: the
+outlines of ``docs/readme/eugo-logo.svg``, each filled with its own gradient.
 
-The name and the line are set in Inter, the site's font: the name at weight 700 with its letters
-0.03 of its size closer together, the mark 1.1 times the size high and 0.3 of the size before
-the name, as the site's header sets them; the line at weight 400. Their outlines, shaped by
-HarfBuzz from the Inter file the site installs, are kept in ``tools/share_image_letters.json``,
+The name and the line are set in Red Hat Display, the font of the site's headings: the name at
+weight 800 with its letters 0.03 of its size closer together, the mark 1.1 times the size high
+and 0.3 of the size before the name, as the site's header sets them; the line at weight 400.
+Their outlines, shaped by HarfBuzz from the Red Hat Display file the site installs, are kept in
+``tools/share_image_letters.json``,
 so neither the banner nor this script needs a font: ``--letters`` shapes them again (it needs
 ``pip install uharfbuzz fonttools brotli`` and ``npm ci`` in ``site/``).
 
@@ -46,6 +51,7 @@ import io
 import itertools
 import json
 import math
+import re
 import struct
 import sys
 import zlib
@@ -60,9 +66,9 @@ HEIGHT = 630
 NAME = "ganymede"
 LINE = "Open notebooks for HPC, Ray and geospatial Python"
 ALT = (
-    f"The name {NAME} in white beside its mark, a moon lit teal on one side and violet on its "
+    f"The name {NAME} in white beside its mark, a moon lit blue on one side and violet on its "
     f"night side inside an arc of its orbit, above the line “{LINE}”, on a dark background "
-    "under a violet-to-teal band."
+    "under a violet-to-blue band, with the maker's logo in the top right corner."
 )
 
 Point = tuple[float, float]
@@ -72,23 +78,21 @@ Paint = Callable[[int, int], Colour]
 
 # The two themes: the moon's night side and lit side, each shaded from its top colour to its
 # bottom one; the orbit's gradient, from its lower left to its upper right; the shadow's colour
-# and opacity; and the README banner's ground, frame, name, line and band.
+# and opacity; and the README banner's ground, frame, name and line.
 THEMES: dict[str, dict] = {
     "light": {
-        "violet": ("#8f56f0", "#7631ec"),
-        "teal": ("#059bb4", "#04788c"),
-        "orbit": ("#7c3aed", "#048196"),
-        "shadow": ("#1b1035", 0.22),
-        "ground": "#ffffff", "border": "#e4e1ee", "ink": "#0b1020", "muted": "#4a4f63",
-        "rule": ("#7c3aed", "#048196"),
+        "violet": ("#8e45ff", "#7a36ec"),
+        "azure": ("#2aa6ff", "#1a86dd"),
+        "orbit": ("#7a36ec", "#1a86dd"),
+        "shadow": ("#160f3d", 0.22),
+        "ground": "#ffffff", "border": "#e6e4f0", "ink": "#160f3d", "muted": "#55566b",
     },
     "dark": {
-        "violet": ("#b061ff", "#9c38ff"),
-        "teal": ("#3dcee4", "#1ec1d9"),
-        "orbit": ("#a142ff", "#22c7e0"),
+        "violet": ("#b26bff", "#a24bff"),
+        "azure": ("#4db6ff", "#2aa6ff"),
+        "orbit": ("#a24bff", "#2aa6ff"),
         "shadow": ("#000000", 0.55),
-        "ground": "#080d17", "border": "#232a3b", "ink": "#f2f3f8", "muted": "#a9b0c3",
-        "rule": ("#a03fff", "#008294"),
+        "ground": "#160f3d", "border": "#352a7f", "ink": "#ffffff", "muted": "#d6d3ee",
     },
 }
 
@@ -115,14 +119,20 @@ SHADOW_OFFSET = 1.2
 SHADOW_DEVIATION = 1.1
 SHADOW_REGION = (-4.0, -4.0, 72.0, 72.0)
 
-# The share image: the dark palette's ground, name, line and band, the band's height, and a
-# glow of violet that fades to the ground, round a point a little above the middle.
-BACKGROUND: Colour = (0x08, 0x0D, 0x17)
-NAME_COLOUR: Colour = (0xF2, 0xF3, 0xF8)
-LINE_COLOUR: Colour = (0xA9, 0xB0, 0xC3)
-GRADIENT: tuple[Colour, Colour] = ((0xA0, 0x3F, 0xFF), (0x00, 0x82, 0x94))
+# The share image: the dark palette's ground, name and line; the band's gradient, each stop a
+# colour and its place in hundredths of the width, which the README banner's band uses too; the
+# band's height; and a glow of indigo that fades to the ground, round a point a little above the
+# middle.
+BACKGROUND: Colour = (0x16, 0x0F, 0x3D)
+NAME_COLOUR: Colour = (0xFF, 0xFF, 0xFF)
+LINE_COLOUR: Colour = (0xD6, 0xD3, 0xEE)
+GRADIENT: tuple[tuple[Colour, int], ...] = (
+    ((0x8E, 0x45, 0xFF), 0),
+    ((0x6A, 0x5C, 0xFF), 45),
+    ((0x2A, 0xA6, 0xFF), 100),
+)
 BAND_HEIGHT = 10
-GLOW: Colour = (0x1A, 0x14, 0x40)
+GLOW: Colour = (0x35, 0x2A, 0x7F)
 GLOW_OPACITY = 0.55
 # The glow's middle and its reach across and down, as shares of the image's width and height.
 GLOW_MIDDLE: Point = (0.5, 0.42)
@@ -136,6 +146,11 @@ COVER_STEPS = 1024
 # pieces each curve of an outline is drawn as.
 SAMPLES = 16
 CURVE_PIECES = 8
+# The maker's logo in the share image's top right corner: the file that draws it (each outline
+# filled with its own gradient), its width, and its distance from the top and from the right
+# edge, in pixels.
+LOGO = "docs/readme/eugo-logo.svg"
+SHARE_LOGO = (160.0, 40.0, 44.0)
 
 
 def _rgb(text: str) -> Colour:
@@ -149,10 +164,10 @@ def _rgb(text: str) -> Colour:
 # highest and lowest ink of the name too, so that the mark can be centred on its letters.
 
 LETTERS = "tools/share_image_letters.json"
-FONT_PACKAGE = "site/node_modules/@fontsource-variable/inter"
-FONT = f"{FONT_PACKAGE}/files/inter-latin-wght-normal.woff2"
+FONT_PACKAGE = "site/node_modules/@fontsource-variable/red-hat-display"
+FONT = f"{FONT_PACKAGE}/files/red-hat-display-latin-wght-normal.woff2"
 # Each text the letters file holds: its key, the text and the weight it is set at.
-TEXTS = (("name", NAME, 700), ("line", LINE, 400))
+TEXTS = (("name", NAME, 800), ("line", LINE, 400))
 
 
 @functools.cache
@@ -265,7 +280,7 @@ def wordmark(cx: float, baseline: float, size: float) -> tuple[float, float, flo
 
 
 def shape_letters() -> dict:
-    """The letters file's data, shaped by HarfBuzz from the Inter file the site installs."""
+    """The letters file's data, shaped by HarfBuzz from the Red Hat Display file the site installs."""
     try:
         import uharfbuzz as hb
         from fontTools.ttLib import woff2
@@ -326,7 +341,8 @@ def shape_letters() -> dict:
         texts[key] = {"text": text, "weight": weight, "ink": [max(tops), min(bottoms)],
                       "run": run, "glyphs": glyphs}
     return {
-        "font": f"Inter {version} (@fontsource-variable/inter, OFL-1.1), {Path(FONT).name}",
+        "font": (f"Red Hat Display {version} (@fontsource-variable/red-hat-display, OFL-1.1), "
+                 f"{Path(FONT).name}"),
         "upem": face.upem,
         "texts": texts,
     }
@@ -534,14 +550,23 @@ def shade(ends: tuple[Colour, Colour], top: float, height: float) -> Paint:
 
 
 def gradient(x: int, width: int = WIDTH) -> Colour:
-    """The colour of the gradient at a column: each channel goes from the first end to the
-    second in a straight line, rounded to the nearest whole value, the same on every machine."""
-    (r0, g0, b0), (r1, g1, b1) = GRADIENT
+    """The colour of the gradient at a column: between the two stops around the column, each
+    channel goes from the first stop's to the second's in a straight line, rounded to the
+    nearest whole value. Only whole numbers are used, so it is the same on every machine."""
     last = width - 1
+    # The pair of stops whose columns, as hundredths of the last column, hold the column: the
+    # last pair when the column is past the end of every other.
+    pairs = list(itertools.pairwise(GRADIENT))
+    (start, at), (end, until) = next(
+        (pair for pair in pairs if x * 100 <= pair[1][1] * last), pairs[-1]
+    )
+    left, right = at * last, until * last
+    span = right - left
+    step = x * 100 - left
     return (
-        (r0 * (last - x) + r1 * x + last // 2) // last,
-        (g0 * (last - x) + g1 * x + last // 2) // last,
-        (b0 * (last - x) + b1 * x + last // 2) // last,
+        (start[0] * (span - step) + end[0] * step + span // 2) // span,
+        (start[1] * (span - step) + end[1] * step + span // 2) // span,
+        (start[2] * (span - step) + end[2] * step + span // 2) // span,
     )
 
 
@@ -678,7 +703,7 @@ def mark_layers(left: float, top: float, side: float) -> list[tuple[Layer, Colou
     for amount, paint in (
         (orbit, linear(_ends(look["orbit"]), at(ORBIT_GRADIENT[0]), at(ORBIT_GRADIENT[1]))),
         (moon, shade(_ends(look["violet"]), moon_top, moon_height)),
-        (lit, shade(_ends(look["teal"]), moon_top, moon_height)),
+        (lit, shade(_ends(look["azure"]), moon_top, moon_height)),
     ):
         layer = Layer(WIDTH, HEIGHT)
         layer.shape(box, amount)
@@ -694,6 +719,112 @@ def _ends(ends: tuple[str, str]) -> tuple[Colour, Colour]:
 # (its baseline and its size).
 SHARE_NAME = (WIDTH / 2, 318.0, 128.0)
 SHARE_LINE = (430.0, 34.0)
+
+
+# A gradient of the logo file: its line, from (x1, y1) to (x2, y2) in shares of the box of the
+# outline it fills, and its stops, each its place along that line and its colour.
+LogoGradient = tuple[tuple[float, float, float, float], tuple[tuple[float, Colour], ...]]
+
+
+@functools.cache
+def logo() -> tuple[str, str, tuple[tuple[str, LogoGradient], ...]]:
+    """The logo file, read once: its text, its view box (left, top, width and height), then each
+    of its outlines (the commands of an SVG path, every point given whole) with the gradient that
+    fills it."""
+    text = (REPO / LOGO).read_text(encoding="utf-8")
+    view = re.search(r'viewBox="([^"]+)"', text)
+    gradients: dict[str, LogoGradient] = {}
+    for ident, attributes, body in re.findall(
+        r'<linearGradient id="([^"]+)"([^>]*)>(.*?)</linearGradient>', text
+    ):
+        x1, y1, x2, y2 = (
+            float(re.findall(rf'\b{name}="([^"]+)"', attributes)[0]) for name in ("x1", "y1", "x2", "y2")
+        )
+        stops = tuple(
+            (float(at), _rgb(colour))
+            for at, colour in re.findall(r'<stop offset="([^"]+)" stop-color="(#[0-9a-f]{6})"/>', body)
+        )
+        gradients[ident] = (x1, y1, x2, y2), stops
+    paths = re.findall(r'<path fill="url\(#([^)]+)\)" d="([^"]+)"/>', text)
+    if view is None or not paths or any(ident not in gradients for ident, _ in paths):
+        raise SystemExit(f"{LOGO} must have a viewBox and paths filled with its own gradients")
+    return text, view.group(1), tuple((d, gradients[ident]) for ident, d in paths)
+
+
+def outline_contours(d: str, place: Callable[[float, float], Point]) -> list[list[Point]]:
+    """The closed contours of an SVG path of M, L, Q, C and Z commands with absolute points,
+    each point put in the image by ``place``, its curves drawn as ``CURVE_PIECES`` straight
+    pieces each."""
+    contours: list[list[Point]] = []
+    current: list[Point] = []
+    for op, numbers in re.findall(r"([MLQCZ])([^MLQCZ]*)", d):
+        values = [float(n) for n in numbers.split()]
+        points = [place(x, y) for x, y in zip(values[0::2], values[1::2], strict=True)]
+        if op == "M":
+            if len(current) > 2:
+                contours.append(current)
+            current = [points[0]]
+        elif op == "L":
+            current += points
+        elif op in ("Q", "C"):
+            ends = [current[-1], *points]
+            current += [_bezier(ends, piece / CURVE_PIECES) for piece in range(1, CURVE_PIECES + 1)]
+        else:
+            if len(current) > 2:
+                contours.append(current)
+            current = []
+    if len(current) > 2:
+        contours.append(current)
+    return contours
+
+
+def along(gradient: LogoGradient, box: tuple[float, float, float, float]) -> Paint:
+    """The paint of a logo gradient over the box (left, top, width, height) of the outline it
+    fills, as SVG lays a gradient in the units of that box: at a pixel, how far along the line
+    its middle lies, then the colour mixed from the two stops around that place, rounded to the
+    nearest whole value."""
+    (x1, y1, x2, y2), stops = gradient
+    left, top, width, height = box
+    dx, dy = x2 - x1, y2 - y1
+    length = dx * dx + dy * dy
+
+    def paint(x: int, y: int) -> Colour:
+        u, v = (x + 0.5 - left) / width, (y + 0.5 - top) / height
+        t = min(max(((u - x1) * dx + (v - y1) * dy) / length, stops[0][0]), stops[-1][0])
+        (at, first), (until, second) = next(
+            (pair for pair in itertools.pairwise(stops) if t <= pair[1][0]), (stops[-2], stops[-1])
+        )
+        share = (t - at) / (until - at) if until > at else 0.0
+        return (
+            int(first[0] + (second[0] - first[0]) * share + 0.5),
+            int(first[1] + (second[1] - first[1]) * share + 0.5),
+            int(first[2] + (second[2] - first[2]) * share + 0.5),
+        )
+
+    return paint
+
+
+def logo_layers() -> list[tuple[Layer, Paint]]:
+    """The maker's logo in the share image's top right corner: a layer for each outline of its
+    file, in that outline's gradient."""
+    _, view, outlines = logo()
+    view_left, view_top, view_width, _ = (float(n) for n in view.split())
+    width, top, right = SHARE_LOGO
+    scale = width / view_width
+    left = WIDTH - right - width
+
+    def place(x: float, y: float) -> Point:
+        return left + (x - view_left) * scale, top + (y - view_top) * scale
+
+    layers: list[tuple[Layer, Paint]] = []
+    for d, gradient in outlines:
+        contours = outline_contours(d, place)
+        xs = [x for contour in contours for x, _y in contour]
+        ys = [y for contour in contours for _x, y in contour]
+        layer = Layer(WIDTH, HEIGHT)
+        layer.fill(contours)
+        layers.append((layer, along(gradient, (min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys)))))
+    return layers
 
 
 def render() -> bytes:
@@ -712,6 +843,7 @@ def render() -> bytes:
         *mark_layers(left, top, side),
         (name, NAME_COLOUR),
         (tagline, LINE_COLOUR),
+        *logo_layers(),
     ]
     return compose(WIDTH, HEIGHT, layers)
 
@@ -927,6 +1059,8 @@ def is_current(path: Path) -> bool:
 MARK_FILES = {"light": "site/src/assets/mark-light.svg", "dark": "site/src/assets/mark-dark.svg"}
 FAVICON = "site/public/favicon.svg"
 BANNER_FILES = {"light": "docs/readme/banner-light.svg", "dark": "docs/readme/banner-dark.svg"}
+# The website's copy of the maker's logo, which its header and footer show.
+SITE_LOGO = "site/src/assets/eugo-logo.svg"
 
 
 def _number(value: float) -> str:
@@ -954,7 +1088,7 @@ def _mark_body(theme: str, prefix: str = "") -> str:
     n = _number
     defs = (
         _gradient(f"{p}n", look["violet"], (0, my - mr), (0, my + mr))
-        + _gradient(f"{p}l", look["teal"], (0, my - mr), (0, my + mr))
+        + _gradient(f"{p}l", look["azure"], (0, my - mr), (0, my + mr))
         + _gradient(f"{p}o", look["orbit"], *ORBIT_GRADIENT)
         + f'<filter id="{p}s" filterUnits="userSpaceOnUse" x="{n(x)}" y="{n(y)}" width="{n(w)}" '
         f'height="{n(h)}" color-interpolation-filters="sRGB"><feDropShadow dx="0" '
@@ -1003,6 +1137,32 @@ BANNER_WIDTH, BANNER_HEIGHT = 1200, 260
 # baseline and its size).
 BANNER_NAME = (BANNER_WIDTH / 2, 128.0, 88.0)
 BANNER_LINE = (196.0, 30.0)
+# The maker's logo in the banner's top right corner: its width, and its distance from the top and
+# from the right edge. The ids of its gradients take this prefix, to be the banner's own.
+BANNER_LOGO = (110.0, 26.0, 30.0)
+BANNER_IDS = "gnBanner-"
+
+
+def _logo() -> str:
+    """The maker's logo file, nested as it is in the banner's top right corner, its ids made the
+    banner's own: the same drawing, in its own gradients, on either theme."""
+    text, view, _ = logo()
+    _, _, box_width, box_height = (float(n) for n in view.split())
+    inner = text.split(">", 1)[1].rsplit("</svg>", 1)[0].strip()
+    inner = re.sub(r'id="([^"]+)"', rf'id="{BANNER_IDS}\1"', inner)
+    inner = re.sub(r"url\(#([^)]+)\)", rf"url(#{BANNER_IDS}\1)", inner)
+    width, top, right = BANNER_LOGO
+    place = (f'x="{BANNER_WIDTH - right - width:.2f}" y="{top:.2f}" width="{width:.2f}" '
+             f'height="{width * box_height / box_width:.2f}"')
+    return f'<svg {place} viewBox="{view}">{inner}</svg>'
+
+
+def _band_stops() -> str:
+    """The stops of the band's gradient, as an SVG gradient writes them."""
+    return "".join(
+        f'<stop offset="{_number(at / 100)}" stop-color="#{r:02x}{g:02x}{b:02x}"/>'
+        for (r, g, b), at in GRADIENT
+    )
 
 
 def banner_svg(theme: str) -> str:
@@ -1014,9 +1174,9 @@ def banner_svg(theme: str) -> str:
     line_left = (w - text_width("line", size)) / 2
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
-        f'role="img" aria-label="{NAME}: {LINE}">'
+        f'role="img" aria-label="{NAME}: {LINE}. Made by Eugo">'
         '<defs><linearGradient id="gnBannerRule" x1="0" y1="0" x2="1" y2="0">'
-        f'<stop offset="0" stop-color="{look["rule"][0]}"/><stop offset="1" stop-color="{look["rule"][1]}"/>'
+        f"{_band_stops()}"
         f'</linearGradient><clipPath id="gnBannerFrame"><rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="18"/>'
         "</clipPath></defs>"
         f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="18" fill="{look["ground"]}" '
@@ -1024,6 +1184,7 @@ def banner_svg(theme: str) -> str:
         f'<rect x="0" y="0" width="{w}" height="6" fill="url(#gnBannerRule)" clip-path="url(#gnBannerFrame)"/>'
         f'<svg x="{left:.2f}" y="{top:.2f}" width="{side:.2f}" height="{side:.2f}" viewBox="0 0 64 64">'
         f"{_mark_body(theme, 'b')}</svg>"
+        f"{_logo()}"
         f'<path fill="{look["ink"]}" d="{text_path("name", name_left, BANNER_NAME[1], BANNER_NAME[2], spacing)}"/>'
         f'<path fill="{look["muted"]}" d="{text_path("line", line_left, baseline, size)}"/>'
         "</svg>\n"
@@ -1032,11 +1193,13 @@ def banner_svg(theme: str) -> str:
 
 def mark_files() -> dict[str, str]:
     """Every SVG file this script writes, by its path in the repository, with its text: the
-    mark in both themes, the favicon and the README's banner in both themes."""
+    mark in both themes, the favicon, the README's banner in both themes, and the website's copy
+    of the maker's logo, the same bytes as ``docs/readme/eugo-logo.svg``."""
     files = {MARK_FILES[theme]: mark_svg(theme) for theme in ("light", "dark")}
     files[FAVICON] = favicon_svg()
     for theme, path in BANNER_FILES.items():
         files[path] = banner_svg(theme)
+    files[SITE_LOGO] = logo()[0]
     return files
 
 

@@ -2,55 +2,86 @@
 /* Copyright (c) 2026, Eugo, Inc. */
 /* The palette, the type and the few places the gradient is used: the rule under the header,
    the primary buttons and the title of the home page. Starlight's dark theme is the default;
-   its light theme is the one with data-theme="light". */
+   its light theme is the one with data-theme="light". The palette has night and indigo
+   grounds and violet, hot violet and azure accents; every text colour reaches 4.5:1 on the
+   ground it sits on (3:1 for large text). */
 
 :root {
-	--sl-font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-	--pb-violet: #a142ff;
-	--pb-teal: #22c7e0;
-	--pb-teal-low: #0b2a31;
-	--pb-gradient: linear-gradient(90deg, #a03fff, #008294);
+	/* Red Hat Text for the body, Red Hat Display for headings and the name, each installed from
+	   its package and served by the site itself. */
+	--sl-font: 'Red Hat Text Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		sans-serif;
+	--pb-font-display: 'Red Hat Display Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+		Roboto, sans-serif;
+	--pb-violet: #a24bff;
+	--pb-azure: #2aa6ff;
+	--pb-azure-low: #0d2a55;
+	/* The brand gradient: the rule under the header, and the title of the home page. */
+	--pb-gradient: linear-gradient(100deg, #8e45ff 0%, #6a5cff 45%, #2aa6ff 100%);
+	--pb-gradient-text: var(--pb-gradient);
+	/* The buttons with white text: the same hues with a darker last stop, and darker again on
+	   hover, so the white label keeps at least 4.5:1 on every stop. */
+	--pb-gradient-button: linear-gradient(100deg, #8e45ff 0%, #6a5cff 45%, #1a74c4 100%);
+	--pb-gradient-button-hover: linear-gradient(100deg, #7c33f0 0%, #5a4cf0 45%, #155f9f 100%);
 
-	--sl-color-accent-low: #2a1250;
-	--sl-color-accent: #a142ff;
-	--sl-color-accent-high: #dcc4ff;
-	--sl-color-white: #f2f3f8;
-	--sl-color-gray-1: #dfe1ea;
-	--sl-color-gray-2: #b9bdcc;
-	--sl-color-gray-3: #8b91a7;
-	--sl-color-gray-4: #5c6279;
-	--sl-color-gray-5: #343a4e;
-	--sl-color-gray-6: #141a28;
-	--sl-color-black: #080d17;
+	--sl-color-accent-low: #2d1b6e;
+	--sl-color-accent: #a24bff;
+	--sl-color-accent-high: #d9d3ff;
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #eeecfb;
+	--sl-color-gray-2: #d6d3ee;
+	--sl-color-gray-3: #a9a4d6;
+	--sl-color-gray-4: #7b74b8;
+	--sl-color-gray-5: #43379a;
+	--sl-color-gray-6: #291f66;
+	--sl-color-black: #160f3d;
 }
 
 :root[data-theme='light'] {
-	--pb-violet: #7c3aed;
-	--pb-teal: #048196;
-	--pb-teal-low: #e3f6f8;
-	--pb-gradient: linear-gradient(90deg, #7c3aed, #048196);
+	--pb-violet: #6a5cff;
+	--pb-azure: #1970bd;
+	--pb-azure-low: #e5f3ff;
+	/* On white, the brand gradient's last stop is too light for text: the title ends on a darker
+	   azure. */
+	--pb-gradient-text: linear-gradient(100deg, #8e45ff, #6a5cff 55%, #1a74c4);
 
-	--sl-color-accent-low: #ede5fd;
-	--sl-color-accent: #7c3aed;
-	--sl-color-accent-high: #3d1785;
-	--sl-color-white: #0b1020;
-	--sl-color-gray-1: #1c2135;
-	--sl-color-gray-2: #343a51;
-	--sl-color-gray-3: #555b72;
-	--sl-color-gray-4: #868ba2;
-	--sl-color-gray-5: #c9c5d9;
-	--sl-color-gray-6: #f1eff7;
-	--sl-color-gray-7: #f8f7fc;
+	--sl-color-accent-low: #eeebff;
+	--sl-color-accent: #6a5cff;
+	--sl-color-accent-high: #291f66;
+	/* The links: a darker shade of the accent, at 4.5:1 or more on every light ground, the
+	   tinted cards included. */
+	--sl-color-text-accent: #5646f5;
+	--sl-color-white: #160f3d;
+	--sl-color-gray-1: #212121;
+	--sl-color-gray-2: #212121;
+	--sl-color-gray-3: #55566b;
+	--sl-color-gray-4: #6f7089;
+	--sl-color-gray-5: #c9c6dc;
+	--sl-color-gray-6: #f6f5fb;
+	--sl-color-gray-7: #fbfaff;
 	--sl-color-black: #ffffff;
-	--sl-color-hairline-light: #e4e1ee;
-	--sl-color-hairline: #e4e1ee;
-	--sl-color-hairline-shade: #d6d2e4;
+	--sl-color-hairline-light: #e6e4f0;
+	--sl-color-hairline: #e6e4f0;
+	--sl-color-hairline-shade: #d9d6e8;
 }
 
-/* The site title: the logo sized to the letters, then the name set bold and tight. */
+/* Headings, the name and the cards' titles in Red Hat Display. */
+:is(h1, h2, h3, h4, h5, h6),
+.site-title,
+.card .title {
+	font-family: var(--pb-font-display);
+}
+h1 {
+	font-weight: 800;
+}
+.sl-markdown-content :is(h2, h3, h4, h5, h6) {
+	font-weight: 700;
+}
+
+/* The site title: the logo sized to the letters, then the name set heavy and tight. */
 .site-title {
 	gap: 0.3em;
-	font-weight: 700;
+	font-weight: 800;
 	letter-spacing: -0.03em;
 	color: var(--sl-color-white);
 }
@@ -67,16 +98,16 @@ header.header {
 	border-bottom-color: transparent;
 }
 .sl-link-button.primary {
-	background: var(--pb-gradient);
+	background: var(--pb-gradient-button);
 	border-color: transparent;
 	color: #ffffff;
 }
 .sl-link-button.primary:hover {
-	filter: brightness(1.08);
+	background: var(--pb-gradient-button-hover);
 	color: #ffffff;
 }
 .hero h1 {
-	background: var(--pb-gradient);
+	background: var(--pb-gradient-text);
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
@@ -89,16 +120,16 @@ header.header {
 	--sl-card-bg: var(--sl-color-accent-low);
 }
 .card-grid .card:nth-child(even) {
-	--sl-card-border: var(--pb-teal);
-	--sl-card-bg: var(--pb-teal-low);
+	--sl-card-border: var(--pb-azure);
+	--sl-card-bg: var(--pb-azure-low);
 }
 .sl-steps > li::before {
-	border-color: var(--pb-teal);
-	color: var(--pb-teal);
+	border-color: var(--pb-azure);
+	color: var(--pb-azure);
 }
 starlight-tabs [role='tab'][aria-selected='true'] {
-	border-color: var(--pb-teal);
-	color: var(--pb-teal);
+	border-color: var(--pb-azure);
+	color: var(--pb-azure);
 }
 
 .pb-maker {

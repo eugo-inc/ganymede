@@ -43,16 +43,20 @@ export default defineConfig({
         dark: './src/assets/mark-dark.svg',
         alt: '',
       },
-      // Inter, installed from the package and served by the site itself; the palette shared
-      // with Eugo's other documentation; then what only this site needs.
+      // Red Hat Text for the text and Red Hat Display for the headings, installed from their
+      // packages and served by the site itself; the palette shared with Eugo's other
+      // documentation; then what only this site needs.
       customCss: [
-        '@fontsource-variable/inter',
+        '@fontsource-variable/red-hat-text',
+        '@fontsource-variable/red-hat-display',
         './src/styles/brand.css',
         './src/styles/ganymede.css',
       ],
-      // The footer names the maker; the title of every page carries its GitHub and download links.
+      // The footer names the maker; the header follows the name with "by" and the maker's logo; the
+      // title of every page carries its GitHub and download links.
       components: {
         Footer: './src/components/Footer.astro',
+        SiteTitle: './src/components/SiteTitle.astro',
         PageTitle: './src/components/PageTitle.astro',
       },
       social: [

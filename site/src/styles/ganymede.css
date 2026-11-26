@@ -56,7 +56,7 @@
 }
 
 /* The home page's gallery: images of one height, whole card clickable through its links, the
-   border alternating violet and teal like the cards of brand.css. */
+   border alternating violet and azure like the cards of brand.css. */
 .gn-gallery {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
@@ -68,8 +68,8 @@
 	background: var(--sl-color-accent-low);
 }
 .gn-gallery-card:nth-child(even) {
-	border-color: var(--pb-teal);
-	background: var(--pb-teal-low);
+	border-color: var(--pb-azure);
+	background: var(--pb-azure-low);
 }
 .gn-gallery-card img {
 	display: block;

@@ -1,9 +1,34 @@
 ---
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2026, Eugo, Inc.
-// Starlight's footer of every page, followed by one line that names the maker of ganymede.
+// Starlight's footer of every page, followed by one line that names the maker of ganymede, led by
+// the maker's logo, linked to its home page: one drawing in its own gradients on either theme.
 import Default from '@astrojs/starlight/components/Footer.astro';
+import logo from '../assets/eugo-logo.svg';
 ---
 
 <Default><slot /></Default>
-<p class="pb-maker">ganymede is made by <a href="https://eugo.io/">Eugo</a></p>
+<p class="pb-maker">
+	<a class="pb-maker-logo" href="https://eugo.io/"
+		><img src={logo.src} width={logo.width} height={logo.height} alt="Eugo" /></a
+	>
+	ganymede is made by <a href="https://eugo.io/">Eugo</a>
+</p>
+
+<style>
+	.pb-maker {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.pb-maker-logo {
+		display: inline-flex;
+	}
+	.pb-maker-logo img {
+		display: block;
+		height: 1.125rem;
+		width: auto;
+	}
+</style>

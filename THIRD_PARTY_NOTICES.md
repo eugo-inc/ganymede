@@ -171,8 +171,9 @@ Notes:
 The website, <https://eugo.io/docs/ganymede/>, is built with these packages, installed exactly as
 `site/package-lock.json` pins them. The built site serves the parts of them that run in a reader's
 browser: Astro's and Starlight's scripts and styles, Expressive Code's code-block styles and
-scripts, Pagefind's search, and the Inter font files. The README's banner and the share image
-draw the outlines of Inter's letters, which `tools/share_image_letters.json` holds.
+scripts, Pagefind's search, and the Red Hat Text and Red Hat Display font files. The README's
+banner and the share image draw the outlines of Red Hat Display's letters, which
+`tools/share_image_letters.json` holds.
 
 | Project | Version | Source | Copyright | License |
 | --- | --- | --- | --- | --- |
@@ -180,7 +181,8 @@ draw the outlines of Inter's letters, which `tools/share_image_letters.json` hol
 | Starlight | 0.42.8 | <https://github.com/withastro/starlight> | Copyright (c) 2023 Astro contributors | MIT |
 | Expressive Code | 0.44.3 | <https://github.com/expressive-code/expressive-code> | Copyright (c) 2023 Tibor Schiemann | MIT |
 | Pagefind | 1.6.0 | <https://github.com/Pagefind/pagefind> | Copyright (c) Pagefind | MIT |
-| Inter, packaged as `@fontsource-variable/inter` | 5.3.0 | <https://github.com/rsms/inter> | Copyright 2016 The Inter Project Authors | OFL-1.1 |
+| Red Hat Display, packaged as `@fontsource-variable/red-hat-display` | 5.3.0 | <https://github.com/RedHatOfficial/RedHatFont> | Copyright 2024 The Red Hat Project Authors | OFL-1.1 |
+| Red Hat Text, packaged as `@fontsource-variable/red-hat-text` | 5.3.0 | <https://github.com/RedHatOfficial/RedHatFont> | Copyright 2024 The Red Hat Project Authors | OFL-1.1 |
 
 ## License texts
 
@@ -447,8 +449,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ### SIL Open Font License 1.1
 
-Applies to the Inter font that the website serves, and to the outlines of its letters in
-`tools/share_image_letters.json`, the README's banner and the share image.
+Applies to the Red Hat Text and Red Hat Display fonts that the website serves, and to the
+outlines of Red Hat Display's letters in `tools/share_image_letters.json`, the README's banner and
+the share image, and of the ® in Eugo's logo, `site/src/assets/eugo-logo.svg` and
+`docs/readme/eugo-logo.svg`.
 
 ```text
 -----------------------------------------------------------
