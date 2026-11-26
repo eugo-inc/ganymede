@@ -21,13 +21,15 @@ passed. It then writes:
   page per notebook folder (its README.md, or a generated list), and the pages of ``docs/``;
 - ``site/src/generated/site.json``: the title, description, sidebar and share-image tags;
 - ``site/.public/``: ``site/public/`` plus the gallery, the Ray pattern images, each notebook's
-  figures and ``.ipynb`` download, and ``llms.txt``;
+  figures and ``.ipynb`` download, ``llms.txt`` and ``llms-full.txt`` (every page's Markdown copy
+  in one file, in the order of ``llms.txt``);
 - ``site/src/generated/markdown/``: each page's Markdown copy, which ``finish`` puts beside the
   page in ``site/dist/``.
 
 ``check`` refuses a broken link, anchor or asset, anything fetched from another host, an id used
 twice, a page without one canonical link or its Markdown copy, a file the host could not serve,
-and any address or heading id of the old MkDocs site (``site/legacy-urls.txt``) that is gone.
+an ``llms-full.txt`` that is not the Markdown copies of ``llms.txt``'s pages in its order, and any
+address or heading id of the old MkDocs site (``site/legacy-urls.txt``) that is gone.
 Notebooks are never executed. ``refresh-gallery`` takes the first PNG figure of each notebook in
 ``GALLERY``, drops every PNG chunk except image data and colour information (so no text or EXIF
 chunks remain), scales it to at most ``GALLERY_MAX_WIDTH`` pixels wide and writes it to
@@ -737,7 +739,15 @@ SUMMARY = ("Open Jupyter notebooks from Eugo: case studies on public NOAA and Co
            "native libraries.")
 DOI_ALL = "https://doi.org/10.5281/zenodo.24117548"
 LICENSE_URL = "https://opensource.org/license/bsd-3-clause"
-PUBLISHER = "Eugo, Inc."
+# The organisation as every Eugo site describes it in its structured data, identical on each: its
+# name, its home, its logo (the one eugo.io's own home page names, on the host this site shares)
+# and the profiles that are the same organisation.
+ORGANIZATION = {"@type": "Organization", "@id": f"{NEW_SITE}/#organization", "name": "Eugo", "url": NEW_SITE,
+                "logo": f"{NEW_SITE}/eugo-search-logo.png",
+                "sameAs": ["https://www.linkedin.com/company/eugoinc/", "https://www.youtube.com/@eugo-inc",
+                           "https://github.com/eugo-inc", "https://www.wikidata.org/wiki/Q142294143"]}
+# Every page's Markdown copy in one file, beside llms.txt and linked from it.
+LLMS_FULL = "llms-full.txt"
 KEYWORDS = ("high-performance computing", "HPC", "Ray", "Ray Core", "Ray Data", "Ray Serve",
             "Ray Train", "Ray Tune", "Jupyter notebooks", "scientific Python", "geospatial Python",
             "xarray", "NetCDF", "GOES-16", "National Water Model", "Sentinel-2", "STAC",
@@ -1178,8 +1188,7 @@ def structured_data(page: SitePage, home: SitePage) -> dict:
     """What a page says of itself in schema.org terms: the home page describes the notebooks'
     source code and the organisation that publishes them; a notebook's page is a technical
     article whose notebook can be downloaded; every page carries its breadcrumbs."""
-    organization = {"@type": "Organization", "@id": f"{NEW_SITE}/#organization", "name": PUBLISHER,
-                    "url": f"{NEW_SITE}/"}
+    organization = dict(ORGANIZATION)
     source = f"{home.url}#source"
     publisher = {"@id": organization["@id"]}
     nodes: list[dict] = []
@@ -1277,6 +1286,8 @@ def site_llms(site: Site) -> str:
         "with its outputs where the repository keeps them, and links to the .ipynb file. Each link "
         "below is the Markdown copy of a page; the web page is the same address without index.md. "
         f"Citable archive on Zenodo: {DOI_ALL} (all versions).", "",
+        f"[Every page in one file]({NEW_ROOT}{LLMS_FULL}): the Markdown copies of all the pages below, "
+        "in this order, each headed by its title and its address.", "",
         "## Overview", "", line("index"),
     ]
     singles = [item["slug"] for item in site.sidebar if "slug" in item]
@@ -1285,6 +1296,27 @@ def site_llms(site: Site) -> str:
         if "items" in item:
             out += [f"## {item['label']}", ""] + [line(s) for s in ids(item["items"])] + [""]
     return "\n".join(out).rstrip("\n") + "\n"
+
+
+# A line of llms.txt that lists a page: its title, then the address of its Markdown copy.
+LLMS_PAGE = re.compile(r"^- \[.*\]\((" + re.escape(NEW_ROOT) + r"(?:\S*/)?)index\.md\): ", re.MULTILINE)
+COPY_TITLE = re.compile(r"^# (.+)$", re.MULTILINE)
+
+
+def llms_full(llms: str, copy_of) -> str:
+    """llms-full.txt: the Markdown copy of every page llms.txt lists, in its order, each headed by
+    a line with its title and a line with its address and separated from the next by a line of
+    ``---``. ``copy_of`` gives a page's copy from its address."""
+    records = []
+    for url in LLMS_PAGE.findall(llms):
+        copy = copy_of(url)
+        title = COPY_TITLE.search(copy)
+        if title is None:
+            raise SiteError(f"the Markdown copy of {url} has no title")
+        records.append(f"# {title.group(1)}\nSource: {url}\n\n{copy.strip(chr(10))}\n")
+    if not records:
+        raise SiteError("llms.txt lists no page")
+    return "\n---\n\n".join(records)
 
 
 def check_tracked_site() -> None:
@@ -1326,6 +1358,8 @@ def prepare(allow_untracked: bool = False) -> Site:
     home = site.pages["index"]
     texts = {page.id: site_page_text(page, home) for page in site.pages.values()}
     llms = site_llms(site)
+    by_url = {page.url: page for page in site.pages.values()}
+    full = llms_full(llms, lambda url: markdown_copy(by_url[url]))
     for folder in (CONTENT, GENERATED, SERVED):
         if folder.exists():
             shutil.rmtree(folder)
@@ -1346,6 +1380,7 @@ def prepare(allow_untracked: bool = False) -> Site:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(data)
     (SERVED / "llms.txt").write_text(llms, encoding="utf-8")
+    (SERVED / LLMS_FULL).write_text(full, encoding="utf-8")
     settings = {"title": TITLE, "description": SUMMARY, "sidebar": site.sidebar, "head": share_head()}
     (GENERATED / "site.json").write_text(json.dumps(settings, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     kinds = {}
@@ -1618,8 +1653,47 @@ def check_site(dist: Path = DIST) -> list[str]:
     for folder in sorted(p for p in dist.rglob("*") if p.is_dir()):
         if EXTENSION.search(folder.name) and (folder / "index.html").is_file():
             problems.append(f"{folder.relative_to(dist).as_posix()}/: a page whose address looks like a file's")
+    problems += check_llms_full(dist)
     problems += check_parity(dist, page)
     problems += check_repository_addresses(dist)
+    return problems
+
+
+def check_llms_full(dist: Path) -> list[str]:
+    """llms.txt lists every page and links llms-full.txt, and llms-full.txt is, byte for byte,
+    the built Markdown copies of the pages llms.txt lists, in its order."""
+    llms_path, full_path = dist / "llms.txt", dist / LLMS_FULL
+    if not llms_path.is_file():
+        return ["llms.txt is missing"]
+    if not full_path.is_file():
+        return [f"{LLMS_FULL} is missing"]
+    llms = llms_path.read_text(encoding="utf-8")
+    problems = []
+    if f"]({NEW_ROOT}{LLMS_FULL})" not in llms:
+        problems.append(f"llms.txt does not link {LLMS_FULL}")
+    listed = LLMS_PAGE.findall(llms)
+    served = set()
+    for path in dist.rglob("index.html"):
+        rel = path.parent.relative_to(dist).as_posix()
+        served.add(NEW_ROOT if rel == "." else f"{NEW_ROOT}{rel}/")
+    unlisted = sorted(served - set(listed))
+    problems += [f"llms.txt does not list {url}" for url in unlisted[:20]]
+    if len(listed) != len(set(listed)):
+        problems.append("llms.txt lists a page twice")
+
+    def copy_of(url: str) -> str:
+        found = built_file(dist, urlsplit(url).path + "index.md")
+        if found is None:
+            raise SiteError(f"llms.txt lists {url}, which has no Markdown copy")
+        return found.read_text(encoding="utf-8")
+
+    try:
+        expected = llms_full(llms, copy_of)
+    except SiteError as error:
+        return problems + [f"{LLMS_FULL}: {error}"]
+    if full_path.read_bytes() != expected.encode("utf-8"):
+        problems.append(f"{LLMS_FULL} is not the Markdown copies of llms.txt's pages in its order: "
+                        "run python3 tools/build_site.py build")
     return problems
 
 

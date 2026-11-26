@@ -19,7 +19,7 @@ the site holds, on the dark ground of the site, with the maker's logo in its top
 outlines of ``docs/readme/eugo-logo.svg``, each filled with its own gradient.
 
 The name and the line are set in Red Hat Display, the font of the site's headings: the name at
-weight 800 with its letters 0.03 of its size closer together, the mark 1.1 times the size high
+weight 800 with its letters 0.03 of its size closer together, the mark at 1.1 times the size high
 and 0.3 of the size before the name, as the site's header sets them; the line at weight 400.
 Their outlines, shaped by HarfBuzz from the Red Hat Display file the site installs, are kept in
 ``tools/share_image_letters.json``,
