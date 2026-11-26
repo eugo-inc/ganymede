@@ -745,7 +745,7 @@ LICENSE_URL = "https://opensource.org/license/bsd-3-clause"
 ORGANIZATION = {"@type": "Organization", "@id": f"{NEW_SITE}/#organization", "name": "Eugo", "url": NEW_SITE,
                 "logo": f"{NEW_SITE}/eugo-search-logo.png",
                 "sameAs": ["https://www.linkedin.com/company/eugoinc/", "https://www.youtube.com/@eugo-inc",
-                           "https://github.com/eugo-inc"]}
+                           "https://github.com/eugo-inc", "https://www.wikidata.org/wiki/Q142294143"]}
 # Every page's Markdown copy in one file, beside llms.txt and linked from it.
 LLMS_FULL = "llms-full.txt"
 KEYWORDS = ("high-performance computing", "HPC", "Ray", "Ray Core", "Ray Data", "Ray Serve",
