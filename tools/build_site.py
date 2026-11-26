@@ -739,7 +739,6 @@ SUMMARY = ("Open Jupyter notebooks from Eugo: case studies on public NOAA and Co
            "native libraries.")
 DOI_ALL = "https://doi.org/10.5281/zenodo.24117548"
 LICENSE_URL = "https://opensource.org/license/bsd-3-clause"
-PUBLISHER = "Eugo, Inc."
 # The organisation as every Eugo site describes it in its structured data, identical on each: its
 # name, its home, its logo (the one eugo.io's own home page names, on the host this site shares)
 # and the profiles that are the same organisation.
