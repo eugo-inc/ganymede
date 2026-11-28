@@ -32,7 +32,7 @@ directory, in a Jupyter kernel started with the same Python interpreter as
 pytest, so the kernel sees exactly the packages installed in that environment.
 `ipykernel` (it is in `requirements.txt`) must be installed there too. A
 `python3` kernelspec you may have installed elsewhere (for example with
-`python -m ipykernel install --user`) is not used. Some notebooks assert the behaviour of a
+`python -m ipykernel install --user`) is not used. Some notebooks assert the behavior of a
 particular release of their package, so a much older or newer release can fail
 an assertion even when it works. A few notebooks also use the package's
 optional extras (the `dask` notebook, for example, needs
