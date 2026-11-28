@@ -18,6 +18,8 @@ jobs:
           python-version: "3.12"
       - name: Check notebook structure and outputs
         run: python tools/check_notebooks.py
+      - name: American English in prose and notebook Markdown cells
+        run: python -I tools/us_english.py --allow tools/us_english_allow.tsv README.md CONTRIBUTING.md SECURITY.md llms.txt docs demo_notebooks ray_patterns package_tests
 
   site:
     runs-on: ubuntu-latest

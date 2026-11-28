@@ -16,10 +16,16 @@ Thanks for your interest in improving these examples and tests.
   `tools/check_notebooks.py`. Save interactive (JavaScript) charts as PNG images, and drop
   warnings, `stderr` output and anything that shows a local path or address. Every other demo
   notebook is committed without outputs.
-- Run the notebook checks before opening a pull request:
+- Write prose in American English (color, behavior, organize, catalog, center, license, gray),
+  in Markdown files and in notebook Markdown cells. Code, identifiers, URLs, file names, proper
+  nouns and text quoted verbatim from a third party (such as `THIRD_PARTY_NOTICES.md`) stay as
+  they are. `tools/us_english.py` lists any British spelling it finds, and `--fix` rewrites them;
+  an exception goes in `tools/us_english_allow.tsv` with its reason.
+- Run the notebook and spelling checks before opening a pull request:
 
   ```bash
   python tools/check_notebooks.py
+  python tools/us_english.py --allow tools/us_english_allow.tsv README.md CONTRIBUTING.md SECURITY.md llms.txt docs demo_notebooks ray_patterns package_tests
   ```
 
 ## Adding a package test
@@ -126,7 +132,7 @@ python3 tools/build_site.py clean
 Astro's hashed files go up first, so no page ever names one that is missing, and the old ones
 are removed only at the end. Each `--delete` removes every key under its target and filter that
 the build did not write, so never point these commands at another prefix. The four `AS BUILT` lines and `404` mean the site is live. The
-host's one-time setup (the bucket policy, cache behaviours for `/docs/ganymede/*`, `/docs/ganymede`
+host's one-time setup (the bucket policy, cache behaviors for `/docs/ganymede/*`, `/docs/ganymede`
 and `/docs/404.html`, the role, and `site/hosting/docs-404.html` uploaded once as `docs/404.html`, the
 page for an address under `/docs/` that no documentation site holds) is done by whoever runs eugo.io.
 

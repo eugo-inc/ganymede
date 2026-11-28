@@ -34,10 +34,10 @@ Zarr store.
 
 The [Sentinel-2 resampling](demo_notebooks/case_studies/sentinel2_resampling.ipynb) case study
 finds scenes through the Earth Search STAC API and reads small windows of the Cloud-Optimized
-GeoTIFFs over HTTPS with rasterio. It compares area averaging with nearest neighbour when going from
-10 m to 60 m, and nearest neighbour with bilinear interpolation when going from 20 m to 10 m.
+GeoTIFFs over HTTPS with rasterio. It compares area averaging with nearest neighbor when going from
+10 m to 60 m, and nearest neighbor with bilinear interpolation when going from 20 m to 10 m.
 Categorical layers such as the scene classification layer are only ever resampled with nearest
-neighbour, because averaging class codes produces meaningless classes.
+neighbor, because averaging class codes produces meaningless classes.
 
 ## How do I run the same analysis over many files in parallel with Ray?
 

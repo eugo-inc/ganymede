@@ -10,7 +10,7 @@
 
 **ganymede is a public collection of Jupyter notebooks for high-performance and scientific Python:** three
 case studies on public NOAA and Copernicus data, 44 Ray programs for parallel and distributed computing,
-demos of popular data, geospatial and visualisation libraries, and smoke tests for 1,200+ Python packages and
+demos of popular data, geospatial and visualization libraries, and smoke tests for 1,200+ Python packages and
 240+ native libraries. The notebooks use ordinary pip-installable packages, so they run on a laptop or a
 cluster, and everything is under the BSD 3-Clause license.
 
@@ -51,9 +51,9 @@ larger rivers, follows five USGS gauges through the forecast, and reads more for
 Zarr, s3fs.</td>
 </tr>
 <tr>
-<td><a href="demo_notebooks/case_studies/sentinel2_resampling.ipynb"><img src="docs/assets/gallery/sentinel2_resampling.png" alt="True-colour Sentinel-2 tile over central Iowa with the 6 km analysis window outlined"></a></td>
+<td><a href="demo_notebooks/case_studies/sentinel2_resampling.ipynb"><img src="docs/assets/gallery/sentinel2_resampling.png" alt="True-color Sentinel-2 tile over central Iowa with the 6 km analysis window outlined"></a></td>
 <td><b><a href="demo_notebooks/case_studies/sentinel2_resampling.ipynb">Resampling Sentinel-2 imagery</a></b><br>
-Searches a public STAC catalogue for Sentinel-2 Level-2A scenes, reads small windows of Cloud-Optimized
+Searches a public STAC catalog for Sentinel-2 Level-2A scenes, reads small windows of Cloud-Optimized
 GeoTIFFs over HTTPS, compares resampling methods from 10 m to 60 m and from 20 m to 10 m, and computes a
 cloud-masked NDVI for a whole growing season with Ray. pystac-client, rasterio.</td>
 </tr>
@@ -65,7 +65,7 @@ cloud-masked NDVI for a whole growing season with Ray. pystac-client, rasterio.<
 | --- | --- |
 | [`demo_notebooks/case_studies/`](demo_notebooks/case_studies/) | The three case studies above. |
 | [`ray_patterns/`](ray_patterns/) | 44 Ray programs drawn in Eugo's visual Ray builder: each notebook pairs a picture of the graph with the Ray code the builder generated for it, run on Ray 2.55.1 (three that need a GPU, a model-serving engine or a data catalog are shown as code only). Core (tasks, actors, object refs), Data, Serve, Train and Tune. |
-| [`demo_notebooks/`](demo_notebooks/) | Short demos of popular Python libraries: data storage, geospatial, visualisation, data processing and more. Notebooks that draw plots or maps keep their figures. |
+| [`demo_notebooks/`](demo_notebooks/) | Short demos of popular Python libraries: data storage, geospatial, visualization, data processing and more. Notebooks that draw plots or maps keep their figures. |
 | [`package_tests/python/`](package_tests/python/) | One smoke-test notebook per Python package: import it and exercise its main API. Runs under pytest. |
 | [`package_tests/native/`](package_tests/native/) | Declarative checks for native libraries (files present, shared-library dependencies resolve, static archives are position-independent, small test programs compile and run), with a standalone runner. |
 
